@@ -8,28 +8,32 @@ interface ArticleCardProps {
   slug: string;
   section: string;
   tags?: string[];
-  coverImage?: string;
+  index?: number;
 }
 
-const ArticleCard = ({ title, date, excerpt, slug, section, tags }: ArticleCardProps) => {
+const ArticleCard = ({ title, date, excerpt, slug, section, tags, index = 0 }: ArticleCardProps) => {
   return (
-    <Link to={`/${section}/${slug}`}>
+    <Link to={`/${section}/${slug}`} className="block group">
       <motion.article
-        whileHover={{ y: -4 }}
-        transition={{ duration: 0.2 }}
-        className="glass glass-hover rounded-lg p-6 h-full flex flex-col gap-4 cursor-pointer transition-all"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: index * 0.08, duration: 0.5 }}
+        className="py-8 border-b border-border hover:border-primary/40 transition-colors duration-500"
       >
-        <div className="flex items-center gap-3">
-          <span className="font-mono text-xs text-muted-foreground">{date}</span>
+        <div className="flex items-baseline gap-4 mb-3">
+          <span className="font-mono text-[10px] text-muted-foreground tabular-nums">{date}</span>
           {tags?.map((tag) => (
-            <span key={tag} className="font-mono text-[10px] tracking-wider uppercase text-primary/70 border border-primary/20 rounded px-2 py-0.5">
+            <span key={tag} className="font-mono text-[9px] tracking-[0.2em] uppercase text-primary/60">
               {tag}
             </span>
           ))}
         </div>
-        <h3 className="font-serif text-xl text-foreground leading-snug">{title}</h3>
-        <p className="font-mono text-sm text-muted-foreground leading-relaxed flex-1">{excerpt}</p>
-        <span className="font-mono text-xs text-primary tracking-wider uppercase">Read more →</span>
+        <h3 className="font-serif text-2xl md:text-3xl text-foreground group-hover:text-primary transition-colors duration-500 mb-3 leading-snug">
+          {title}
+        </h3>
+        <p className="font-mono text-xs text-muted-foreground leading-relaxed max-w-2xl">
+          {excerpt}
+        </p>
       </motion.article>
     </Link>
   );

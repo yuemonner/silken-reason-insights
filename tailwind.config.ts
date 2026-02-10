@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        serif: ['"Playfair Display"', 'serif'],
-        mono: ['"Roboto Mono"', 'monospace'],
+        serif: ['"Cormorant Garamond"', 'serif'],
+        mono: ['"Space Mono"', 'monospace'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -53,8 +53,6 @@ export default {
         },
         gold: "hsl(var(--gold))",
         "gold-muted": "hsl(var(--gold-muted))",
-        anthracite: "hsl(var(--anthracite))",
-        "anthracite-light": "hsl(var(--anthracite-light))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
