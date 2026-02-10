@@ -10,6 +10,9 @@ const Advisory = () => {
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
+      const existing = JSON.parse(localStorage.getItem("newsletter_subscribers") || "[]");
+      existing.push({ email, date: new Date().toISOString() });
+      localStorage.setItem("newsletter_subscribers", JSON.stringify(existing));
       setSubscribed(true);
       setEmail("");
     }
