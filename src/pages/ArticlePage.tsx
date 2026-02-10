@@ -1,4 +1,5 @@
 import { useParams, Link } from "react-router-dom";
+import { useEffect } from "react";
 import Layout from "@/components/Layout";
 import { getArticleBySlug } from "@/data/articles";
 import ReactMarkdown from "react-markdown";
@@ -14,6 +15,10 @@ const sectionNames: Record<string, string> = {
 const ArticlePage = () => {
   const { section, slug } = useParams<{ section: string; slug: string }>();
   const article = section && slug ? getArticleBySlug(section, slug) : undefined;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [section, slug]);
 
   if (!article) {
     return (
