@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,53 +6,47 @@
 
 @layer base {
   :root {
-    --background: 0 0% 16%;
-    --foreground: 0 0% 96%;
+    --background: 40 18% 92%;
+    --foreground: 15 5% 22%;
 
-    --card: 0 0% 18%;
-    --card-foreground: 0 0% 96%;
+    --card: 40 18% 92%;
+    --card-foreground: 15 5% 22%;
 
-    --popover: 0 0% 18%;
-    --popover-foreground: 0 0% 96%;
+    --popover: 40 18% 92%;
+    --popover-foreground: 15 5% 22%;
 
-    --primary: 36 60% 88%;
-    --primary-foreground: 0 0% 16%;
+    --primary: 38 45% 55%;
+    --primary-foreground: 40 18% 95%;
 
-    --secondary: 0 0% 22%;
-    --secondary-foreground: 0 0% 96%;
+    --secondary: 40 12% 85%;
+    --secondary-foreground: 15 5% 22%;
 
-    --muted: 0 0% 22%;
-    --muted-foreground: 0 0% 64%;
+    --muted: 40 12% 85%;
+    --muted-foreground: 15 5% 40%;
 
-    --accent: 36 60% 88%;
-    --accent-foreground: 0 0% 16%;
+    --accent: 38 45% 55%;
+    --accent-foreground: 40 18% 95%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 96%;
+    --destructive-foreground: 40 18% 95%;
 
-    --border: 0 0% 24%;
-    --input: 0 0% 24%;
-    --ring: 36 60% 88%;
+    --border: 38 20% 80%;
+    --input: 38 20% 80%;
+    --ring: 38 45% 55%;
 
-    --radius: 0.5rem;
+    --radius: 0.25rem;
 
-    --glass-bg: 0 0% 100% / 0.05;
-    --glass-border: 0 0% 100% / 0.1;
-    --glass-hover: 0 0% 100% / 0.08;
+    --gold: 38 45% 55%;
+    --gold-muted: 38 30% 45%;
 
-    --gold: 36 60% 88%;
-    --gold-muted: 36 40% 70%;
-    --anthracite: 0 0% 16%;
-    --anthracite-light: 0 0% 20%;
-
-    --sidebar-background: 0 0% 14%;
-    --sidebar-foreground: 0 0% 96%;
-    --sidebar-primary: 36 60% 88%;
-    --sidebar-primary-foreground: 0 0% 16%;
-    --sidebar-accent: 0 0% 20%;
-    --sidebar-accent-foreground: 0 0% 96%;
-    --sidebar-border: 0 0% 22%;
-    --sidebar-ring: 36 60% 88%;
+    --sidebar-background: 40 18% 90%;
+    --sidebar-foreground: 15 5% 22%;
+    --sidebar-primary: 38 45% 55%;
+    --sidebar-primary-foreground: 40 18% 95%;
+    --sidebar-accent: 40 12% 85%;
+    --sidebar-accent-foreground: 15 5% 22%;
+    --sidebar-border: 38 20% 80%;
+    --sidebar-ring: 38 45% 55%;
   }
 }
 
@@ -63,26 +57,15 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Roboto Mono', monospace;
+    font-family: 'Space Mono', monospace;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Cormorant Garamond', serif;
   }
 }
 
 @layer components {
-  .glass {
-    background: hsl(var(--glass-bg));
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid hsl(var(--glass-border));
-  }
-
-  .glass-hover:hover {
-    background: hsl(var(--glass-hover));
-  }
-
   .gold-gradient {
     background: linear-gradient(135deg, hsl(var(--gold)), hsl(var(--gold-muted)));
     -webkit-background-clip: text;
@@ -107,5 +90,10 @@
 
   .gold-underline:hover::after {
     width: 100%;
+  }
+
+  .divider {
+    height: 1px;
+    background: hsl(var(--border));
   }
 }

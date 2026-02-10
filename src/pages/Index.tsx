@@ -1,96 +1,147 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
+import { articles } from "@/data/articles";
 
 const sections = [
-  {
-    to: "/the-logic",
-    title: "THE LOGIC",
-    slogan: "Decoding the algorithm of the future.",
-  },
-  {
-    to: "/the-silk",
-    title: "THE SILK",
-    slogan: "The texture of a life well-lived.",
-  },
-  {
-    to: "/the-ether",
-    title: "THE ETHER",
-    slogan: "Where vibration meets vision.",
-  },
-  {
-    to: "/advisory",
-    title: "ADVISORY",
-    slogan: "Strategic insight, delivered with precision.",
-  },
+  { to: "/the-logic", label: "THE LOGIC" },
+  { to: "/the-silk", label: "THE SILK" },
+  { to: "/the-ether", label: "THE ETHER" },
+  { to: "/advisory", label: "ADVISORY" },
 ];
 
-const container = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.15 } },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 30 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-};
-
 const Index = () => {
+  // Show latest articles across all sections
+  const latestArticles = [...articles]
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 6);
+
   return (
     <Layout>
-      {/* Hero */}
-      <section className="min-h-[90vh] flex items-center justify-center px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center max-w-3xl"
-        >
-          {/* Profile placeholder */}
-          <div className="w-28 h-28 rounded-full border-2 border-primary/30 mx-auto mb-8 flex items-center justify-center overflow-hidden">
-            <span className="font-serif text-3xl text-primary">Y</span>
-          </div>
+      {/* Hero — Asymmetric Editorial */}
+      <section className="min-h-[85vh] flex items-end px-6 pb-24">
+        <div className="container mx-auto">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+            className="grid md:grid-cols-2 gap-16 items-end"
+          >
+            {/* Left — Identity */}
+            <div>
+              <p className="font-mono text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-8">
+                Founder & Principal Analyst
+              </p>
+              <h1 className="font-serif text-7xl md:text-9xl tracking-wide text-foreground leading-[0.9] mb-8">
+                Yue H.
+              </h1>
+              <div className="divider w-16 mb-8" />
+              <p className="font-mono text-xs text-muted-foreground leading-relaxed max-w-sm">
+                Senior Software Engineer by trade, Web3 Explorer by design.
+                Tracking the flow of Energy, Capital, and Aesthetics across Europe.
+              </p>
+            </div>
 
-          <h1 className="font-serif text-6xl md:text-8xl tracking-wide gold-gradient mb-6">
-            Yue H.
-          </h1>
-
-          <div className="glass rounded-xl p-8 max-w-xl mx-auto">
-            <p className="font-mono text-sm text-muted-foreground leading-relaxed">
-              Founder of <span className="text-primary">Silken Reason</span>. Senior Software Engineer by trade, Web3 Explorer by design.
-            </p>
-            <p className="font-mono text-sm text-muted-foreground leading-relaxed mt-2">
-              Tracking the flow of Energy, Capital, and Aesthetics across Europe.
-            </p>
-          </div>
-        </motion.div>
+            {/* Right — Portrait area placeholder */}
+            <div className="hidden md:flex justify-end">
+              <div className="w-80 h-[420px] border border-border flex items-end justify-center pb-8 relative overflow-hidden">
+                <span className="font-serif text-[180px] text-border/50 leading-none select-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                  Y
+                </span>
+                <p className="font-mono text-[9px] tracking-[0.2em] uppercase text-muted-foreground relative z-10">
+                  Portrait
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </section>
 
-      {/* Section Cards */}
-      <section className="container mx-auto px-6 pb-24">
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto"
-        >
-          {sections.map((s) => (
-            <motion.div key={s.to} variants={item}>
-              <Link to={s.to}>
-                <div className="glass glass-hover rounded-lg p-8 text-center transition-all group">
-                  <h2 className="font-serif text-2xl tracking-widest text-foreground group-hover:text-primary transition-colors mb-3">
-                    {s.title}
-                  </h2>
-                  <p className="font-mono text-xs text-muted-foreground italic tracking-wide">
-                    {s.slogan}
-                  </p>
-                </div>
+      {/* Navigation — Inline text, no boxes */}
+      <section className="px-6 py-16">
+        <div className="container mx-auto">
+          <div className="divider mb-16" />
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+            className="flex flex-wrap gap-x-16 gap-y-6"
+          >
+            {sections.map((s) => (
+              <Link
+                key={s.to}
+                to={s.to}
+                className="font-serif text-3xl md:text-4xl text-foreground hover:text-primary transition-colors duration-500 tracking-wide"
+              >
+                {s.label}
               </Link>
-            </motion.div>
-          ))}
-        </motion.div>
+            ))}
+          </motion.div>
+          <div className="divider mt-16" />
+        </div>
       </section>
+
+      {/* Intelligence Briefing — Editorial List */}
+      <section className="px-6 py-16">
+        <div className="container mx-auto max-w-4xl">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+          >
+            <p className="font-mono text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-12">
+              Latest Intelligence
+            </p>
+
+            <div className="space-y-0">
+              {latestArticles.map((article, i) => (
+                <Link
+                  key={article.slug}
+                  to={`/${article.section}/${article.slug}`}
+                  className="block group"
+                >
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.7 + i * 0.08, duration: 0.5 }}
+                    className="py-8 border-b border-border hover:border-primary/40 transition-colors duration-500"
+                  >
+                    <div className="flex items-baseline gap-6 mb-3">
+                      <span className="font-mono text-[10px] text-muted-foreground tabular-nums">
+                        {article.date}
+                      </span>
+                      <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-primary/60">
+                        {article.section.replace("-", " ")}
+                      </span>
+                    </div>
+                    <h3 className="font-serif text-2xl md:text-3xl text-foreground group-hover:text-primary transition-colors duration-500 mb-3 leading-snug">
+                      {article.title}
+                    </h3>
+                    <p className="font-mono text-xs text-muted-foreground leading-relaxed max-w-2xl">
+                      {article.excerpt}
+                    </p>
+                  </motion.div>
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Quiet footer */}
+      <footer className="px-6 py-20">
+        <div className="container mx-auto max-w-4xl">
+          <div className="divider mb-8" />
+          <div className="flex justify-between items-center">
+            <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-muted-foreground">
+              © 2026 Silken Reason
+            </span>
+            <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-muted-foreground">
+              Europe
+            </span>
+          </div>
+        </div>
+      </footer>
     </Layout>
   );
 };
