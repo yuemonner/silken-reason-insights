@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
+import profileImg from "@/assets/profile.jpeg";
 import { articles } from "@/data/articles";
 
 const sections = [
@@ -44,13 +45,12 @@ const Index = () => {
 
             {/* Right — Portrait area placeholder */}
             <div className="hidden md:flex justify-end">
-              <div className="w-80 h-[420px] border border-border flex items-end justify-center pb-8 relative overflow-hidden">
-                <span className="font-serif text-[180px] text-border/50 leading-none select-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                  Y
-                </span>
-                <p className="font-mono text-[9px] tracking-[0.2em] uppercase text-muted-foreground relative z-10">
-                  Portrait
-                </p>
+              <div className="w-80 h-[420px] border border-border relative overflow-hidden">
+                <img
+                  src={profileImg}
+                  alt="Yue H. — Founder of Silken Reason"
+                  className="w-full h-full object-cover object-top"
+                />
               </div>
             </div>
           </motion.div>
