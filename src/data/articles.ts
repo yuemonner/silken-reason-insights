@@ -59,27 +59,35 @@ The gap between government-issued credentials and the need for privacy-preservin
 Capital is flowing quietly. European VCs deployed over €800M into digital identity startups in 2025, with roughly 30% going to projects with blockchain components. The signal is clear: identity is infrastructure, and infrastructure attracts patient capital.`
   },
   {
-    slug: "iot-edge-computing-convergence",
-    title: "The Edge Computing Convergence No One Predicted",
+    slug: "capital-hires-code",
+    title: "When Capital Hires Code Instead of People",
     date: "2026-01-08",
     section: "the-logic",
-    tags: ["IoT", "Edge"],
-    excerpt: "Edge computing isn't replacing the cloud — it's creating an entirely new computational geography.",
-    content: `The narrative has been binary for too long: cloud versus edge. The reality emerging in 2026 is far more nuanced and far more interesting.
+    tags: ["AI", "DePIN"],
+    excerpt: "A fund manager replaced his entire team with fourteen AI agents. What happens when that logic gets a body?",
+    content: `I had coffee yesterday with a fund manager who operates out of a quiet office near the Bahnhofstrasse. He looked remarkably rested for a man managing a high-growth portfolio. He told me he had solved the biggest inefficiency in his business. He stopped hiring humans.
 
-## Beyond the Binary
+He is currently deploying capital into a structure that has no HR department and no coffee machine. It is a swarm of fourteen AI agents. He calls it a Collaborative Agent Swarm but to me it looks like the first glimpse of a post-biological corporation. The efficiency is terrifying.
 
-Edge computing was supposed to be about latency. Process data closer to the source, reduce round-trip times, enable real-time applications. That narrative was correct but incomplete.
+He walked me through the architecture. It is a closed loop of pure execution. Agent One handles onboarding support and immediately categorizes user friction. It passes that data to Agent Two which synthesizes the feedback into a structured PRD draft. Agent Three breaks that draft down into feature tickets while Agent Four generates the marketing copy before the code is even written.
 
-## The Real Revolution
+It gets colder. Agent Five analyzes the lookalike audiences based on the new feature set and Agent Six initiates the outbound sales sequence. It is a perfect growth loop. It never asks for a raise. It never complains about burnout. It never has a bad day because it broke up with its girlfriend. It just consumes API credits and produces revenue.
 
-What's actually happening is the emergence of computational geography — a world where data processing decisions are made based on regulatory jurisdiction, energy costs, and physical proximity simultaneously.
+We are witnessing the death of the biological middleman.
 
-A sensor in a Munich factory might process safety-critical data locally, send aggregated analytics to a Frankfurt edge node for EU-compliant storage, and route anonymized patterns to a global model training pipeline.
+But this software swarm is just the rehearsal. The real revolution happens when these agents get a body.
 
-## Implications
+This is where my work in hardware begins. We are currently obsessed with LLMs that can write poetry but we ignore the machines that keep the lights on. Imagine that same agentic logic applied to the physical grid.
 
-This isn't just a technical architecture shift. It's a business model revolution. Companies that understand computational geography will build defensible advantages that pure-cloud competitors cannot replicate.`
+Picture a solar inverter on a roof in Southern Spain. In the legacy world it is a dumb metal box. In the new economy it is Agent Seven. It has its own wallet on the Solana blockchain. It owns the energy it produces. It negotiates prices with a neighbor's EV charger via a smart contract. It sells power and earns USDC. It uses those funds to pay for its own maintenance request when its sensors detect efficiency loss.
+
+There are no humans involved. There is no bank manager asking for a signature or a passport. There is just pure algorithmic capitalism.
+
+This is the convergence of DePIN and Agentic AI. The future economy will not be B2B or B2C. It will be M2M. Machine to Machine. In that economy crypto is not an asset class for speculation. It is the native language of value transfer for machines.
+
+I am building for that future. It is not hype. It is the only logical conclusion of automation. The machines are ready to work and they are infinitely more reliable than the sales team my friend just fired.
+
+We just need to give them a bank account.`
   },
   // THE SILK
   {
