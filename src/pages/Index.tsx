@@ -37,10 +37,11 @@ const Index = () => {
                 Yue H.
               </h1>
               <div className="divider w-16 mb-8" />
-              <p className="font-mono text-xs text-muted-foreground leading-relaxed max-w-sm">
-                Senior Software Engineer by trade, Web3 Explorer by design.
-                Tracking the flow of Energy, Capital, and Aesthetics across Europe.
-              </p>
+              <div className="font-mono text-xs text-muted-foreground leading-relaxed max-w-sm space-y-3">
+                <p>Building cathedrals of logic in a world of entropy.</p>
+                <p>Bridging the finite world of hardware with the infinite resonance of art.</p>
+                <p>Structuring the void. Translating the invisible into the inevitable.</p>
+              </div>
             </div>
 
             {/* Right — Portrait area placeholder */}
