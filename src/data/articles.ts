@@ -216,7 +216,9 @@ This isn't productivity advice. It's an observation about the nature of sustaine
 ];
 
 export const getArticlesBySection = (section: string): Article[] => {
-  return articles.filter((a) => a.section === section);
+  return articles
+    .filter((a) => a.section === section)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 };
 
 export const getArticleBySlug = (section: string, slug: string): Article | undefined => {
