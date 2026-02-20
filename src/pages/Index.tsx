@@ -33,7 +33,7 @@ const Index = () => {
               <p className="font-mono text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-8">
                 Founder & Principal Analyst
               </p>
-              <h1 className="font-serif text-7xl md:text-9xl tracking-wide text-foreground leading-[0.9] mb-8">
+              <h1 className="font-serif text-7xl md:text-9xl tracking-[0.06em] text-foreground leading-[0.9] mb-8">
                 Yue H.
               </h1>
               <div className="divider w-16 mb-8" />
@@ -44,9 +44,9 @@ const Index = () => {
               </div>
             </div>
 
-            {/* Right — Portrait area placeholder */}
-            <div className="hidden md:flex justify-end">
-              <div className="w-80 h-[420px] border border-border relative overflow-hidden">
+            {/* Right — Portrait */}
+            <div className="flex justify-center md:justify-end mt-10 md:mt-0">
+              <div className="w-56 h-72 md:w-80 md:h-[420px] border border-border relative overflow-hidden">
                 <img
                   src={profileImg}
                   alt="Yue H. — Founder of Silken Reason"
