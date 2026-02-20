@@ -13,7 +13,7 @@ export const articles: Article[] = [
   {
     slug: "depin-infrastructure-2026",
     title: "DePIN: The Infrastructure Layer No One Is Watching",
-    date: "2026-02-05",
+    date: "2026-02-03",
     section: "the-logic",
     tags: ["DePIN", "Web3"],
     excerpt: "While the market obsesses over token prices, a quiet revolution in decentralized physical infrastructure is reshaping how we think about connectivity.",
@@ -61,7 +61,7 @@ Capital is flowing quietly. European VCs deployed over €800M into digital iden
   {
     slug: "capital-hires-code",
     title: "When Capital Hires Code Instead of People",
-    date: "2026-02-06",
+    date: "2026-02-19",
     section: "the-logic",
     tags: ["AI", "DePIN"],
     excerpt: "A fund manager replaced his entire team with fourteen AI agents. What happens when that logic gets a body?",
