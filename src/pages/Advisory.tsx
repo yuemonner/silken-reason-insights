@@ -1,23 +1,8 @@
 import Layout from "@/components/Layout";
 import { motion } from "framer-motion";
 import { Mail } from "lucide-react";
-import { useState } from "react";
 
 const Advisory = () => {
-  const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) {
-      const existing = JSON.parse(localStorage.getItem("newsletter_subscribers") || "[]");
-      existing.push({ email, date: new Date().toISOString() });
-      localStorage.setItem("newsletter_subscribers", JSON.stringify(existing));
-      setSubscribed(true);
-      setEmail("");
-    }
-  };
-
   return (
     <Layout>
       <section className="container mx-auto px-6 py-24 max-w-3xl min-h-[80vh]">
@@ -40,42 +25,11 @@ const Advisory = () => {
 
           <a
             href="mailto:hello@silkenreason.com"
-            className="inline-flex items-center gap-3 font-mono text-xs tracking-[0.2em] uppercase text-foreground hover:text-primary transition-colors duration-300 mb-20"
+            className="inline-flex items-center gap-3 font-mono text-xs tracking-[0.2em] uppercase text-foreground hover:text-primary transition-colors duration-300"
           >
             <Mail size={14} />
             Get in touch
           </a>
-
-          <div className="divider mb-16" />
-
-          {/* Newsletter */}
-          <div>
-            <h2 className="font-serif text-2xl text-foreground mb-2">Newsletter</h2>
-            <p className="font-mono text-[10px] text-muted-foreground tracking-wide mb-8">
-              Occasional dispatches on technology, aesthetics, and capital flows.
-            </p>
-
-            {subscribed ? (
-              <p className="font-mono text-xs text-primary">Thank you. You're in.</p>
-            ) : (
-              <form onSubmit={handleSubscribe} className="flex gap-3 max-w-md">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="your@email.com"
-                  required
-                  className="flex-1 bg-transparent border-b border-border px-0 py-2 font-mono text-xs text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary transition-colors"
-                />
-                <button
-                  type="submit"
-                  className="font-mono text-[10px] tracking-[0.2em] uppercase text-foreground hover:text-primary transition-colors duration-300"
-                >
-                  Subscribe →
-                </button>
-              </form>
-            )}
-          </div>
         </motion.div>
       </section>
     </Layout>
