@@ -11,31 +11,37 @@ export interface Article {
 export const articles: Article[] = [
   // THE LOGIC
   {
-    slug: "depin-infrastructure-2026",
-    title: "DePIN: The Infrastructure Layer No One Is Watching",
+    slug: "institutional-case-art-blocks",
+    title: "The Institutional Case for Art Blocks and Generative NFTs",
     date: "2026-02-03",
     section: "the-logic",
-    tags: ["DePIN", "Web3"],
-    excerpt: "While the market obsesses over token prices, a quiet revolution in decentralized physical infrastructure is reshaping how we think about connectivity.",
-    content: `The convergence of IoT sensors, blockchain incentives, and edge computing is creating something unprecedented: infrastructure that builds itself.
+    tags: ["NFT", "Art"],
+    excerpt: "I am looking at a Chromie Squiggle by Snowfro. To the uninitiated it looks like a simple colorful line. But I am not looking at the image. I am looking at the script.",
+    content: `I am looking at a Chromie Squiggle by Snowfro. To the uninitiated it looks like a simple colorful line. It looks like something a child could draw if that child understood complex color theory and vector mathematics.
 
-## The Thesis
+But I am not looking at the image. I am looking at the script.
 
-DePIN — Decentralized Physical Infrastructure Networks — represents the first credible bridge between crypto-economics and the physical world. Unlike DeFi protocols that exist entirely in software, DePIN projects require real hardware, real deployment, and real utility.
+We have spent the last few years distracted by the noise of the NFT market. We focused on the speculative bubbles and the pixelated monkeys. We missed the revolution happening in the quiet corners of the blockchain.
 
-## Why Now?
+That revolution is Generative Art.
 
-Three forces are converging:
+Platforms like Art Blocks are not galleries. They are the Bauhaus of the 21st century. They have shifted the role of the artist from a painter to a gardener. The traditional artist controls every pixel. The generative artist writes a set of rules and then releases those rules into the wild.
 
-1. **Sensor costs have collapsed.** A LoRaWAN gateway that cost €500 in 2021 now costs under €80.
-2. **Token incentive design has matured.** Projects like Helium's migration to Solana proved that incentive layers can be decoupled from infrastructure layers.
-3. **Enterprise demand is real.** Logistics companies, smart cities, and agricultural firms need coverage that telcos refuse to build.
+They plant the seed of the algorithm and the blockchain provides the soil. The output is a surprise to everyone including the creator.
 
-## The Opportunity
+This is Visual Computing at its most philosophical.
 
-The global IoT connectivity market will exceed €200B by 2028. DePIN projects are positioned to capture the long tail — rural coverage, indoor logistics, environmental monitoring — where traditional infrastructure economics fail.
+When I collect a piece of generative art I am not buying a static jpeg. I am buying a frozen moment of computational entropy. I am owning a unique iteration of a deterministic system. The value is not in the pixels. The value is in the elegance of the logic that created them.
 
-The algorithm of the future isn't just code. It's code married to copper, silicon, and geography.`
+It is the only art form that is native to our era.
+
+Oil painting belonged to the Renaissance. Photography belonged to the Industrial Revolution. Generative art belongs to the Age of Algorithms.
+
+It forces us to ask uncomfortable questions about creativity. If the code makes the decisions is the machine the artist? Or is the machine simply a brush that has learned to think?
+
+I hang these pieces on digital frames in my home. They do not age. They do not fade. They are mathematical truths rendered in color.
+
+In a world of deepfakes and AI hallucinations there is something profoundly grounding about art that is born from pure logic. It is the ultimate luxury. It is the ownership of a beautiful probability.`
   },
   {
     slug: "web3-identity-european-lens",
@@ -145,7 +151,7 @@ At €200-400 per bottle, niche fragrances seem expensive. But a 50ml bottle las
   // THE ETHER
   {
     slug: "geometry-of-silence",
-    title: "The Geometry of Silence: Architecting the Neural Soundscape",
+    title: "Architecting the Neural Soundscape",
     date: "2026-02-20",
     section: "the-ether",
     tags: ["Music", "Focus"],
