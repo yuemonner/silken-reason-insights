@@ -137,9 +137,6 @@ const Index = () => {
             <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-muted-foreground">
               © 2026 Silken Reason
             </span>
-            <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-muted-foreground">
-              Europe
-            </span>
           </div>
         </div>
       </footer>
