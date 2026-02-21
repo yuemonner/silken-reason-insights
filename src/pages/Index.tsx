@@ -38,9 +38,7 @@ const Index = () => {
               </h1>
               <div className="divider w-16 mb-8" />
               <div className="font-mono text-xs text-muted-foreground leading-relaxed max-w-sm space-y-3">
-                <p>Building cathedrals of logic in a world of entropy.</p>
-                <p>Bridging the finite world of hardware with the infinite resonance of art.</p>
-                <p>Structuring the void. Translating the invisible into the inevitable.</p>
+                <p>Debugging the physical world to finance a metaphysical life.</p>
               </div>
             </div>
 
