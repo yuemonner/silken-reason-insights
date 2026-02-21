@@ -13,7 +13,7 @@ export const articles: Article[] = [
   {
     slug: "institutional-case-art-blocks",
     title: "The Institutional Case for Art Blocks and Generative NFTs",
-    date: "2026-02-03",
+    date: "2026-02-17",
     section: "the-logic",
     tags: ["NFT", "Art"],
     excerpt: "I am looking at a Chromie Squiggle by Snowfro. To the uninitiated it looks like a simple colorful line. But I am not looking at the image. I am looking at the script.",
@@ -46,7 +46,7 @@ In a world of deepfakes and AI hallucinations there is something profoundly grou
   {
     slug: "web3-identity-european-lens",
     title: "Web3 Identity Through a European Lens",
-    date: "2026-01-20",
+    date: "2026-02-16",
     section: "the-logic",
     tags: ["Web3", "Identity"],
     excerpt: "European privacy frameworks are accidentally creating the perfect conditions for decentralized identity adoption.",
@@ -67,7 +67,7 @@ Capital is flowing quietly. European VCs deployed over €800M into digital iden
   {
     slug: "capital-hires-code",
     title: "When Capital Hires Code Instead of People",
-    date: "2026-02-19",
+    date: "2026-02-20",
     section: "the-logic",
     tags: ["AI", "DePIN"],
     excerpt: "A fund manager replaced his entire team with fourteen AI agents. What happens when that logic gets a body?",
@@ -99,7 +99,7 @@ We just need to give them a bank account.`
   {
     slug: "sotogrande-sovereign-resident",
     title: "The Death of the Nomad: Why Smart Capital is Moving to 'Sovereign Residency'",
-    date: "2026-02-15",
+    date: "2026-02-21",
     section: "the-silk",
     tags: ["Travel", "Lifestyle"],
     excerpt: "The Digital Nomad is dead. In its place, a new archetype is emerging — one that trades frantic movement for sovereign stillness in southern Spain.",
@@ -152,7 +152,7 @@ At €200-400 per bottle, niche fragrances seem expensive. But a 50ml bottle las
   {
     slug: "geometry-of-silence",
     title: "Architecting the Neural Soundscape",
-    date: "2026-02-20",
+    date: "2026-02-19",
     section: "the-ether",
     tags: ["Music", "Focus"],
     excerpt: "Most people treat sound as wallpaper. I treat my auditory environment with the same discipline I apply to my code. Sound isn't ambience — it's structural support.",
