@@ -6,6 +6,7 @@ export interface Article {
   tags: string[];
   excerpt: string;
   content: string;
+  disclaimer?: string;
 }
 
 export const articles: Article[] = [
