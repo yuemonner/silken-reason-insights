@@ -54,6 +54,12 @@ const ArticlePage = () => {
 
           <h1 className="font-serif text-4xl md:text-5xl text-foreground leading-tight mb-8">{article.title}</h1>
 
+          {article.disclaimer && (
+            <p className="font-serif text-sm text-muted-foreground italic leading-relaxed mb-8 border-l-2 border-primary/30 pl-4">
+              {article.disclaimer}
+            </p>
+          )}
+
           <div className="prose-custom font-mono text-sm text-muted-foreground leading-relaxed space-y-4">
             <ReactMarkdown
               components={{
