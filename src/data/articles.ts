@@ -6,6 +6,7 @@ export interface Article {
   tags: string[];
   excerpt: string;
   content: string;
+  disclaimer?: string;
 }
 
 export const articles: Article[] = [
@@ -224,6 +225,7 @@ So that when I finally turn them off I can hear myself think.`
     section: "the-ether",
     tags: ["Music", "Neuroscience"],
     excerpt: "Silicon Valley is pouring billions into spatial computing headsets. I achieved a vastly superior result last weekend using a small amount of dried fungi and a carefully curated audio playlist.",
+    disclaimer: "These are my personal interpretations of the experience rather than claims about established neuroscience.",
     content: `Silicon Valley is currently pouring billions of dollars into spatial computing headsets to trick the human brain into feeling physical presence. I achieved a vastly superior result last weekend using a small amount of dried fungi and a carefully curated audio playlist in a dark room. The setting was deliberate and solitary. There was no esoteric ceremony and no spiritual pretense. It was simply a clinical experiment in neurochemistry and acoustic architecture.
 
 The visual distortions associated with psilocybin are well documented but they are ultimately the most superficial part of the experience. The profound architectural shift happens only when you close your eyes. When the active compound begins to agonize the 5-HT2A serotonin receptors it effectively suspends the Default Mode Network. This is the specific neural pathway that maintains the rigid boundary between the self and the external environment. When this network goes offline the auditory cortex begins to violently and beautifully intertwine with the somatosensory cortex. Sound ceases to be something you merely hear. It becomes a spatial engine that renders reality in real time.
