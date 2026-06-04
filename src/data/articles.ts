@@ -220,7 +220,7 @@ So that when I finally turn them off I can hear myself think.`
   {
     slug: "music-psilocybin-vr",
     title: "Music, Psilocybin, and the End of Virtual Reality",
-    date: "2026-01-29",
+    date: "2026-06-04",
     section: "the-ether",
     tags: ["Music", "Neuroscience"],
     excerpt: "Silicon Valley is pouring billions into spatial computing headsets. I achieved a vastly superior result last weekend using a small amount of dried fungi and a carefully curated audio playlist.",
