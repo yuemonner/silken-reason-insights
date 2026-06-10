@@ -38,7 +38,7 @@ const Index = () => {
               </h1>
               <div className="divider w-16 mb-8" />
               <div className="font-mono text-xs text-muted-foreground leading-relaxed max-w-sm space-y-3">
-                <p>Debugging the physical world to finance a metaphysical life.</p>
+                <p>Synthesizing technology, consciousness, and human experience.</p>
               </div>
             </div>
 
