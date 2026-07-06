@@ -45,27 +45,6 @@ I hang these pieces on digital frames in my home. They do not age. They do not f
 In a world of deepfakes and AI hallucinations there is something profoundly grounding about art that is born from pure logic. It is the ultimate luxury. It is the ownership of a beautiful probability.`
   },
   {
-    slug: "web3-identity-european-lens",
-    title: "Web3 Identity Through a European Lens",
-    date: "2026-01-06",
-    section: "the-logic",
-    tags: ["Web3", "Identity"],
-    excerpt: "European privacy frameworks are accidentally creating the perfect conditions for decentralized identity adoption.",
-    content: `GDPR was designed to protect citizens from data exploitation. Its unintended consequence may be the acceleration of self-sovereign identity.
-
-## The Regulatory Tailwind
-
-The European Digital Identity Wallet regulation, set for full deployment by 2027, mandates that every EU citizen can access a digital identity wallet. This isn't blockchain-native, but the architecture is remarkably compatible.
-
-## Where Decentralization Fits
-
-The gap between government-issued credentials and the need for privacy-preserving verification creates a natural market for zero-knowledge proof systems. Projects building in this space — Polygon ID, Worldcoin's orb-free alternatives, and smaller European startups — are finding product-market fit not through speculation, but through compliance.
-
-## The Investment Angle
-
-Capital is flowing quietly. European VCs deployed over €800M into digital identity startups in 2025, with roughly 30% going to projects with blockchain components. The signal is clear: identity is infrastructure, and infrastructure attracts patient capital.`
-  },
-  {
     slug: "capital-hires-code",
     title: "When Capital Hires Code Instead of People",
     date: "2026-02-09",
