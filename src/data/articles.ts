@@ -45,27 +45,6 @@ I hang these pieces on digital frames in my home. They do not age. They do not f
 In a world of deepfakes and AI hallucinations there is something profoundly grounding about art that is born from pure logic. It is the ultimate luxury. It is the ownership of a beautiful probability.`
   },
   {
-    slug: "web3-identity-european-lens",
-    title: "Web3 Identity Through a European Lens",
-    date: "2026-01-06",
-    section: "the-logic",
-    tags: ["Web3", "Identity"],
-    excerpt: "European privacy frameworks are accidentally creating the perfect conditions for decentralized identity adoption.",
-    content: `GDPR was designed to protect citizens from data exploitation. Its unintended consequence may be the acceleration of self-sovereign identity.
-
-## The Regulatory Tailwind
-
-The European Digital Identity Wallet regulation, set for full deployment by 2027, mandates that every EU citizen can access a digital identity wallet. This isn't blockchain-native, but the architecture is remarkably compatible.
-
-## Where Decentralization Fits
-
-The gap between government-issued credentials and the need for privacy-preserving verification creates a natural market for zero-knowledge proof systems. Projects building in this space — Polygon ID, Worldcoin's orb-free alternatives, and smaller European startups — are finding product-market fit not through speculation, but through compliance.
-
-## The Investment Angle
-
-Capital is flowing quietly. European VCs deployed over €800M into digital identity startups in 2025, with roughly 30% going to projects with blockchain components. The signal is clear: identity is infrastructure, and infrastructure attracts patient capital.`
-  },
-  {
     slug: "capital-hires-code",
     title: "When Capital Hires Code Instead of People",
     date: "2026-02-09",
@@ -217,30 +196,6 @@ In a world of constant notification dings and podcast chatter silence is the ult
 I build these complex structures of sound and frequency for one reason.
 
 So that when I finally turn them off I can hear myself think.`
-  },
-  {
-    slug: "music-psilocybin-vr",
-    title: "Music, Psilocybin, and the End of Virtual Reality",
-    date: "2026-06-04",
-    section: "the-ether",
-    tags: ["Music", "Neuroscience"],
-    excerpt: "Silicon Valley is pouring billions into spatial computing headsets. I achieved a vastly superior result last weekend using a small amount of dried fungi and a carefully curated audio playlist.",
-    disclaimer: "These are my personal interpretations of the experience rather than claims about established neuroscience.",
-    content: `Silicon Valley is currently pouring billions of dollars into spatial computing headsets to trick the human brain into feeling physical presence. I achieved a vastly superior result last weekend using a small amount of dried fungi and a carefully curated audio playlist in a dark room. The setting was deliberate and solitary. There was no esoteric ceremony and no spiritual pretense. It was simply a clinical experiment in neurochemistry and acoustic architecture.
-
-The visual distortions associated with psilocybin are well documented but they are ultimately the most superficial part of the experience. The profound architectural shift happens only when you close your eyes. When the active compound begins to agonize the 5-HT2A serotonin receptors it effectively suspends the Default Mode Network. This is the specific neural pathway that maintains the rigid boundary between the self and the external environment. When this network goes offline the auditory cortex begins to violently and beautifully intertwine with the somatosensory cortex. Sound ceases to be something you merely hear. It becomes a spatial engine that renders reality in real time.
-
-I had engineered the playlist to move from the strict mathematical topography of Johann Sebastian Bach through ambient electronic textures before finally settling into deep melodic house. The music did not play in the background. It acted as the algorithmic guide for a sequence of intensely vivid tactile simulations. Each new track spawned a distinctly different chronological journey.
-
-The level of proprioceptive detail was staggering. At one point I found myself facing the Atlantic ocean. I could feel the exact velocity of the sea breeze against my neck and the precise thermal signature of a fading sunset warming my face. It was a deeply social rendering. I could feel the physical weight of a hand resting on my shoulder and the visceral vibration in my chest as I laughed out loud with the people around me.
-
-When the audio shifted the coordinates changed instantly. I was lying flat on the damp soil of a dense forest. I looked up and the canopy dissolved into a magnificent display of cosmic geometry. The sky defied terrestrial physics. It was a sprawling tapestry of vivid colors and celestial structures that possessed a distinctly futuristic atmosphere. It felt less like a hallucination and more like a brief optical transmission intercepted from a highly advanced alien civilization.
-
-Yet the most technologically terrifying moment occurred when the tempo dropped and the environment contracted into a quiet and dimly lit room. I was sitting across from someone I care about and we engaged in a profound conversation. The astonishing aspect of this simulation was the absolute autonomy of the dialogue. They were not merely echoing my subconscious expectations. They spoke with their own independent logic, unpredictability, and cadence exactly as they would in waking reality. My brain was effortlessly multitasking. It was rendering the acoustic environment, writing my side of the script, and simultaneously running a fully autonomous intelligence for the person sitting opposite me.
-
-The technology industry remains completely obsessed with haptic feedback suits and retinal projection. They fundamentally misunderstand the hardware. The most advanced rendering engine on the planet is already sitting inside the human skull. It simply requires the correct chemical key and the right sequence of audio frequencies to unlock its full administrative privileges.
-
-When I finally opened my eyes hours later the late afternoon sun was spilling across the floorboards in soft geometric lines. The transition back to baseline was not a sudden system crash but a graceful descent. I felt as though I was being carefully and tenderly held, lowered back onto solid ground by an unseen and nurturing hand. My legs were undeniably weak as I stood up but the physical gravity felt reassuring rather than oppressive. I walked slowly outside into the sunset air. The final track on my playlist was a quietly powerful piano composition by Hans Zimmer. It was a delicate and steady progression of chords. Every note felt like a warm acoustic embrace wrapping around my elevated nervous system. It served as the perfect closing sequence to a profound simulation. There was no lingering disappointment and no cynical desire to escape back into the ether. Instead I was filled with a deep, comforting gratitude. The ordinary physical world did not seem dull or flat. It appeared suddenly luminous and saturated with a gentle hope. I carried the tactile memory of that warmth back into my waking reality knowing with absolute certainty that something fundamental in my operating system had been permanently changed.`
   },
   {
     slug: "rise-of-neuro-aesthetics",
