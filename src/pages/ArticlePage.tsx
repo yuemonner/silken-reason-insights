@@ -36,7 +36,7 @@ const ArticlePage = () => {
       <article className="container mx-auto px-6 py-20 max-w-3xl">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
           <Link
-            to={`/${section}`}
+            to={`/blog/${section}`}
             className="inline-flex items-center gap-2 font-mono text-xs text-muted-foreground hover:text-primary transition-colors mb-8 tracking-wider uppercase"
           >
             <ArrowLeft size={14} />
@@ -52,7 +52,7 @@ const ArticlePage = () => {
             ))}
           </div>
 
-          <h1 className="font-serif text-4xl md:text-5xl text-foreground leading-tight mb-8">{article.title}</h1>
+          <h1 className="font-editorial text-4xl md:text-5xl text-foreground leading-tight mb-8">{article.title}</h1>
 
           {article.disclaimer && (
             <p className="font-serif text-sm text-muted-foreground italic leading-relaxed mb-8 border-l-2 border-primary/30 pl-4">

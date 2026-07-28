@@ -13,7 +13,7 @@ interface ArticleCardProps {
 
 const ArticleCard = ({ title, date, excerpt, slug, section, tags, index = 0 }: ArticleCardProps) => {
   return (
-    <Link to={`/${section}/${slug}`} className="block group">
+    <Link to={`/blog/${section}/${slug}`} className="block group">
       <motion.article
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
