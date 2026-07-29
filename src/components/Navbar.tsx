@@ -4,10 +4,9 @@ import { Menu, X, ArrowRight } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 
 const navLinks = [
-  { href: "/#platform", label: "Platform" },
-  { href: "/#solutions", label: "Solutions" },
-  { href: "/#why", label: "Why Veyra" },
-  { href: "/#about", label: "About" },
+  { href: "/#workflows", label: "Workflows" },
+  { href: "/#how", label: "How it works" },
+  { href: "/#product", label: "Product" },
   { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
 ];
