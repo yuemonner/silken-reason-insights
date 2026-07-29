@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
-  ArrowUpRight,
   Search,
   Activity,
   LayoutGrid,
@@ -424,8 +423,6 @@ const Landing = () => {
         </div>
       </footer>
 
-      {/* Suppress unused import warning for ArrowUpRight if tree-shaken */}
-      <span className="hidden"><ArrowUpRight size={0} /></span>
     </Layout>
   );
 };
