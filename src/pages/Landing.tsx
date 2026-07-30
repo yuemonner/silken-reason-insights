@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -20,113 +21,162 @@ const workflows = [
   { tag: "Machine Finance", title: "Financing Readiness" },
 ];
 
-/* ---------- How it works: living flow visualization ---------- */
+/* ---------- Continuous Operations ---------- */
+const OPERATIONAL_EVENTS = [
+  "Deployment completed",
+  "Maintenance scheduled",
+  "Runtime recovered",
+  "Inspection finished",
+  "Charging cycle closed",
+  "Firmware revision applied",
+  "Mission completed",
+  "Intervention resolved",
+  "Battery health recorded",
+  "Route re-planned",
+  "Sensor recalibrated",
+  "Shift handover logged",
+  "Anomaly cleared",
+  "Uptime restored",
+];
+
+const LIFECYCLE = {
+  inactive: "hsl(var(--muted-foreground) / 0.30)",
+  active: "hsl(var(--primary) / 0.7)",
+  fresh: "hsl(220 90% 32%)",
+} as const;
+
 const FlowVisualization = () => {
-  // 6 source paths on the left → converge to Veyra core → 6 workflow paths on the right
-  const leftPaths = [
-    "M 40 60  C 180 60,  260 260, 400 260",
-    "M 40 120 C 200 120, 280 260, 400 260",
-    "M 40 180 C 220 180, 320 260, 400 260",
-    "M 40 240 C 240 240, 340 260, 400 260",
-    "M 40 320 C 240 320, 340 260, 400 260",
-    "M 40 400 C 220 400, 300 260, 400 260",
-    "M 40 460 C 200 460, 280 260, 400 260",
-  ];
-  const rightPaths = [
-    "M 400 260 C 540 260, 620 60,  760 60",
-    "M 400 260 C 560 260, 640 120, 760 120",
-    "M 400 260 C 580 260, 660 180, 760 180",
-    "M 400 260 C 600 260, 700 260, 760 260",
-    "M 400 260 C 580 260, 660 340, 760 340",
-    "M 400 260 C 560 260, 640 400, 760 400",
-    "M 400 260 C 540 260, 620 460, 760 460",
-  ];
+  const [hovered, setHovered] = useState<number | null>(null);
+
+  const leftY = [60, 120, 180, 240, 300, 370, 440];
+  const rightY = [70, 130, 190, 250, 310, 375, 440];
+
+  const leftPaths = leftY.map(
+    (y, i) => `M 40 ${y} C ${170 + i * 12} ${y}, ${280 + i * 8} 250, 400 250`,
+  );
+  const rightPaths = rightY.map(
+    (y, i) => `M 400 250 C ${540 - i * 8} 250, ${640 - i * 12} ${y}, 760 ${y}`,
+  );
+  const paths = [...leftPaths, ...rightPaths];
+
+  const signals = paths.flatMap((_, i) =>
+    [0, 1].map((w) => {
+      const seed = i * 7 + w * 13;
+      const dur = 10 + ((seed * 5) % 11) + (w ? 3.4 : 0);
+      const delay = -((seed * 1.37) % 17);
+      const kind =
+        seed % 11 === 0 ? "fresh" : seed % 3 === 0 ? "inactive" : "active";
+      return { pathIndex: i, key: `${i}-${w}`, dur, delay, kind } as const;
+    }),
+  );
+
+  const hintY =
+    hovered === null
+      ? 0
+      : hovered < leftPaths.length
+        ? leftY[hovered]
+        : rightY[hovered - leftPaths.length];
 
   return (
-    <div className="relative w-full">
+    <div className="w-full">
       <svg
-        viewBox="0 0 800 520"
+        viewBox="0 0 800 500"
         className="w-full h-auto"
         preserveAspectRatio="xMidYMid meet"
       >
         <defs>
           <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.35" />
-            <stop offset="60%" stopColor="hsl(var(--primary))" stopOpacity="0.06" />
-            <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0" />
-          </radialGradient>
-          <radialGradient id="particle" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="1" />
+            <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.09" />
+            <stop offset="70%" stopColor="hsl(var(--primary))" stopOpacity="0.02" />
             <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0" />
           </radialGradient>
         </defs>
 
-        {/* Soft core glow */}
-        <circle cx="400" cy="260" r="180" fill="url(#coreGlow)" />
+        <circle cx="400" cy="250" r="150" fill="url(#coreGlow)" />
 
-        {/* Left endpoints (Systems) — quiet dots */}
-        {[60, 120, 180, 240, 320, 400, 460].map((y) => (
-          <circle key={`ls-${y}`} cx="40" cy={y} r="2" fill="hsl(var(--muted-foreground))" opacity="0.5" />
+        {leftY.map((y) => (
+          <circle key={`ls-${y}`} cx="40" cy={y} r="2" fill="hsl(var(--muted-foreground))" opacity="0.4" />
         ))}
-        {/* Right endpoints (Workflows) */}
-        {[60, 120, 180, 260, 340, 400, 460].map((y) => (
-          <circle key={`rs-${y}`} cx="760" cy={y} r="2" fill="hsl(var(--muted-foreground))" opacity="0.5" />
+        {rightY.map((y) => (
+          <circle key={`rs-${y}`} cx="760" cy={y} r="2" fill="hsl(var(--muted-foreground))" opacity="0.4" />
         ))}
 
-        {/* Paths */}
-        {[...leftPaths, ...rightPaths].map((d, i) => (
+        {paths.map((d, i) => (
           <path
             key={i}
             id={`p${i}`}
             d={d}
             fill="none"
-            stroke="hsl(var(--border))"
+            stroke={hovered === i ? "hsl(var(--primary) / 0.4)" : "hsl(var(--border))"}
             strokeWidth="1"
+            className="transition-[stroke] duration-500"
           />
         ))}
 
-        {/* Core node */}
-        <circle cx="400" cy="260" r="6" fill="hsl(var(--primary))" />
-        <circle cx="400" cy="260" r="14" fill="none" stroke="hsl(var(--primary))" strokeOpacity="0.35" strokeWidth="1">
-          <animate attributeName="r" values="12;22;12" dur="6s" repeatCount="indefinite" />
-          <animate attributeName="stroke-opacity" values="0.4;0;0.4" dur="6s" repeatCount="indefinite" />
+        {paths.map((d, i) => (
+          <path
+            key={`h${i}`}
+            d={d}
+            fill="none"
+            stroke="transparent"
+            strokeWidth="16"
+            onMouseEnter={() => setHovered(i)}
+            onMouseLeave={() => setHovered((h) => (h === i ? null : h))}
+          />
+        ))}
+
+        <circle cx="400" cy="250" r="5" fill="hsl(var(--foreground))" />
+        <circle
+          cx="400"
+          cy="250"
+          r="14"
+          fill="none"
+          stroke="hsl(var(--foreground))"
+          strokeOpacity="0.15"
+          strokeWidth="1"
+        >
+          <animate attributeName="r" values="13;24;13" dur="9s" repeatCount="indefinite" />
+          <animate attributeName="stroke-opacity" values="0.18;0;0.18" dur="9s" repeatCount="indefinite" />
         </circle>
 
-        {/* Flowing particles — desynchronized so no visible loop */}
-        {[...leftPaths, ...rightPaths].map((_, i) => {
-          const dur = 7 + (i % 5) * 1.7;
-          const delay = -(i * 0.9);
-          return (
-            <g key={`pt-${i}`}>
-              <circle r="2.2" fill="hsl(var(--primary))">
-                <animateMotion dur={`${dur}s`} begin={`${delay}s`} repeatCount="indefinite">
-                  <mpath href={`#p${i}`} />
-                </animateMotion>
-                <animate attributeName="opacity" values="0;1;1;0" dur={`${dur}s`} begin={`${delay}s`} repeatCount="indefinite" />
-              </circle>
-            </g>
-          );
-        })}
-        {/* Second wave particles */}
-        {[...leftPaths, ...rightPaths].map((_, i) => {
-          const dur = 9 + (i % 4) * 1.3;
-          const delay = -(i * 1.6 + 3);
-          return (
-            <circle key={`pt2-${i}`} r="1.6" fill="hsl(var(--primary))" opacity="0.7">
-              <animateMotion dur={`${dur}s`} begin={`${delay}s`} repeatCount="indefinite">
-                <mpath href={`#p${i}`} />
-              </animateMotion>
-              <animate attributeName="opacity" values="0;0.8;0.8;0" dur={`${dur}s`} begin={`${delay}s`} repeatCount="indefinite" />
-            </circle>
-          );
-        })}
+        {signals.map((s) => (
+          <circle
+            key={s.key}
+            r={s.kind === "inactive" ? 1.5 : s.kind === "fresh" ? 2.6 : 2.1}
+            fill={LIFECYCLE[s.kind]}
+          >
+            <animateMotion dur={`${s.dur}s`} begin={`${s.delay}s`} repeatCount="indefinite">
+              <mpath href={`#p${s.pathIndex}`} />
+            </animateMotion>
+            <animate
+              attributeName="opacity"
+              values="0;1;1;0"
+              keyTimes="0;0.12;0.85;1"
+              dur={`${s.dur}s`}
+              begin={`${s.delay}s`}
+              repeatCount="indefinite"
+            />
+          </circle>
+        ))}
+
+        {hovered !== null && (
+          <text
+            x={hovered < leftPaths.length ? 40 : 760}
+            y={hintY - 14}
+            textAnchor={hovered < leftPaths.length ? "start" : "end"}
+            className="font-mono"
+            fontSize="12"
+            fill="hsl(var(--muted-foreground))"
+          >
+            {OPERATIONAL_EVENTS[hovered % OPERATIONAL_EVENTS.length]}
+          </text>
+        )}
       </svg>
 
-      {/* Labels */}
-      <div className="absolute inset-0 flex items-center justify-between px-2 md:px-6 pointer-events-none">
+      <div className="mt-6 flex items-center justify-between border-t border-border pt-4">
         <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Systems</span>
         <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-foreground">Veyra</span>
-        <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Workflows</span>
+        <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Workspace</span>
       </div>
     </div>
   );
@@ -135,14 +185,14 @@ const FlowVisualization = () => {
 /* ---------- Product workspace mock ---------- */
 const ProductWorkspace = () => {
   const events = [
-    { t: "14:32:08", id: "run_9f4a", label: "Autonomous yard truck · Fleet A", tag: "nominal", dur: "42m" },
-    { t: "14:18:51", id: "run_9f3c", label: "Sorting cell · Line 3", tag: "review", dur: "1h 12m" },
-    { t: "13:47:22", id: "run_9f2b", label: "Perception stack · rev 218", tag: "nominal", dur: "26m" },
-    { t: "13:11:04", id: "run_9f1a", label: "Autonomous yard truck · Fleet A", tag: "incident", dur: "8m" },
-    { t: "12:44:39", id: "run_9f09", label: "Warehouse robot · WR-14", tag: "nominal", dur: "3h 04m" },
-    { t: "12:02:17", id: "run_9ef7", label: "Delivery drone · DR-002", tag: "nominal", dur: "51m" },
-    { t: "11:38:55", id: "run_9ee4", label: "Sorting cell · Line 3", tag: "nominal", dur: "1h 22m" },
-    { t: "10:51:20", id: "run_9ed1", label: "Perception stack · rev 217", tag: "review", dur: "18m" },
+    { t: "14:32", id: "Inspection Mission #219", label: "Solar Node 017", tag: "nominal", dur: "42m" },
+    { t: "14:18", id: "Sorting shift · Line A", label: "Line A Conveyor", tag: "review", dur: "1h 12m" },
+    { t: "13:47", id: "Perception rev 218", label: "Robot-21", tag: "nominal", dur: "26m" },
+    { t: "13:11", id: "Charging cycle", label: "Charging Station 04", tag: "incident", dur: "8m" },
+    { t: "12:44", id: "Warehouse run", label: "AMR-07", tag: "nominal", dur: "3h 04m" },
+    { t: "12:02", id: "Survey mission", label: "Drone-14", tag: "nominal", dur: "51m" },
+    { t: "11:38", id: "Battery pack B2", label: "Robot Fleet · North", tag: "nominal", dur: "1h 22m" },
+    { t: "10:51", id: "Environment scan", label: "Solar Node 022", tag: "review", dur: "18m" },
   ];
   const tagStyles: Record<string, string> = {
     nominal: "bg-foreground/5 text-foreground",
@@ -154,29 +204,29 @@ const ProductWorkspace = () => {
     <div className="rounded-2xl border border-border bg-background overflow-hidden shadow-[0_1px_0_hsl(var(--border)),0_30px_60px_-30px_hsl(var(--foreground)/0.15)]">
       {/* Top bar */}
       <div className="flex items-center justify-between border-b border-border px-4 py-2.5">
-        <div className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-border" />
-          <span className="h-2.5 w-2.5 rounded-full bg-border" />
-          <span className="h-2.5 w-2.5 rounded-full bg-border" />
-          <span className="ml-3 font-mono text-[11px] text-muted-foreground">veyra · workspace</span>
+        <div className="flex items-center gap-2 min-w-0">
+          <span className="h-2.5 w-2.5 rounded-full bg-border shrink-0" />
+          <span className="h-2.5 w-2.5 rounded-full bg-border shrink-0" />
+          <span className="h-2.5 w-2.5 rounded-full bg-border shrink-0" />
+          <span className="ml-3 font-mono text-[11px] text-muted-foreground truncate">veyra · workspace</span>
         </div>
-        <div className="flex items-center gap-3 text-muted-foreground">
+        <div className="flex items-center gap-3 text-muted-foreground shrink-0">
           <Search size={13} />
           <Bell size={13} />
           <Settings size={13} />
         </div>
       </div>
 
-      <div className="grid grid-cols-[180px_1fr_260px] min-h-[520px]">
+      <div className="grid grid-cols-1 lg:grid-cols-[180px_1fr_280px]">
         {/* Left nav */}
-        <div className="border-r border-border py-4 px-3 text-[12px]">
+        <div className="hidden lg:block border-r border-border py-4 px-3 text-[12px]">
           <div className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-foreground px-2 mb-2">Workspace</div>
           <ul className="space-y-0.5 mb-6">
             {[
               { icon: Activity, label: "Timeline", active: true },
               { icon: LayoutGrid, label: "Fleets" },
-              { icon: GitBranch, label: "Runs" },
-              { icon: FileText, label: "Reviews" },
+              { icon: GitBranch, label: "Missions" },
+              { icon: FileText, label: "Evidence" },
             ].map((n) => (
               <li key={n.label}>
                 <div className={`flex items-center gap-2 px-2 py-1.5 rounded-md ${n.active ? "bg-foreground/[0.06] text-foreground" : "text-muted-foreground"}`}>
@@ -186,11 +236,11 @@ const ProductWorkspace = () => {
               </li>
             ))}
           </ul>
-          <div className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-foreground px-2 mb-2">Workflows</div>
+          <div className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-foreground px-2 mb-2">Assets</div>
           <ul className="space-y-0.5 text-muted-foreground">
-            {["Deployment Readiness", "Operational Review", "Financing Readiness"].map((w) => (
+            {["Robot Fleet · North", "AMR-07", "Solar Node 017", "Charging Station 04", "Drone-14"].map((w) => (
               <li key={w} className="flex items-center gap-2 px-2 py-1.5">
-                <CircleDot size={11} />
+                <CircleDot size={11} className="shrink-0" />
                 <span className="truncate">{w}</span>
               </li>
             ))}
@@ -199,12 +249,12 @@ const ProductWorkspace = () => {
 
         {/* Timeline */}
         <div className="min-w-0">
-          <div className="flex items-center justify-between border-b border-border px-5 py-3">
-            <div>
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-4 sm:px-5 py-3">
+            <div className="min-w-0">
               <div className="text-[13px] font-semibold text-foreground">Operational history</div>
-              <div className="font-mono text-[11px] text-muted-foreground">Today · 240 runs · 3 under review</div>
+              <div className="font-mono text-[11px] text-muted-foreground">Today · 240 records · 3 under review</div>
             </div>
-            <div className="flex items-center gap-2 text-[11px] font-mono text-muted-foreground">
+            <div className="flex items-center gap-2 text-[11px] font-mono text-muted-foreground shrink-0">
               <span className="px-2 py-1 rounded-md bg-foreground/[0.05] text-foreground">24h</span>
               <span className="px-2 py-1">7d</span>
               <span className="px-2 py-1">30d</span>
@@ -212,7 +262,7 @@ const ProductWorkspace = () => {
           </div>
 
           {/* Sparkline */}
-          <div className="px-5 pt-4">
+          <div className="px-4 sm:px-5 pt-4">
             <div className="flex items-end gap-[3px] h-14">
               {Array.from({ length: 56 }).map((_, i) => {
                 const h = 20 + Math.round(Math.sin(i * 0.4) * 22 + ((i * 37) % 30));
@@ -233,50 +283,77 @@ const ProductWorkspace = () => {
             {events.map((e, i) => (
               <li
                 key={e.id}
-                className={`grid grid-cols-[80px_1fr_90px_60px_20px] items-center gap-3 px-5 py-2.5 text-[12px] border-t border-border ${i === 1 ? "bg-primary/[0.04]" : ""}`}
+                className={`flex items-center gap-3 px-4 sm:px-5 py-2.5 text-[12px] border-t border-border ${i === 1 ? "bg-primary/[0.04]" : ""}`}
               >
-                <span className="font-mono text-[11px] text-muted-foreground">{e.t}</span>
-                <div className="min-w-0">
+                <span className="font-mono text-[11px] text-muted-foreground shrink-0 tabular-nums">{e.t}</span>
+                <div className="min-w-0 flex-1">
                   <div className="text-foreground truncate">{e.label}</div>
-                  <div className="font-mono text-[10px] text-muted-foreground">{e.id}</div>
+                  <div className="font-mono text-[10px] text-muted-foreground truncate">{e.id}</div>
                 </div>
-                <span className={`justify-self-start rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider ${tagStyles[e.tag]}`}>{e.tag}</span>
-                <span className="font-mono text-[11px] text-muted-foreground tabular-nums">{e.dur}</span>
-                <ChevronRight size={13} className="text-muted-foreground justify-self-end" />
+                <span className={`shrink-0 rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider ${tagStyles[e.tag]}`}>{e.tag}</span>
+                <span className="hidden sm:inline font-mono text-[11px] text-muted-foreground tabular-nums w-[60px] text-right shrink-0">{e.dur}</span>
+                <ChevronRight size={13} className="text-muted-foreground shrink-0" />
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Right details panel */}
-        <div className="border-l border-border p-5 text-[12px]">
-          <div className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-foreground mb-2">Run</div>
-          <div className="text-[13px] font-semibold text-foreground mb-1">run_9f3c</div>
-          <div className="text-muted-foreground mb-5">Sorting cell · Line 3</div>
+        {/* Right evidence panel */}
+        <div className="border-t lg:border-t-0 lg:border-l border-border p-5 text-[12px]">
+          <div className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-foreground mb-2">Selected</div>
+          <div className="text-[13px] font-semibold text-foreground mb-1">Line A Conveyor</div>
+          <div className="text-muted-foreground mb-5">Sorting shift · Line A</div>
+
+          <div className="rounded-xl border border-border p-4 mb-5">
+            <div className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-foreground mb-3">
+              Evidence Summary
+            </div>
+            <dl className="space-y-2.5">
+              {[
+                ["Verified", "8"],
+                ["Missing", "2"],
+                ["Confidence", "Medium"],
+              ].map(([k, v]) => (
+                <div key={k} className="flex items-center justify-between gap-3">
+                  <dt className="text-muted-foreground">{k}</dt>
+                  <dd className="text-foreground font-mono tabular-nums">{v}</dd>
+                </div>
+              ))}
+            </dl>
+            <div className="mt-4 border-t border-border pt-3">
+              <div className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-foreground mb-1.5">
+                Assessment
+              </div>
+              <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-[11px] font-medium text-primary">
+                <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                Deployment Ready
+              </div>
+            </div>
+          </div>
+
+          <div className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-foreground mb-2">Records</div>
+          <ul className="space-y-1.5 text-muted-foreground mb-5">
+            <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />Runtime telemetry · normalized</li>
+            <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />Deployment · rev 218</li>
+            <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />Maintenance · 34 events</li>
+            <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-muted-foreground/40 shrink-0" />Inspection report · missing</li>
+          </ul>
 
           <dl className="space-y-3 mb-5">
             {[
-              ["Duration", "1h 12m"],
               ["Uptime", "99.2%"],
               ["Interventions", "2"],
               ["Signals", "1,284"],
             ].map(([k, v]) => (
-              <div key={k} className="flex items-center justify-between">
+              <div key={k} className="flex items-center justify-between gap-3">
                 <dt className="text-muted-foreground">{k}</dt>
                 <dd className="text-foreground font-mono tabular-nums">{v}</dd>
               </div>
             ))}
           </dl>
 
-          <div className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-foreground mb-2">Evidence</div>
-          <ul className="space-y-1.5 text-muted-foreground">
-            <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-primary" />telemetry · normalized</li>
-            <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-primary" />deployment · rev 218</li>
-            <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-primary" />events · 34 recorded</li>
-          </ul>
-
-          <button className="mt-6 inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-foreground text-background px-3 py-2 text-[11px] font-medium">
-            Open review <ArrowRight size={12} />
+          <button className="inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-foreground text-background px-3 py-2 text-[11px] font-medium">
+            Open evidence <ArrowRight size={12} />
           </button>
         </div>
       </div>
@@ -316,7 +393,10 @@ const Landing = () => {
             </h1>
 
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mb-10">
-              An operational workspace for understanding systems in production.
+              An operational workspace for Physical AI and autonomous systems.
+              Turn operational history into trusted evidence. Every deployment,
+              intervention and hour of runtime stays connected, so high-cost
+              decisions rest on what actually happened.
             </p>
 
             <Link
@@ -361,12 +441,12 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
+      {/* CONTINUOUS OPERATIONS */}
       <section id="how" className="border-t border-border bg-surface/50">
         <div className="container mx-auto px-6 py-28 max-w-6xl">
           <div className="mb-16 max-w-2xl">
             <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-4">
-              How Veyra works
+              Continuous Operations
             </p>
           </div>
 
@@ -422,7 +502,6 @@ const Landing = () => {
           </div>
         </div>
       </footer>
-
     </Layout>
   );
 };
