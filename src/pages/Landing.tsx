@@ -14,6 +14,7 @@ import {
   CircleDot,
 } from "lucide-react";
 import Layout from "@/components/Layout";
+import EvidenceInvestigation from "@/components/EvidenceInvestigation";
 
 const workflows = [
   { tag: "Industrial Deployment", title: "Deployment Readiness" },
@@ -184,6 +185,7 @@ const FlowVisualization = () => {
 
 /* ---------- Product workspace mock ---------- */
 const ProductWorkspace = () => {
+  const [evidenceOpen, setEvidenceOpen] = useState(false);
   const events = [
     { t: "14:32", id: "Inspection Mission #219", label: "Solar Node 017", tag: "nominal", dur: "42m" },
     { t: "14:18", id: "Sorting shift · Line A", label: "Line A Conveyor", tag: "review", dur: "1h 12m" },
@@ -283,7 +285,8 @@ const ProductWorkspace = () => {
             {events.map((e, i) => (
               <li
                 key={e.id}
-                className={`flex items-center gap-3 px-4 sm:px-5 py-2.5 text-[12px] border-t border-border ${i === 1 ? "bg-primary/[0.04]" : ""}`}
+                onClick={() => setEvidenceOpen(true)}
+                className={`flex cursor-pointer items-center gap-3 px-4 sm:px-5 py-2.5 text-[12px] border-t border-border transition-colors hover:bg-foreground/[0.03] ${i === 1 ? "bg-primary/[0.04]" : ""}`}
               >
                 <span className="font-mono text-[11px] text-muted-foreground shrink-0 tabular-nums">{e.t}</span>
                 <div className="min-w-0 flex-1">
@@ -352,11 +355,16 @@ const ProductWorkspace = () => {
             ))}
           </dl>
 
-          <button className="inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-foreground text-background px-3 py-2 text-[11px] font-medium">
+          <button
+            onClick={() => setEvidenceOpen(true)}
+            className="inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-foreground text-background px-3 py-2 text-[11px] font-medium hover:bg-foreground/90 transition-colors"
+          >
             Open evidence <ArrowRight size={12} />
           </button>
         </div>
       </div>
+
+      <EvidenceInvestigation open={evidenceOpen} onClose={() => setEvidenceOpen(false)} />
     </div>
   );
 };
@@ -394,9 +402,7 @@ const Landing = () => {
 
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mb-10">
               An operational workspace for Physical AI and autonomous systems.
-              Turn operational history into trusted evidence. Every deployment,
-              intervention and hour of runtime stays connected, so high-cost
-              decisions rest on what actually happened.
+              Turn operational history into trusted evidence.
             </p>
 
             <Link
