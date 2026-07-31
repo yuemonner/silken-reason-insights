@@ -45,19 +45,6 @@ const Contact = () => {
           </a>
         </div>
 
-        <div className="mt-16 rounded-2xl bg-surface border border-border p-8">
-          <p className="font-mono text-[11px] tracking-[0.15em] uppercase text-muted-foreground mb-3">Request Pilot</p>
-          <p className="text-[15px] text-foreground leading-relaxed mb-4">
-            Send a short note describing your operational systems, current data sources and the decision
-            you struggle to justify today. We respond to every serious inquiry.
-          </p>
-          <a
-            href="mailto:pilot@silkenreason.com?subject=Veyra%20Pilot%20Request"
-            className="inline-flex items-center gap-1.5 rounded-full bg-foreground text-background px-5 py-2.5 text-[13px] font-medium hover:bg-foreground/90 transition-colors"
-          >
-            pilot@silkenreason.com <ArrowRight size={14} />
-          </a>
-        </div>
       </section>
     </Layout>
   );
