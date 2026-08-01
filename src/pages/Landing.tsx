@@ -470,16 +470,72 @@ const Landing = () => {
               Product
             </p>
           </div>
+
+          {/* Workflow banner */}
+          <div className="mb-8 rounded-2xl border border-border bg-surface/50 px-4 sm:px-6 py-4">
+            <ol className="flex flex-wrap items-center gap-x-3 gap-y-2">
+              {[
+                "Operational Systems",
+                "Connector",
+                "Operational History",
+                "Evidence",
+                "Decision",
+              ].map((step, i, arr) => (
+                <li key={step} className="flex items-center gap-3">
+                  <span
+                    className={`font-mono text-[10px] sm:text-[11px] tracking-[0.15em] uppercase ${
+                      i === arr.length - 1 ? "text-foreground" : "text-muted-foreground"
+                    }`}
+                  >
+                    {step}
+                  </span>
+                  {i < arr.length - 1 && (
+                    <ChevronRight size={12} className="text-muted-foreground/60 shrink-0" />
+                  )}
+                </li>
+              ))}
+            </ol>
+          </div>
+
           <ProductWorkspace />
+
+          {/* Deployment & privacy note */}
+          <p className="mt-6 max-w-3xl text-[13px] leading-relaxed text-muted-foreground">
+            Veyra runs alongside existing operational systems. Raw operational data
+            remains in your environment — only the evidence required for a decision
+            is assembled and referenced.
+          </p>
         </div>
       </section>
 
       {/* PILOT CTA */}
       <section className="border-t border-border">
-        <div className="container mx-auto px-6 py-32 max-w-4xl text-center">
-          <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-foreground leading-[1.1] mb-10">
+        <div className="container mx-auto px-6 py-32 max-w-5xl">
+          <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-4">
+            Pilot
+          </p>
+          <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-foreground leading-[1.1] mb-12 max-w-3xl">
             Looking for early design partners building Physical AI systems.
           </h2>
+
+          <ol className="grid gap-4 md:grid-cols-4 mb-12">
+            {[
+              { n: "01", t: "Introduction call", d: "30 minutes. We map your systems, decisions and current evidence gaps." },
+              { n: "02", t: "Connect one system", d: "A single fleet, line or site. Read-only connection, no change to operations." },
+              { n: "03", t: "Operational history", d: "We reconstruct recent runtime, interventions and deployments as evidence." },
+              { n: "04", t: "Decision review", d: "You review one real high-cost decision backed by verified evidence." },
+            ].map((s) => (
+              <li
+                key={s.n}
+                className="rounded-2xl border border-border bg-background p-6 hover:border-foreground/30 transition-colors"
+              >
+                <div className="font-mono text-[11px] tracking-[0.15em] text-muted-foreground mb-4">{s.n}</div>
+                <h3 className="text-[16px] font-semibold text-foreground mb-2 leading-snug">{s.t}</h3>
+                <p className="text-[13px] leading-relaxed text-muted-foreground">{s.d}</p>
+              </li>
+            ))}
+          </ol>
+
           <Link
             to="/contact"
             className="inline-flex items-center gap-1.5 rounded-full bg-foreground text-background px-6 py-3 text-[13px] font-medium hover:bg-foreground/90 transition-colors"
