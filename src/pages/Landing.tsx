@@ -419,9 +419,12 @@ const Landing = () => {
       {/* WORKFLOWS */}
       <section id="workflows" className="border-t border-border">
         <div className="container mx-auto px-6 py-28 max-w-6xl">
-          <div className="mb-16">
+          <div className="mb-16 max-w-2xl">
             <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-4">
               Workflows
+            </p>
+            <p className="text-[17px] text-muted-foreground leading-relaxed">
+              Every deployment, operational review and financing decision depends on records spread across different systems. Veyra brings the relevant operational history together before decisions are made.
             </p>
           </div>
 
