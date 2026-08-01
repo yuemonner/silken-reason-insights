@@ -501,9 +501,8 @@ const Landing = () => {
 
           {/* Deployment & privacy note */}
           <p className="mt-6 max-w-3xl text-[13px] leading-relaxed text-muted-foreground">
-            Veyra runs alongside existing operational systems. Raw operational data
-            remains in your environment — only the evidence required for a decision
-            is assembled and referenced.
+            Veyra runs alongside your existing operational systems. Raw operational
+            data stays in your environment.
           </p>
         </div>
       </section>
