@@ -519,10 +519,10 @@ const Landing = () => {
 
           <ol className="grid gap-4 md:grid-cols-4 mb-12">
             {[
-              { n: "01", t: "Introduction call", d: "30 minutes. We map your systems, decisions and current evidence gaps." },
-              { n: "02", t: "Connect one system", d: "A single fleet, line or site. Read-only connection, no change to operations." },
-              { n: "03", t: "Operational history", d: "We reconstruct recent runtime, interventions and deployments as evidence." },
-              { n: "04", t: "Decision review", d: "You review one real high-cost decision backed by verified evidence." },
+              { n: "01", t: "Introduction", d: "30 minutes. Identify one operational decision and the systems behind it." },
+              { n: "02", t: "Connect one workflow", d: "Connect the operational systems involved using read-only access. No changes to existing operations." },
+              { n: "03", t: "Build operational history", d: "Organize the history, events and records behind that decision." },
+              { n: "04", t: "Review one decision", d: "Review one real operational decision together using verified evidence." },
             ].map((s) => (
               <li
                 key={s.n}
