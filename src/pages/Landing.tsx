@@ -424,7 +424,7 @@ const Landing = () => {
               Workflows
             </p>
             <p className="text-[17px] text-muted-foreground leading-relaxed">
-              Every deployment, operational review and financing decision depends on records spread across different systems. Veyra brings the relevant operational history together before decisions are made.
+              Every deployment, operational review and financing decision depends on history spread across different systems. Veyra brings the relevant operational history together before high-cost decisions are made.
             </p>
           </div>
 
