@@ -162,13 +162,13 @@ const GapDiagram = () => {
 const GraphDiagram = () => {
   const nodes: { id: string; x: number; y: number; kind: string }[] = [
     { id: "mission_219", x: 90, y: 40, kind: "Mission" },
-    { id: "anomaly_402", x: 400, y: 40, kind: "Anomaly" },
+    { id: "anomaly_402", x: 460, y: 40, kind: "Anomaly" },
     { id: "deployment_rev218", x: 90, y: 170, kind: "Deployment" },
-    { id: "torque_variance", x: 400, y: 170, kind: "Telemetry" },
+    { id: "torque_variance", x: 460, y: 170, kind: "Telemetry" },
     { id: "human_decision_91", x: 90, y: 300, kind: "Decision" },
-    { id: "tension_adjust_log", x: 400, y: 300, kind: "Maintenance" },
+    { id: "tension_adjust_log", x: 460, y: 300, kind: "Maintenance" },
   ];
-  const W = 300;
+  const W = 250;
   const H = 54;
   const edges: { from: number; to: number; label: string; dir: "h" | "v" }[] = [
     { from: 0, to: 1, label: "observed_during", dir: "h" },
@@ -181,7 +181,7 @@ const GraphDiagram = () => {
   ];
 
   return (
-    <svg viewBox="0 0 800 380" className="w-full min-w-[560px]" role="img">
+    <svg viewBox="0 0 730 380" className="w-full min-w-[560px]" role="img">
       <defs>
         <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
           <path d="M 0 0 L 10 5 L 0 10 z" fill="hsl(var(--muted-foreground))" opacity="0.55" />
@@ -223,7 +223,7 @@ const GraphDiagram = () => {
               y={ly}
               textAnchor={e.dir === "h" ? "middle" : "start"}
               className="fill-muted-foreground"
-              style={{ fontSize: 10, fontFamily: "JetBrains Mono, monospace" }}
+              style={{ fontSize: 9.5, fontFamily: "JetBrains Mono, monospace" }}
             >
               {e.label}
             </text>
