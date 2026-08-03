@@ -7,6 +7,7 @@ const navLinks = [
   { href: "/#workflows", label: "Workflows" },
   { href: "/#how", label: "Operations" },
   { href: "/#product", label: "Product" },
+  { href: "/engineering", label: "Engineering" },
   { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
 ];

@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import Landing from "./pages/Landing";
+import Engineering from "./pages/Engineering";
 import Blog from "./pages/Blog";
 import TheLogic from "./pages/TheLogic";
 import TheSilk from "./pages/TheSilk";
@@ -32,6 +33,7 @@ const App = () => (
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Landing />} />
+          <Route path="/engineering" element={<Engineering />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/the-logic" element={<TheLogic />} />
