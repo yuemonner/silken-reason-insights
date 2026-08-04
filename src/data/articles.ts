@@ -5,6 +5,8 @@ export interface Article {
   section: string;
   tags: string[];
   excerpt: string;
+  seoTitle: string;
+  seoDescription: string;
   content: string;
   disclaimer?: string;
 }
@@ -33,6 +35,9 @@ export const articles: Article[] = [
     tags: ["Operational Readiness", "Physical AI"],
     excerpt:
       "Operational readiness is the ability to decide whether a physical system is safe, reliable and prepared for its next real-world action.",
+    seoTitle: "What Is Operational Readiness in Physical AI? | Veyra",
+    seoDescription:
+      "A practical definition of operational readiness for Physical AI, robotics and industrial systems, including evidence, workflows and readiness decisions.",
     content: `Operational readiness is the state in which a physical system is prepared to perform a defined action in a real operating environment.
 
 For Physical AI, robotics, industrial IoT and connected equipment, operational readiness is not a static checklist. It is a decision made from machine history, telemetry, maintenance records, deployment changes, incident context, operator notes and environmental conditions.
@@ -123,6 +128,9 @@ What should we do next, and what evidence supports that choice?`,
     tags: ["Mission Readiness", "Autonomous Systems"],
     excerpt:
       "Mission readiness is the ability to decide whether an autonomous system is prepared for a specific task, environment and level of responsibility.",
+    seoTitle: "What Is Mission Readiness for Autonomous Systems? | Veyra",
+    seoDescription:
+      "Mission readiness explained for Physical AI, autonomous robotics, field operations and high-consequence deployment decisions.",
     content: `Mission readiness is the ability to determine whether a system is prepared to perform a specific mission under real operating conditions.
 
 In Physical AI, autonomous robotics, defense technology, industrial automation and field operations, a mission is not just a task. It is a bounded operational commitment. A machine is being asked to act in a place, under constraints, with consequences.
@@ -226,6 +234,9 @@ For Veyra, mission readiness is one instance of a broader pattern: teams need de
     tags: ["Telemetry", "Operational History"],
     excerpt:
       "Telemetry shows signals. Operational history connects signals to deployments, maintenance, interventions, decisions and outcomes.",
+    seoTitle: "Operational History vs Telemetry | Veyra",
+    seoDescription:
+      "Understand the difference between telemetry and operational history, and why Physical AI teams need both for readiness review and incident decisions.",
     content: `Telemetry and operational history are often treated as the same thing. They are not.
 
 Telemetry is machine signal. Operational history is interpreted operational context.
@@ -351,6 +362,9 @@ Physical AI needs both, but the commercial value often appears when telemetry be
     tags: ["Observability", "Physical AI"],
     excerpt:
       "Observability helps teams see what happened. Physical AI teams also need to decide what should happen next.",
+    seoTitle: "Why Observability Is Not Enough for Physical AI | Veyra",
+    seoDescription:
+      "Why logs, metrics and traces are necessary but insufficient for Physical AI operations, robot incident review and deployment readiness.",
     content: `Observability is one of the most important disciplines in modern software. It gives teams logs, metrics, traces and visibility into running systems.
 
 For Physical AI, observability remains necessary. But it is not enough.
@@ -459,6 +473,9 @@ Physical AI needs both.`,
     tags: ["Incident Review", "Robotics"],
     excerpt:
       "A robot incident review connects anomaly data, interventions, environment, deployment history and outcomes into a repeatable learning process.",
+    seoTitle: "Robot Incident Review: Workflow, Evidence and Checklist | Veyra",
+    seoDescription:
+      "A practical guide to robot incident review for anomaly timelines, operator interventions, return-to-service decisions and operational evidence.",
     content: `A robot incident review is the structured process of understanding what happened during a robot anomaly, what evidence supports that understanding and what should change before the robot or fleet returns to service.
 
 It is similar to a software postmortem, but the physical world makes it more complex.
@@ -579,6 +596,9 @@ Robot incident review is the process of turning fragmented operational records i
     tags: ["Robot Anomaly", "Readiness Review"],
     excerpt:
       "After a robot anomaly, the hard work is not only detecting the event. It is reconstructing context and deciding the next safe action.",
+    seoTitle: "What Happens After a Robot Anomaly? | Veyra",
+    seoDescription:
+      "A step-by-step explanation of what teams need after a robot anomaly: timeline reconstruction, evidence review and readiness decisions.",
     content: `A robot anomaly is only the beginning of the operational workflow.
 
 The visible event may be simple: a robot stops, a sensor drifts, a mission fails, a manipulation attempt misses, a navigation path becomes unsafe or a human operator takes over.
@@ -724,6 +744,9 @@ After a robot anomaly, the critical workflow is not only detection. It is eviden
     tags: ["Runtime History", "Operational Evidence"],
     excerpt:
       "Runtime history is the record of what a system actually did while operating, connected to context, interventions and outcomes.",
+    seoTitle: "Runtime History Explained for Autonomous Systems | Veyra",
+    seoDescription:
+      "Runtime history explained as the operational record of system behavior, context, interventions and outcomes for Physical AI and autonomous systems.",
     content: `Runtime history is the record of what a system actually did while it was running.
 
 For software, runtime history may include logs, traces, errors, deployments and performance metrics. For Physical AI and intelligent industrial systems, runtime history also includes sensor behavior, mission outcomes, interventions, maintenance actions, environmental context and return-to-service decisions.
