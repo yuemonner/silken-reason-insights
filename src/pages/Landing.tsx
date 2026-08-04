@@ -517,7 +517,7 @@ const Landing = () => {
             Pilot
           </p>
           <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-foreground leading-[1.1] mb-12 max-w-3xl">
-            Looking for early design partners building Physical AI systems.
+            We partner with teams operating Physical AI systems at production scale.
           </h2>
 
           <ol className="grid gap-4 md:grid-cols-4 mb-12">
