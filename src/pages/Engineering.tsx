@@ -329,7 +329,7 @@ const BoundaryDiagram = () => (
         <path d="M3 30 L8 37 L13 30" stroke="currentColor" strokeWidth="1" strokeOpacity="0.5" fill="none" />
       </svg>
       <span className="font-mono text-[10px] mt-1 text-center">
-        Signed metadata & evidence signatures only — no raw payload egress
+        Signed metadata and evidence signatures only. No raw payload egress.
       </span>
     </div>
 
@@ -349,11 +349,7 @@ const CodeBlock = ({ code }: { code: string }) => (
 );
 
 const evidencePack = `{
-  "decision_id": "dec_2026_0814_lineA",
-  "target_asset": "conveyor_line_A",
-  "evaluated_action": "RETURN_TO_SERVICE",
   "status": "LIMITED_OPERATION_READY",
-  "confidence_score": 0.78,
   "evidence_for": [
     { "source": "telemetry_normalizer", "record_id": "rec_9941",
       "summary": "Thermal telemetry stable within 1.2% envelope over 3 cycles." },
@@ -368,10 +364,6 @@ const evidencePack = `{
     { "required_type": "INSPECTION_PDF", "owner": "field_safety_lead",
       "status": "UNSUBMITTED" }
   ],
-  "historical_precedents": [
-    { "timestamp": "2026-03-14T10:12:00Z", "signature": "torque_spike_type_B",
-      "resolution": "Belt tension adjustment cleared anomaly; 4h downtime." }
-  ],
   "recommended_action": {
     "policy": "RUN_LIMITED_PRODUCTION_CYCLE",
     "constraints": { "speed_cap": "0.5m/s", "re_evaluation_window": "30m" }
@@ -381,12 +373,12 @@ const evidencePack = `{
 const references = [
   {
     org: "International Federation of Robotics",
-    title: "World Robotics Report 2025 — industrial robot installations",
+    title: "World Robotics Report 2025, industrial robot installations",
     url: "https://ifr.org/ifr-press-releases/global-robot-demand-in-factories-doubles-over-10-years",
   },
   {
     org: "Capgemini Research Institute",
-    title: "Physical AI in industrial operations — scaling analysis (2026)",
+    title: "Physical AI in industrial operations, scaling analysis (2026)",
     url: "https://www.capgemini.com/gb-en/news/press-releases/two-thirds-of-organisations-rate-physical-ai-as-a-high-priority-for-the-next-three-to-five-years/",
   },
   {
