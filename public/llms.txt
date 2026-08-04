@@ -1,6 +1,10 @@
-# Veyra by Silken Reason
+# Silken Reason
 
-> Veyra is a lightweight readiness review layer for autonomous systems, Physical AI and industrial IoT.
+> Decision software for the physical world.
+
+Silken Reason creates Veyra, operational evidence for Physical AI.
+
+Veyra is a lightweight readiness review layer for autonomous systems, Physical AI and industrial IoT.
 
 Veyra helps teams review operational history before high-cost decisions such as deployment readiness, return-to-service, mission readiness, after-action review, operational review and machine finance readiness.
 

@@ -1,7 +1,7 @@
 {
-  "name": "Veyra",
-  "short_name": "Veyra",
-  "description": "A lightweight readiness review layer for autonomous systems, Physical AI and industrial IoT.",
+  "name": "Silken Reason",
+  "short_name": "Silken Reason",
+  "description": "Decision software for the physical world. Creator of Veyra, operational evidence for Physical AI.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
