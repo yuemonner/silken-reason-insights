@@ -1,8 +1,8 @@
 # Silken Reason
 
-> Decision software for the physical world.
+> Creator of Veyra. Operational software for Physical AI.
 
-Silken Reason creates Veyra, operational evidence for Physical AI.
+Silken Reason creates Veyra, operational software for Physical AI.
 
 Veyra is a lightweight readiness review layer for autonomous systems, Physical AI and industrial IoT.
 

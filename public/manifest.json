@@ -1,7 +1,7 @@
 {
   "name": "Silken Reason",
   "short_name": "Silken Reason",
-  "description": "Decision software for the physical world. Creator of Veyra, operational evidence for Physical AI.",
+  "description": "Creator of Veyra. Operational software for Physical AI.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
