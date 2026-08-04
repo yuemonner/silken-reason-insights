@@ -588,11 +588,20 @@ const Engineering = () => {
             temporal alignment and marks uncertainty explicitly: missing and conflicting links are
             shown, never filled in.
           </P>
+
+          <h3 className="text-[17px] font-semibold text-foreground pt-4">Non-goals</h3>
+          <DefList
+            items={[
+              ["Not teleoperation", "No low-latency video streaming for remote driving."],
+              ["Not raw storage", "MCAP files and data platforms keep their payloads."],
+              ["Not a controller", "No execution commands dispatched to edge hardware."],
+            ]}
+          />
         </Section>
 
         <Section num="04" title="Reference workflow: return-to-service">
           <P>
-            The first implementation targets one expensive gate — the return-to-service review,
+            The first implementation targets one expensive gate: the return-to-service review,
             triggered by a deployment revision, an anomaly, an intervention or a maintenance event.
           </P>
 
@@ -627,17 +636,8 @@ const Engineering = () => {
           <P>
             Raw video frames and high-frequency point clouds never leave the client's security
             perimeter. Veyra ingests and signs normalized metadata, event timestamps and state
-            hashes — the minimum required to verify evidence.
+            hashes, which is the minimum required to verify evidence.
           </P>
-
-          <h3 className="text-[17px] font-semibold text-foreground pt-2">Non-goals</h3>
-          <DefList
-            items={[
-              ["Not teleoperation", "No low-latency video streaming for remote driving."],
-              ["Not raw storage", "MCAP files and data platforms keep their payloads."],
-              ["Not a controller", "No execution commands dispatched to edge hardware."],
-            ]}
-          />
         </Section>
 
         <Section num="06" title="Hypotheses under validation">
@@ -648,7 +648,7 @@ const Engineering = () => {
                 "Event graphs built for return-to-service on fixed manipulators map onto mobile fleets without breaking core relations.",
               ],
               [
-                "Read-only friction",
+                "Integration friction",
                 "IT and OT security sign-off time drops by more than 70% when integration is read-only and payload-less.",
               ],
               [
@@ -698,7 +698,7 @@ const Engineering = () => {
         <div className="mt-20 divider" />
         <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
           <p className="text-[15px] text-muted-foreground">
-            Reviewing a readiness decision of your own?
+            Interested in discussing operational decision workflows?
           </p>
           <Link
             to="/contact"
