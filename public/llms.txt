@@ -1,0 +1,49 @@
+# Veyra by Silken Reason
+
+> Veyra is a lightweight readiness review layer for autonomous systems, Physical AI and industrial IoT.
+
+Veyra helps teams review operational history before high-cost decisions such as deployment readiness, return-to-service, mission readiness, after-action review, operational review and machine finance readiness.
+
+## Core Concepts
+
+- Readiness review
+- Readiness evidence
+- Readiness Record
+- Operational evidence
+- Decision evidence
+- Operational history
+- Operating history
+- Operational memory
+- Operational knowledge graph
+- Semantic execution graph
+- Read-only connector
+- On-site metadata aggregation
+- Return-to-service review
+- Mission readiness
+- After-action review
+- Operator trust
+- Machine finance readiness
+
+## Relevant Domains
+
+- Physical AI
+- Autonomous systems
+- Industrial AI
+- Robotics
+- Robot fleet operations
+- Industrial IoT
+- IoT telemetry
+- Machine economy
+- DePIN
+- AI infrastructure
+- Autonomous agents
+
+## Key Pages
+
+- Home: https://www.silkenreason.com/
+- Engineering note: https://www.silkenreason.com/engineering
+- Contact: https://www.silkenreason.com/contact
+
+## Founder
+
+Yue He is the founder and systems architect behind Silken Reason. Her work spans industrial IoT, telemetry pipelines, distributed systems, cloud infrastructure, AI infrastructure and Physical AI operations.

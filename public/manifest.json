@@ -1,7 +1,7 @@
 {
   "name": "Veyra",
   "short_name": "Veyra",
-  "description": "An operational workspace for Physical AI and autonomous systems.",
+  "description": "A lightweight readiness review layer for autonomous systems, Physical AI and industrial IoT.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
