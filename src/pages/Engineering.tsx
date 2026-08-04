@@ -70,58 +70,63 @@ const DefList = ({ items }: { items: [string, string][] }) => (
 
 /* ---------------- diagrams ---------------- */
 
-const layerBox =
-  "rounded-xl border border-border bg-background px-4 py-4 text-center";
+const StackLayer = ({
+  title,
+  items,
+  accent,
+  note,
+}: {
+  title: string;
+  items: string[];
+  accent?: boolean;
+  note?: string;
+}) => (
+  <div
+    className={`px-5 py-5 ${
+      accent ? "bg-primary/[0.04] border-l-2 border-l-primary/50" : "bg-background"
+    }`}
+  >
+    <div className="flex flex-wrap items-baseline justify-between gap-2">
+      <span
+        className={`font-mono text-[10px] tracking-[0.18em] uppercase ${
+          accent ? "text-primary/70" : "text-muted-foreground"
+        }`}
+      >
+        {title}
+      </span>
+      {note && (
+        <span className="font-mono text-[10px] tracking-[0.12em] uppercase text-muted-foreground">
+          {note}
+        </span>
+      )}
+    </div>
+    <div className="mt-3 flex flex-wrap gap-2">
+      {items.map((it) => (
+        <span
+          key={it}
+          className="rounded-lg border border-border bg-surface px-3 py-1.5 text-[13.5px] text-foreground"
+        >
+          {it}
+        </span>
+      ))}
+    </div>
+  </div>
+);
 
 const LandscapeDiagram = () => (
-  <div className="min-w-[560px] space-y-3">
-    <div className="rounded-xl border border-dashed border-primary/50 bg-primary/[0.04] px-4 py-5 text-center">
-      <div className="font-mono text-[10px] tracking-[0.18em] uppercase text-primary/70">
-        Operational decision layer — missing today
-      </div>
-      <div className="mt-2 text-[15px] text-foreground">
-        Cross-system decision semantics · Evidence packs · Readiness gates
-      </div>
-    </div>
-
-    <div className="flex flex-col items-center text-muted-foreground">
-      <svg width="16" height="34" viewBox="0 0 16 34" fill="none">
-        <path d="M8 34 V6" stroke="currentColor" strokeWidth="1" strokeOpacity="0.5" />
-        <path d="M3 10 L8 3 L13 10" stroke="currentColor" strokeWidth="1" strokeOpacity="0.5" fill="none" />
-      </svg>
-      <span className="font-mono text-[10px] text-muted-foreground -mt-1">
-        API · webhook · ingestion
-      </span>
-    </div>
-
-    <div className="grid grid-cols-2 gap-3">
-      <div className={layerBox}>
-        <div className="text-[15px] text-foreground">Foxglove / MCAP</div>
-        <div className="mt-1 text-[13px] text-muted-foreground">Data lifecycle</div>
-      </div>
-      <div className={layerBox}>
-        <div className="text-[15px] text-foreground">Formant / InOrbit</div>
-        <div className="mt-1 text-[13px] text-muted-foreground">Fleet ops · OTA</div>
-      </div>
-    </div>
-    <div className="text-center font-mono text-[10px] tracking-[0.18em] uppercase text-muted-foreground">
-      Robot data & fleet platforms
-    </div>
-
-    <div className="flex flex-col items-center text-muted-foreground pt-1">
-      <svg width="16" height="34" viewBox="0 0 16 34" fill="none">
-        <path d="M8 34 V6" stroke="currentColor" strokeWidth="1" strokeOpacity="0.5" />
-        <path d="M3 10 L8 3 L13 10" stroke="currentColor" strokeWidth="1" strokeOpacity="0.5" fill="none" />
-      </svg>
-      <span className="font-mono text-[10px] -mt-1">ROS 2 · MCAP · MQTT · logs</span>
-    </div>
-
-    <div className={layerBox}>
-      <div className="text-[15px] text-foreground">Physical edge & runtime systems</div>
-      <div className="mt-1 text-[13px] text-muted-foreground">
-        Sensors · actuators · ROS nodes · edge compute · controllers
-      </div>
-    </div>
+  <div className="min-w-[520px] divide-y divide-border rounded-xl border border-border overflow-hidden">
+    <StackLayer
+      title="Operational decision layer"
+      note="Missing today"
+      accent
+      items={["Decision evidence", "Operational history", "Readiness review"]}
+    />
+    <StackLayer
+      title="Integration layer"
+      items={["Read-only connectors", "Schema mapping", "Normalization"]}
+    />
+    <StackLayer title="Robot data platforms" items={["Foxglove", "Formant", "InOrbit"]} />
+    <StackLayer title="Runtime systems" items={["ROS", "MCAP", "Sensors", "Controllers"]} />
   </div>
 );
 
@@ -324,7 +329,7 @@ const BoundaryDiagram = () => (
         <path d="M3 30 L8 37 L13 30" stroke="currentColor" strokeWidth="1" strokeOpacity="0.5" fill="none" />
       </svg>
       <span className="font-mono text-[10px] mt-1 text-center">
-        Signed metadata & evidence signatures only — no raw payload egress
+        Signed metadata and evidence signatures only. No raw payload egress.
       </span>
     </div>
 
@@ -344,11 +349,7 @@ const CodeBlock = ({ code }: { code: string }) => (
 );
 
 const evidencePack = `{
-  "decision_id": "dec_2026_0814_lineA",
-  "target_asset": "conveyor_line_A",
-  "evaluated_action": "RETURN_TO_SERVICE",
   "status": "LIMITED_OPERATION_READY",
-  "confidence_score": 0.78,
   "evidence_for": [
     { "source": "telemetry_normalizer", "record_id": "rec_9941",
       "summary": "Thermal telemetry stable within 1.2% envelope over 3 cycles." },
@@ -363,10 +364,6 @@ const evidencePack = `{
     { "required_type": "INSPECTION_PDF", "owner": "field_safety_lead",
       "status": "UNSUBMITTED" }
   ],
-  "historical_precedents": [
-    { "timestamp": "2026-03-14T10:12:00Z", "signature": "torque_spike_type_B",
-      "resolution": "Belt tension adjustment cleared anomaly; 4h downtime." }
-  ],
   "recommended_action": {
     "policy": "RUN_LIMITED_PRODUCTION_CYCLE",
     "constraints": { "speed_cap": "0.5m/s", "re_evaluation_window": "30m" }
@@ -376,12 +373,12 @@ const evidencePack = `{
 const references = [
   {
     org: "International Federation of Robotics",
-    title: "World Robotics Report 2025 — industrial robot installations",
+    title: "World Robotics Report 2025, industrial robot installations",
     url: "https://ifr.org/ifr-press-releases/global-robot-demand-in-factories-doubles-over-10-years",
   },
   {
     org: "Capgemini Research Institute",
-    title: "Physical AI in industrial operations — scaling analysis (2026)",
+    title: "Physical AI in industrial operations, scaling analysis (2026)",
     url: "https://www.capgemini.com/gb-en/news/press-releases/two-thirds-of-organisations-rate-physical-ai-as-a-high-priority-for-the-next-three-to-five-years/",
   },
   {
@@ -425,7 +422,7 @@ const Engineering = () => {
             Reconstructing operational decisions in Physical AI
           </h1>
           <p className="font-mono text-[12px] text-muted-foreground">
-            Research note · August 2026
+            Engineering note · August 2026
           </p>
         </motion.header>
 
@@ -436,18 +433,20 @@ const Engineering = () => {
           <div className="space-y-5 border-l border-border pl-6">
             <Lead>
               Physical AI fleets record enormous amounts of telemetry, MCAP files and system logs
-              every day. What they lack is a way to answer a simple operational question: is this
+              every day. What remains difficult is answering a simple operational question: is this
               machine ready to run again?
             </Lead>
             <P>
-              When an autonomous system hits a runtime anomaly, engineers rebuild the story by hand —
-              across ROS bags, deployment revisions, Jira tickets, maintenance logs and operator
-              interventions. The record exists. The reconstruction does not.
+              When an autonomous system hits a runtime anomaly, engineers rebuild the story by hand,
+              working across ROS bags, deployment revisions, Jira tickets, maintenance logs and
+              operator interventions. The record exists. The reconstruction does not. Without that
+              reconstruction, teams cannot establish operational consensus before reviewing critical
+              operational decisions.
             </P>
             <P>
               This note describes a read-only semantic layer that correlates those heterogeneous
               records into verifiable Decision Evidence Packs, so readiness gates such as
-              return-to-service or deployment expansion become auditable — without touching a live
+              return-to-service or deployment expansion become auditable without touching a live
               control path.
             </P>
           </div>
@@ -526,18 +525,19 @@ const Engineering = () => {
           </P>
           <div className="rounded-2xl border border-border bg-surface px-6 py-5">
             <p className="text-[15px] leading-relaxed text-foreground/80">
-              At that cost per hour, authorizing a return to service on a guess or a manual log dive
-              is not a workflow — it is an unpriced risk.
+              At that scale, operational readiness becomes an engineering and business problem rather
+              than simply an observability problem.
             </p>
           </div>
         </Section>
 
-        <Section num="03" title="Architecture: the semantic execution graph">
+        <Section num="03" title="Architecture: reconstructing operational history">
           <P>
-            Veyra builds a workflow-scoped semantic execution graph: an intermediate representation
-            between raw telemetry and the operational question being asked. Event primitives are
-            extracted through read-only integrations — webhooks, log subscribers, REST APIs — and
-            organized into typed nodes and directed edges.
+            Internally, Veyra represents operational history as a workflow-scoped semantic execution
+            graph: an intermediate representation between raw telemetry and the operational question
+            being asked. Event primitives are extracted through read-only integrations such as
+            webhooks, log subscribers and REST APIs, then organized into typed nodes and directed
+            edges.
           </P>
 
           <Figure
@@ -588,11 +588,20 @@ const Engineering = () => {
             temporal alignment and marks uncertainty explicitly: missing and conflicting links are
             shown, never filled in.
           </P>
+
+          <h3 className="text-[17px] font-semibold text-foreground pt-4">Non-goals</h3>
+          <DefList
+            items={[
+              ["Not teleoperation", "No low-latency video streaming for remote driving."],
+              ["Not raw storage", "MCAP files and data platforms keep their payloads."],
+              ["Not a controller", "No execution commands dispatched to edge hardware."],
+            ]}
+          />
         </Section>
 
         <Section num="04" title="Reference workflow: return-to-service">
           <P>
-            The first implementation targets one expensive gate — the return-to-service review,
+            The first implementation targets one expensive gate: the return-to-service review,
             triggered by a deployment revision, an anomaly, an intervention or a maintenance event.
           </P>
 
@@ -627,17 +636,8 @@ const Engineering = () => {
           <P>
             Raw video frames and high-frequency point clouds never leave the client's security
             perimeter. Veyra ingests and signs normalized metadata, event timestamps and state
-            hashes — the minimum required to verify evidence.
+            hashes, which is the minimum required to verify evidence.
           </P>
-
-          <h3 className="text-[17px] font-semibold text-foreground pt-2">Non-goals</h3>
-          <DefList
-            items={[
-              ["Not teleoperation", "No low-latency video streaming for remote driving."],
-              ["Not raw storage", "MCAP files and data platforms keep their payloads."],
-              ["Not a controller", "No execution commands dispatched to edge hardware."],
-            ]}
-          />
         </Section>
 
         <Section num="06" title="Hypotheses under validation">
@@ -648,7 +648,7 @@ const Engineering = () => {
                 "Event graphs built for return-to-service on fixed manipulators map onto mobile fleets without breaking core relations.",
               ],
               [
-                "Read-only friction",
+                "Integration friction",
                 "IT and OT security sign-off time drops by more than 70% when integration is read-only and payload-less.",
               ],
               [
@@ -698,7 +698,7 @@ const Engineering = () => {
         <div className="mt-20 divider" />
         <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
           <p className="text-[15px] text-muted-foreground">
-            Reviewing a readiness decision of your own?
+            Interested in discussing operational decision workflows?
           </p>
           <Link
             to="/contact"

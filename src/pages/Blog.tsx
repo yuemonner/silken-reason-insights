@@ -21,12 +21,8 @@ const Blog = () => {
           Silken Reason · Journal
         </p>
         <h1 className="font-editorial text-5xl md:text-7xl text-foreground leading-[0.95] mb-8">
-          Notes from the operator.
+          Journal
         </h1>
-        <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl">
-          Long-form writing by Yue H. on physical infrastructure, autonomous systems and the
-          aesthetics of a technical life.
-        </p>
       </section>
 
       <section className="container mx-auto px-6 py-8 max-w-4xl">
