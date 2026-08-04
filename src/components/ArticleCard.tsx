@@ -12,6 +12,8 @@ interface ArticleCardProps {
 }
 
 const ArticleCard = ({ title, date, excerpt, slug, section, tags, index = 0 }: ArticleCardProps) => {
+  void date;
+
   return (
     <Link to={`/blog/${section}/${slug}`} className="block group">
       <motion.article
@@ -21,7 +23,6 @@ const ArticleCard = ({ title, date, excerpt, slug, section, tags, index = 0 }: A
         className="py-8 border-b border-border hover:border-primary/40 transition-colors duration-500"
       >
         <div className="flex items-baseline gap-4 mb-3">
-          <span className="font-mono text-[10px] text-muted-foreground tabular-nums">{date}</span>
           {tags?.map((tag) => (
             <span key={tag} className="font-mono text-[9px] tracking-[0.2em] uppercase text-primary/60">
               {tag}

@@ -106,9 +106,6 @@ const Index = () => {
                     className="py-8 border-b border-border hover:border-primary/40 transition-colors duration-500"
                   >
                     <div className="flex items-baseline gap-6 mb-3">
-                      <span className="font-mono text-[10px] text-muted-foreground tabular-nums">
-                        {article.date}
-                      </span>
                       <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-primary/60">
                         {article.section.replace("-", " ")}
                       </span>

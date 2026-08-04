@@ -18,10 +18,10 @@ const Blog = () => {
     <Layout>
       <section className="container mx-auto px-6 pt-32 pb-16 max-w-4xl">
         <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-6">
-          Silken Reason · Journal
+          Silken Reason · Resources
         </p>
         <h1 className="font-editorial text-5xl md:text-7xl text-foreground leading-[0.95] mb-8">
-          Journal
+          Resources
         </h1>
       </section>
 
@@ -56,7 +56,6 @@ const Blog = () => {
                 className="py-7 border-b border-border group-hover:border-foreground/40 transition-colors"
               >
                 <div className="flex items-baseline gap-4 mb-3">
-                  <span className="font-mono text-[11px] text-muted-foreground tabular-nums">{article.date}</span>
                   <span className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-foreground">
                     {blogSections[article.section]?.label || article.section.replace("-", " ")}
                   </span>

@@ -131,7 +131,6 @@ const ArticlePage = () => {
           </Link>
 
           <div className="flex items-center gap-3 mb-6">
-            <span className="font-mono text-xs text-muted-foreground">{article.date}</span>
             {article.tags.map((tag) => (
               <span key={tag} className="font-mono text-[10px] tracking-wider uppercase text-primary/70 border border-primary/20 rounded px-2 py-0.5">
                 {tag}
