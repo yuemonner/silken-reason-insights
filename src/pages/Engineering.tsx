@@ -422,7 +422,7 @@ const Engineering = () => {
             Reconstructing operational decisions in Physical AI
           </h1>
           <p className="font-mono text-[12px] text-muted-foreground">
-            Research note · August 2026
+            Engineering note · August 2026
           </p>
         </motion.header>
 
@@ -433,18 +433,20 @@ const Engineering = () => {
           <div className="space-y-5 border-l border-border pl-6">
             <Lead>
               Physical AI fleets record enormous amounts of telemetry, MCAP files and system logs
-              every day. What they lack is a way to answer a simple operational question: is this
+              every day. What remains difficult is answering a simple operational question: is this
               machine ready to run again?
             </Lead>
             <P>
-              When an autonomous system hits a runtime anomaly, engineers rebuild the story by hand —
-              across ROS bags, deployment revisions, Jira tickets, maintenance logs and operator
-              interventions. The record exists. The reconstruction does not.
+              When an autonomous system hits a runtime anomaly, engineers rebuild the story by hand,
+              working across ROS bags, deployment revisions, Jira tickets, maintenance logs and
+              operator interventions. The record exists. The reconstruction does not. Without that
+              reconstruction, teams cannot establish operational consensus before reviewing critical
+              operational decisions.
             </P>
             <P>
               This note describes a read-only semantic layer that correlates those heterogeneous
               records into verifiable Decision Evidence Packs, so readiness gates such as
-              return-to-service or deployment expansion become auditable — without touching a live
+              return-to-service or deployment expansion become auditable without touching a live
               control path.
             </P>
           </div>
@@ -523,18 +525,19 @@ const Engineering = () => {
           </P>
           <div className="rounded-2xl border border-border bg-surface px-6 py-5">
             <p className="text-[15px] leading-relaxed text-foreground/80">
-              At that cost per hour, authorizing a return to service on a guess or a manual log dive
-              is not a workflow — it is an unpriced risk.
+              At that scale, operational readiness becomes an engineering and business problem rather
+              than simply an observability problem.
             </p>
           </div>
         </Section>
 
-        <Section num="03" title="Architecture: the semantic execution graph">
+        <Section num="03" title="Architecture: reconstructing operational history">
           <P>
-            Veyra builds a workflow-scoped semantic execution graph: an intermediate representation
-            between raw telemetry and the operational question being asked. Event primitives are
-            extracted through read-only integrations — webhooks, log subscribers, REST APIs — and
-            organized into typed nodes and directed edges.
+            Internally, Veyra represents operational history as a workflow-scoped semantic execution
+            graph: an intermediate representation between raw telemetry and the operational question
+            being asked. Event primitives are extracted through read-only integrations such as
+            webhooks, log subscribers and REST APIs, then organized into typed nodes and directed
+            edges.
           </P>
 
           <Figure
