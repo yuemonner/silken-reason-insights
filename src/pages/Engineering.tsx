@@ -640,7 +640,7 @@ const Engineering = () => {
           </P>
         </Section>
 
-        <Section num="06" title="Hypotheses under validation">
+        <Section num="06" title="Design commitments">
           <div className="space-y-4">
             {[
               [
@@ -661,7 +661,7 @@ const Engineering = () => {
                 className="flex gap-5 rounded-2xl border border-border bg-surface px-5 py-5"
               >
                 <span className="font-mono text-[11px] text-muted-foreground tabular-nums pt-1">
-                  H{i + 1}
+                  {String(i + 1).padStart(2, "0")}
                 </span>
                 <div>
                   <div className="text-[15px] text-foreground mb-1">{t}</div>
