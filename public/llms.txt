@@ -46,6 +46,16 @@ Veyra helps teams review operational history before high-cost decisions such as 
 
 - Home: https://www.silkenreason.com/
 - Engineering note: https://www.silkenreason.com/engineering
+- Definitions: https://www.silkenreason.com/blog/definitions
+- Operations: https://www.silkenreason.com/blog/operations
+- Physical AI: https://www.silkenreason.com/blog/physical-ai
+- What is Operational Readiness: https://www.silkenreason.com/blog/definitions/what-is-operational-readiness
+- What is Mission Readiness: https://www.silkenreason.com/blog/definitions/what-is-mission-readiness
+- Operational History vs Telemetry: https://www.silkenreason.com/blog/operations/operational-history-vs-telemetry
+- Why Observability Is Not Enough For Physical AI: https://www.silkenreason.com/blog/physical-ai/why-observability-isnt-enough-for-physical-ai
+- Robot Incident Review: https://www.silkenreason.com/blog/operations/robot-incident-review
+- What Happens After A Robot Anomaly: https://www.silkenreason.com/blog/operations/what-happens-after-a-robot-anomaly
+- Runtime History Explained: https://www.silkenreason.com/blog/definitions/runtime-history-explained
 - Contact: https://www.silkenreason.com/contact
 
 ## Founder

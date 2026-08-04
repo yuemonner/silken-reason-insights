@@ -1,16 +1,10 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect } from "react";
 import Layout from "@/components/Layout";
-import { getArticleBySlug } from "@/data/articles";
+import { blogSections, getArticleBySlug } from "@/data/articles";
 import ReactMarkdown from "react-markdown";
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
-
-const sectionNames: Record<string, string> = {
-  "the-logic": "THE LOGIC",
-  "the-silk": "THE SILK",
-  "the-ether": "THE ETHER",
-};
 
 const ArticlePage = () => {
   const { section, slug } = useParams<{ section: string; slug: string }>();
@@ -40,7 +34,7 @@ const ArticlePage = () => {
             className="inline-flex items-center gap-2 font-mono text-xs text-muted-foreground hover:text-primary transition-colors mb-8 tracking-wider uppercase"
           >
             <ArrowLeft size={14} />
-            {sectionNames[section!] || "Back"}
+            {blogSections[section!]?.label || "Back"}
           </Link>
 
           <div className="flex items-center gap-3 mb-6">

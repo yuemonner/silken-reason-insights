@@ -7,9 +7,7 @@ import { useEffect } from "react";
 import Landing from "./pages/Landing";
 import Engineering from "./pages/Engineering";
 import Blog from "./pages/Blog";
-import TheLogic from "./pages/TheLogic";
-import TheSilk from "./pages/TheSilk";
-import TheEther from "./pages/TheEther";
+import BlogSection from "./pages/BlogSection";
 import ArticlePage from "./pages/ArticlePage";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
@@ -36,9 +34,7 @@ const App = () => (
           <Route path="/engineering" element={<Engineering />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/the-logic" element={<TheLogic />} />
-          <Route path="/blog/the-silk" element={<TheSilk />} />
-          <Route path="/blog/the-ether" element={<TheEther />} />
+          <Route path="/blog/:section" element={<BlogSection />} />
           <Route path="/blog/:section/:slug" element={<ArticlePage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

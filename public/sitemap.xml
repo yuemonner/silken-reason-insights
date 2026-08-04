@@ -21,67 +21,67 @@
   <url>
     <loc>https://www.silkenreason.com/blog</loc>
     <lastmod>2026-08-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.silkenreason.com/blog/the-logic</loc>
+    <loc>https://www.silkenreason.com/blog/definitions</loc>
     <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.silkenreason.com/blog/the-silk</loc>
+    <loc>https://www.silkenreason.com/blog/operations</loc>
     <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.silkenreason.com/blog/the-ether</loc>
+    <loc>https://www.silkenreason.com/blog/physical-ai</loc>
     <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.silkenreason.com/blog/the-logic/institutional-case-art-blocks</loc>
+    <loc>https://www.silkenreason.com/blog/definitions/what-is-operational-readiness</loc>
     <lastmod>2026-08-04</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.silkenreason.com/blog/the-logic/capital-hires-code</loc>
+    <loc>https://www.silkenreason.com/blog/definitions/what-is-mission-readiness</loc>
     <lastmod>2026-08-04</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.55</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.silkenreason.com/blog/the-logic/surviving-nervous-system-web-4</loc>
+    <loc>https://www.silkenreason.com/blog/definitions/runtime-history-explained</loc>
     <lastmod>2026-08-04</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.45</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.silkenreason.com/blog/the-silk/sotogrande-sovereign-resident</loc>
+    <loc>https://www.silkenreason.com/blog/operations/operational-history-vs-telemetry</loc>
     <lastmod>2026-08-04</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.35</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.silkenreason.com/blog/the-silk/acoustic-feng-shui</loc>
+    <loc>https://www.silkenreason.com/blog/operations/robot-incident-review</loc>
     <lastmod>2026-08-04</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.35</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.silkenreason.com/blog/the-ether/geometry-of-silence</loc>
+    <loc>https://www.silkenreason.com/blog/operations/what-happens-after-a-robot-anomaly</loc>
     <lastmod>2026-08-04</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.35</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.silkenreason.com/blog/the-ether/rise-of-neuro-aesthetics</loc>
+    <loc>https://www.silkenreason.com/blog/physical-ai/why-observability-isnt-enough-for-physical-ai</loc>
     <lastmod>2026-08-04</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.35</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
   </url>
 </urlset>

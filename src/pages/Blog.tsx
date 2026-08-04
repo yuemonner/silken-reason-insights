@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
-import { articles } from "@/data/articles";
+import { articles, blogSections } from "@/data/articles";
 
 const sections = [
-  { to: "/blog/the-logic", label: "The Logic", slogan: "Decoding the algorithm of the future." },
-  { to: "/blog/the-silk", label: "The Silk", slogan: "The texture of a life well-lived." },
-  { to: "/blog/the-ether", label: "The Ether", slogan: "Where vibration meets vision." },
+  { to: "/blog/definitions", ...blogSections.definitions },
+  { to: "/blog/operations", ...blogSections.operations },
+  { to: "/blog/physical-ai", ...blogSections["physical-ai"] },
 ];
 
 const Blog = () => {
@@ -58,7 +58,7 @@ const Blog = () => {
                 <div className="flex items-baseline gap-4 mb-3">
                   <span className="font-mono text-[11px] text-muted-foreground tabular-nums">{article.date}</span>
                   <span className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-foreground">
-                    {article.section.replace("-", " ")}
+                    {blogSections[article.section]?.label || article.section.replace("-", " ")}
                   </span>
                 </div>
                 <h3 className="font-editorial text-2xl md:text-3xl text-foreground group-hover:text-primary transition-colors mb-2 leading-snug">
