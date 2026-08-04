@@ -70,58 +70,63 @@ const DefList = ({ items }: { items: [string, string][] }) => (
 
 /* ---------------- diagrams ---------------- */
 
-const layerBox =
-  "rounded-xl border border-border bg-background px-4 py-4 text-center";
+const StackLayer = ({
+  title,
+  items,
+  accent,
+  note,
+}: {
+  title: string;
+  items: string[];
+  accent?: boolean;
+  note?: string;
+}) => (
+  <div
+    className={`px-5 py-5 ${
+      accent ? "bg-primary/[0.04] border-l-2 border-l-primary/50" : "bg-background"
+    }`}
+  >
+    <div className="flex flex-wrap items-baseline justify-between gap-2">
+      <span
+        className={`font-mono text-[10px] tracking-[0.18em] uppercase ${
+          accent ? "text-primary/70" : "text-muted-foreground"
+        }`}
+      >
+        {title}
+      </span>
+      {note && (
+        <span className="font-mono text-[10px] tracking-[0.12em] uppercase text-muted-foreground">
+          {note}
+        </span>
+      )}
+    </div>
+    <div className="mt-3 flex flex-wrap gap-2">
+      {items.map((it) => (
+        <span
+          key={it}
+          className="rounded-lg border border-border bg-surface px-3 py-1.5 text-[13.5px] text-foreground"
+        >
+          {it}
+        </span>
+      ))}
+    </div>
+  </div>
+);
 
 const LandscapeDiagram = () => (
-  <div className="min-w-[560px] space-y-3">
-    <div className="rounded-xl border border-dashed border-primary/50 bg-primary/[0.04] px-4 py-5 text-center">
-      <div className="font-mono text-[10px] tracking-[0.18em] uppercase text-primary/70">
-        Operational decision layer — missing today
-      </div>
-      <div className="mt-2 text-[15px] text-foreground">
-        Cross-system decision semantics · Evidence packs · Readiness gates
-      </div>
-    </div>
-
-    <div className="flex flex-col items-center text-muted-foreground">
-      <svg width="16" height="34" viewBox="0 0 16 34" fill="none">
-        <path d="M8 34 V6" stroke="currentColor" strokeWidth="1" strokeOpacity="0.5" />
-        <path d="M3 10 L8 3 L13 10" stroke="currentColor" strokeWidth="1" strokeOpacity="0.5" fill="none" />
-      </svg>
-      <span className="font-mono text-[10px] text-muted-foreground -mt-1">
-        API · webhook · ingestion
-      </span>
-    </div>
-
-    <div className="grid grid-cols-2 gap-3">
-      <div className={layerBox}>
-        <div className="text-[15px] text-foreground">Foxglove / MCAP</div>
-        <div className="mt-1 text-[13px] text-muted-foreground">Data lifecycle</div>
-      </div>
-      <div className={layerBox}>
-        <div className="text-[15px] text-foreground">Formant / InOrbit</div>
-        <div className="mt-1 text-[13px] text-muted-foreground">Fleet ops · OTA</div>
-      </div>
-    </div>
-    <div className="text-center font-mono text-[10px] tracking-[0.18em] uppercase text-muted-foreground">
-      Robot data & fleet platforms
-    </div>
-
-    <div className="flex flex-col items-center text-muted-foreground pt-1">
-      <svg width="16" height="34" viewBox="0 0 16 34" fill="none">
-        <path d="M8 34 V6" stroke="currentColor" strokeWidth="1" strokeOpacity="0.5" />
-        <path d="M3 10 L8 3 L13 10" stroke="currentColor" strokeWidth="1" strokeOpacity="0.5" fill="none" />
-      </svg>
-      <span className="font-mono text-[10px] -mt-1">ROS 2 · MCAP · MQTT · logs</span>
-    </div>
-
-    <div className={layerBox}>
-      <div className="text-[15px] text-foreground">Physical edge & runtime systems</div>
-      <div className="mt-1 text-[13px] text-muted-foreground">
-        Sensors · actuators · ROS nodes · edge compute · controllers
-      </div>
-    </div>
+  <div className="min-w-[520px] divide-y divide-border rounded-xl border border-border overflow-hidden">
+    <StackLayer
+      title="Operational decision layer"
+      note="Missing today"
+      accent
+      items={["Decision evidence", "Operational history", "Readiness review"]}
+    />
+    <StackLayer
+      title="Integration layer"
+      items={["Read-only connectors", "Schema mapping", "Normalization"]}
+    />
+    <StackLayer title="Robot data platforms" items={["Foxglove", "Formant", "InOrbit"]} />
+    <StackLayer title="Runtime systems" items={["ROS", "MCAP", "Sensors", "Controllers"]} />
   </div>
 );
 
