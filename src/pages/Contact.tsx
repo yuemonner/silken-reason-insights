@@ -30,7 +30,7 @@ const Contact = () => {
           </a>
 
           <a
-            href="https://www.linkedin.com/company/silken-reason"
+            href="https://www.linkedin.com/in/silkenreason"
             target="_blank"
             rel="noreferrer"
             className="group flex items-start justify-between gap-4 rounded-2xl border border-border p-6 hover:border-foreground/40 transition-colors"

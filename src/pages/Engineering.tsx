@@ -422,7 +422,7 @@ const Engineering = () => {
             Reconstructing operational decisions in Physical AI
           </h1>
           <p className="font-mono text-[12px] text-muted-foreground">
-            Engineering note · August 2026
+            Engineering note
           </p>
         </motion.header>
 

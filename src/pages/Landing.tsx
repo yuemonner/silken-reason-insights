@@ -412,6 +412,12 @@ const Landing = () => {
               Request Pilot
               <ArrowRight size={14} />
             </Link>
+
+            <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] tracking-[0.12em] uppercase text-muted-foreground">
+              <span>✓ Read-only</span>
+              <span>✓ Works with existing systems</span>
+              <span>✓ No control path</span>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -424,7 +430,7 @@ const Landing = () => {
               Workflows
             </p>
             <p className="text-[17px] text-muted-foreground leading-relaxed">
-              Every deployment, operational review and financing decision depends on history spread across different systems. Veyra brings the relevant operational history together before high-cost decisions are made.
+              Operational decisions depend on evidence spread across systems, teams and time. Veyra reconstructs that evidence into a decision-ready workflow, so teams can review high-consequence decisions with confidence.
             </p>
           </div>
 
