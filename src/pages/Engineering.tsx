@@ -32,13 +32,13 @@ const Sub = ({
   title,
   children,
 }: {
-  num: string;
+  num?: string;
   title: string;
   children: React.ReactNode;
 }) => (
   <section className="mt-16">
     <div className="flex items-baseline gap-3 mb-5">
-      <span className="font-mono text-[11px] text-muted-foreground tabular-nums">{num}</span>
+      {num && <span className="font-mono text-[11px] text-muted-foreground tabular-nums">{num}</span>}
       <h3 className="text-[18px] md:text-[19px] font-semibold tracking-tight text-foreground">
         {title}
       </h3>
@@ -882,7 +882,7 @@ const Engineering = () => {
             </div>
           </Sub>
 
-          <Sub num="" title="System non-goals">
+          <Sub title="System non-goals">
             <DefList
               items={[
                 ["Not teleoperation", "No low-latency video streaming or remote-driving interface."],
