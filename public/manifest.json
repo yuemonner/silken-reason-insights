@@ -1,7 +1,7 @@
 {
   "name": "Silken Reason",
   "short_name": "Silken Reason",
-  "description": "Operational evidence software for Physical AI. Review deployment readiness, return-to-service, mission readiness and equipment financing decisions using operational history reconstructed across existing systems.",
+  "description": "Know when an autonomous system is ready for what comes next. Veyra reconstructs operational history across telemetry, software revisions and maintenance records into trusted evidence for deployment and operational reviews.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
