@@ -1035,42 +1035,6 @@ const Engineering = () => {
           </div>
         </Section>
 
-        <Section num="07" title="Hypotheses under validation">
-          <div className="space-y-4">
-            {[
-              [
-                "Schema reusability",
-                "Can one canonical operational event model support both fixed industrial systems and mobile autonomous fleets without excessive customer-specific customization?",
-              ],
-              [
-                "Integration friction",
-                "Does read-only deployment materially reduce IT and OT approval effort compared with introducing another active operational platform?",
-              ],
-              [
-                "Review consistency",
-                "Does accumulated operational memory reduce manual reconstruction effort and improve consistency across repeated readiness reviews?",
-              ],
-              [
-                "Recommendation boundaries",
-                "Which recommendations can users responsibly rely on, and what evidence thresholds require explicit human or specialist review?",
-              ],
-            ].map(([t, d], i) => (
-              <div
-                key={t}
-                className="flex gap-5 rounded-2xl border border-border bg-surface px-5 py-5"
-              >
-                <span className="font-mono text-[11px] text-muted-foreground tabular-nums pt-1">
-                  H{i + 1}
-                </span>
-                <div>
-                  <div className="text-[15px] text-foreground mb-1">{t}</div>
-                  <div className="text-[14.5px] leading-relaxed text-muted-foreground">{d}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Section>
-
         <Section title="References">
           <ol className="divide-y divide-border border-y border-border">
             {references.map((r, i) => (
