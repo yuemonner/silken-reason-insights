@@ -2,6 +2,7 @@ import Layout from "@/components/Layout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import decisionLoopAsset from "@/assets/veyra-decision-loop.png.asset.json";
 
 /* ---------------- primitives ---------------- */
 
@@ -914,6 +915,27 @@ const Engineering = () => {
             caption="The review closes only when the human decision and later outcome return to operational memory."
           >
             <PipelineDiagram />
+          </Figure>
+
+          <Figure
+            label="Figure 4b"
+            caption="End-to-end view: raw operational events through working review, human decision, case episode, operational memory and the exported Decision Evidence Pack. Tap or click to open full resolution."
+          >
+            <a
+              href={decisionLoopAsset.url}
+              target="_blank"
+              rel="noreferrer"
+              className="block"
+            >
+              <img
+                src={decisionLoopAsset.url}
+                alt="End-to-end Veyra decision loop: raw operational events, working review, human decision, case episode, operational memory and decision evidence pack, with a continuous learning loop"
+                width={1213}
+                height={1305}
+                loading="lazy"
+                className="w-full min-w-[760px] h-auto rounded-lg"
+              />
+            </a>
           </Figure>
 
           <Sub num="4.1" title="The Veyra Workspace">
