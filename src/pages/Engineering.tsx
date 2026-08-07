@@ -930,8 +930,8 @@ const Engineering = () => {
               <img
                 src={decisionLoopImg}
                 alt="End-to-end Veyra decision loop: raw operational events, working review, human decision, case episode, operational memory and decision evidence pack, with a continuous learning loop"
-                width={1212}
-                height={1298}
+                width={1201}
+                height={1310}
                 className="w-full min-w-[760px] h-auto rounded-lg"
               />
             </a>
