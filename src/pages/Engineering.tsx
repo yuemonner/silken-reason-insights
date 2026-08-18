@@ -2,7 +2,6 @@ import Layout from "@/components/Layout";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import decisionLoopImg from "@/assets/veyra-decision-loop.webp";
 
 /* ---------------- primitives ---------------- */
 
@@ -15,7 +14,7 @@ const Section = ({
   title: string;
   children: React.ReactNode;
 }) => (
-  <section className="mt-24 border-t border-border pt-12">
+  <section className="mt-20">
     <div className="flex items-baseline gap-3 mb-6">
       {num && (
         <span className="font-mono text-[11px] text-muted-foreground tabular-nums">{num}</span>
@@ -28,47 +27,12 @@ const Section = ({
   </section>
 );
 
-const Sub = ({
-  num,
-  title,
-  children,
-}: {
-  num?: string;
-  title: string;
-  children: React.ReactNode;
-}) => (
-  <section className="mt-16">
-    <div className="flex items-baseline gap-3 mb-5">
-      {num && <span className="font-mono text-[11px] text-muted-foreground tabular-nums">{num}</span>}
-      <h3 className="text-[18px] md:text-[19px] font-semibold tracking-tight text-foreground">
-        {title}
-      </h3>
-    </div>
-    <div className="space-y-5">{children}</div>
-  </section>
-);
-
 const P = ({ children }: { children: React.ReactNode }) => (
-  <p className="text-[16px] md:text-[17px] leading-[1.8] text-muted-foreground max-w-[68ch]">
-    {children}
-  </p>
+  <p className="text-[16px] md:text-[17px] leading-[1.75] text-muted-foreground">{children}</p>
 );
 
 const Lead = ({ children }: { children: React.ReactNode }) => (
-  <p className="text-[17px] md:text-[18px] leading-[1.75] text-foreground/80 max-w-[68ch]">
-    {children}
-  </p>
-);
-
-const Bullets = ({ items }: { items: string[] }) => (
-  <ul className="space-y-2 max-w-[68ch]">
-    {items.map((it) => (
-      <li key={it} className="flex items-start gap-3 text-[15.5px] leading-relaxed text-muted-foreground">
-        <span className="mt-[10px] h-1 w-1 shrink-0 rounded-full bg-muted-foreground/50" />
-        {it}
-      </li>
-    ))}
-  </ul>
+  <p className="text-[17px] md:text-[18px] leading-[1.7] text-foreground/80">{children}</p>
 );
 
 const Figure = ({
@@ -81,7 +45,7 @@ const Figure = ({
   children: React.ReactNode;
 }) => (
   <figure className="my-10">
-    <div className="rounded-2xl border border-border bg-surface p-4 md:p-8 overflow-x-auto">
+    <div className="rounded-2xl border border-border bg-surface p-5 md:p-8 overflow-x-auto">
       {children}
     </div>
     <figcaption className="mt-3 flex flex-wrap items-baseline gap-2">
@@ -106,15 +70,6 @@ const DefList = ({ items }: { items: [string, string][] }) => (
 
 /* ---------------- diagrams ---------------- */
 
-const Arrow = () => (
-  <div className="flex justify-center py-2 text-muted-foreground" aria-hidden>
-    <svg width="14" height="22" viewBox="0 0 14 22" fill="none">
-      <path d="M7 22 V4" stroke="currentColor" strokeWidth="1" strokeOpacity="0.5" />
-      <path d="M2 8 L7 1 L12 8" stroke="currentColor" strokeWidth="1" strokeOpacity="0.5" fill="none" />
-    </svg>
-  </div>
-);
-
 const StackLayer = ({
   title,
   items,
@@ -123,22 +78,18 @@ const StackLayer = ({
 }: {
   title: string;
   items: string[];
-  accent?: "product" | "engine";
+  accent?: boolean;
   note?: string;
 }) => (
   <div
-    className={`rounded-xl border px-4 py-4 md:px-5 md:py-5 ${
-      accent === "product"
-        ? "border-primary/40 bg-primary/[0.05]"
-        : accent === "engine"
-        ? "border-foreground/25 bg-background"
-        : "border-border bg-background"
+    className={`px-5 py-5 ${
+      accent ? "bg-primary/[0.04] border-l-2 border-l-primary/50" : "bg-background"
     }`}
   >
     <div className="flex flex-wrap items-baseline justify-between gap-2">
       <span
         className={`font-mono text-[10px] tracking-[0.18em] uppercase ${
-          accent === "product" ? "text-primary/80" : "text-muted-foreground"
+          accent ? "text-primary/70" : "text-muted-foreground"
         }`}
       >
         {title}
@@ -153,7 +104,7 @@ const StackLayer = ({
       {items.map((it) => (
         <span
           key={it}
-          className="rounded-lg border border-border bg-surface px-3 py-1.5 text-[13px] md:text-[13.5px] text-foreground"
+          className="rounded-lg border border-border bg-surface px-3 py-1.5 text-[13.5px] text-foreground"
         >
           {it}
         </span>
@@ -163,215 +114,233 @@ const StackLayer = ({
 );
 
 const LandscapeDiagram = () => (
-  <div className="w-full">
+  <div className="min-w-[520px] divide-y divide-border rounded-xl border border-border overflow-hidden">
     <StackLayer
-      title="Veyra Workspace"
-      accent="product"
-      note="Product"
-      items={["Readiness review", "Evidence", "Human decision"]}
+      title="Veyra workspace"
+      note="Product surface"
+      accent
+      items={["Episode reconstruction", "Fleet context", "Operational memory"]}
     />
-    <Arrow />
     <StackLayer
-      title="Operational Memory Engine"
-      accent="engine"
-      note="Backend"
-      items={["Context reconstruction", "Provenance", "Historical memory"]}
+      title="Temporal evidence engine"
+      items={["State reconstruction", "Provenance", "Knowledge history"]}
     />
-    <Arrow />
     <StackLayer
-      title="Read-only integration"
-      items={["Connectors", "Event normalization", "Source references"]}
+      title="Evidence layer"
+      items={["Runtime snapshots", "Engineering notes", "Changes", "Interventions"]}
     />
-    <Arrow />
-    <StackLayer
-      title="Existing operational platforms"
-      items={["Foxglove", "Formant", "InOrbit", "Jira", "Git"]}
-    />
-    <Arrow />
-    <StackLayer title="Runtime and control systems" items={["ROS", "MCAP", "Sensors", "Controllers"]} />
+    <StackLayer title="Existing systems" items={["ROS / MCAP", "Fleet platforms", "Git / CI", "Tickets", "Maintenance"]} />
   </div>
 );
 
 const GapDiagram = () => {
   const sources = [
-    { label: "Edge state", sub: "Sensor streams, joint torque, camera frames, local state machines" },
-    { label: "Software state", sub: "Commits, pipelines, model versions, configuration, deployments" },
-    { label: "Human state", sub: "Teleoperation, overrides, technician notes, sign-offs" },
-    { label: "Lifecycle state", sub: "Tickets, inspections, maintenance, component and commercial history" },
-    { label: "Decision state", sub: "Reviews, approvals, rejected releases, constraints, outcomes" },
+    { label: "ROS 2 / MCAP telemetry", sub: "Sensor streams, joint torque, frames" },
+    { label: "Git / Azure DevOps", sub: "Deployment revisions, parameters" },
+    { label: "Jira / maintenance", sub: "Tickets, field notes, parts history" },
+    { label: "Human interventions", sub: "Overrides, teleop, sign-offs" },
   ];
   return (
-    <div className="w-full">
-      <div className="grid gap-3 sm:grid-cols-2">
-        {sources.map((s) => (
-          <div key={s.label} className="rounded-xl border border-border bg-background px-4 py-3">
+    <div className="min-w-[560px] grid grid-cols-[1fr_auto_1fr] items-center gap-x-6 gap-y-4">
+      {sources.map((s, i) => (
+        <div key={s.label} className="contents">
+          <div
+            className={`rounded-xl border border-border bg-background px-4 py-3 ${
+              i % 2 === 0 ? "col-start-1" : "col-start-3"
+            }`}
+          >
             <div className="text-[14px] text-foreground">{s.label}</div>
-            <div className="mt-0.5 text-[12px] leading-relaxed text-muted-foreground">{s.sub}</div>
+            <div className="mt-0.5 text-[12px] text-muted-foreground">{s.sub}</div>
           </div>
-        ))}
-      </div>
-      <div className="mt-4 rounded-xl border border-dashed border-primary/50 bg-primary/[0.04] px-4 py-4 text-center">
-        <span className="font-mono text-[10px] tracking-[0.18em] uppercase text-primary/70">
-          One readiness decision
-        </span>
-        <div className="mt-1 text-[13px] text-muted-foreground">
-          Context distributed across systems, people and time
+          {i === 0 && (
+            <div className="col-start-2 row-start-1 row-span-4 flex h-full items-center">
+              <div className="rounded-full border border-dashed border-primary/50 bg-primary/[0.04] px-4 py-8 text-center">
+                <div className="font-mono text-[10px] tracking-[0.18em] uppercase text-primary/70 [writing-mode:vertical-rl] rotate-180">
+                  Operational gap
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-      </div>
+      ))}
     </div>
   );
 };
 
 const GraphDiagram = () => {
-  const chain: [string, string, string][] = [
-    ["Asset", "Line A Conveyor", ""],
-    ["Deployment", "rev 218", "executed_under"],
-    ["Anomaly", "Runtime anomaly", "observed_during"],
-    ["Intervention", "Maintenance intervention", "followed_by"],
-    ["Record", "Inspection record", "supported_by"],
-    ["Review", "Return-to-service review", "reviewed_in"],
-    ["Outcome", "Limited operation outcome", "resulted_in"],
+  const nodes: { id: string; x: number; y: number; kind: string }[] = [
+    { id: "mission_219", x: 90, y: 40, kind: "Mission" },
+    { id: "anomaly_402", x: 460, y: 40, kind: "Anomaly" },
+    { id: "deployment_rev218", x: 90, y: 170, kind: "Deployment" },
+    { id: "torque_variance", x: 460, y: 170, kind: "Telemetry" },
+    { id: "human_decision_91", x: 90, y: 300, kind: "Decision" },
+    { id: "tension_adjust_log", x: 460, y: 300, kind: "Maintenance" },
   ];
+  const W = 250;
+  const H = 54;
+  const edges: { from: number; to: number; label: string; dir: "h" | "v" }[] = [
+    { from: 0, to: 1, label: "observed_during", dir: "h" },
+    { from: 1, to: 3, label: "caused_by", dir: "v" },
+    { from: 0, to: 2, label: "executed_under", dir: "v" },
+    { from: 2, to: 3, label: "changed_after", dir: "h" },
+    { from: 2, to: 4, label: "approved_by", dir: "v" },
+    { from: 3, to: 5, label: "resolved_by", dir: "v" },
+    { from: 5, to: 4, label: "supported_by", dir: "h" },
+  ];
+
   return (
-    <ol className="w-full">
-      {chain.map(([kind, id, rel], i) => (
-        <li key={id}>
-          {i > 0 && (
-            <div className="flex items-center gap-3 py-2 pl-4">
-              <span className="h-6 w-px bg-border" aria-hidden />
-              <span className="font-mono text-[10.5px] tracking-[0.08em] text-muted-foreground">
-                {rel}
-              </span>
-            </div>
-          )}
-          <div className="rounded-xl border border-border bg-background px-4 py-3">
-            <div className="font-mono text-[9.5px] tracking-[0.18em] uppercase text-muted-foreground">
-              {kind}
-            </div>
-            <div className="mt-1 text-[14.5px] text-foreground">{id}</div>
-          </div>
-        </li>
+    <svg viewBox="0 0 730 380" className="w-full min-w-[560px]" role="img">
+      <defs>
+        <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="hsl(var(--muted-foreground))" opacity="0.55" />
+        </marker>
+      </defs>
+      {edges.map((e, i) => {
+        const a = nodes[e.from];
+        const b = nodes[e.to];
+        let d = "";
+        let lx = 0;
+        let ly = 0;
+        if (e.dir === "h") {
+          const left = a.x < b.x ? a : b;
+          const right = a.x < b.x ? b : a;
+          const y = a.y + H / 2;
+          const x1 = a.x < b.x ? left.x + W : right.x;
+          const x2 = a.x < b.x ? right.x : left.x + W;
+          d = `M ${x1} ${y} L ${x2} ${y}`;
+          lx = (x1 + x2) / 2;
+          ly = y - 10;
+        } else {
+          const x = a.x + 26;
+          d = `M ${x} ${a.y + H} L ${x} ${b.y}`;
+          lx = x + 10;
+          ly = (a.y + H + b.y) / 2;
+        }
+        return (
+          <g key={i}>
+            <path
+              d={d}
+              stroke="hsl(var(--muted-foreground))"
+              strokeOpacity="0.4"
+              strokeWidth="1"
+              fill="none"
+              markerEnd="url(#arw)"
+            />
+            <text
+              x={lx}
+              y={ly}
+              textAnchor={e.dir === "h" ? "middle" : "start"}
+              className="fill-muted-foreground"
+              style={{ fontSize: 9.5, fontFamily: "JetBrains Mono, monospace" }}
+            >
+              {e.label}
+            </text>
+          </g>
+        );
+      })}
+      {nodes.map((n) => (
+        <g key={n.id}>
+          <rect
+            x={n.x}
+            y={n.y}
+            width={W}
+            height={H}
+            rx="12"
+            fill="hsl(var(--background))"
+            stroke="hsl(var(--border))"
+          />
+          <text
+            x={n.x + 16}
+            y={n.y + 21}
+            className="fill-muted-foreground"
+            style={{ fontSize: 9.5, letterSpacing: "0.16em", fontFamily: "JetBrains Mono, monospace" }}
+          >
+            {n.kind.toUpperCase()}
+          </text>
+          <text
+            x={n.x + 16}
+            y={n.y + 39}
+            className="fill-foreground"
+            style={{ fontSize: 13.5, fontFamily: "JetBrains Mono, monospace" }}
+          >
+            {n.id}
+          </text>
+        </g>
       ))}
-    </ol>
+    </svg>
   );
 };
 
 const PipelineDiagram = () => {
   const steps = [
-    { t: "Trigger", s: "Anomaly, deployment, intervention or maintenance change" },
-    { t: "Reconstruct", s: "Collect linked events and build the workflow memory" },
-    { t: "Compare", s: "Retrieve previous occurrences, policies and outcomes" },
-    { t: "Review", s: "Show evidence for, evidence against, missing and uncertain" },
-    { t: "Decide", s: "Human selects go, no-go, limited release or request evidence" },
-    { t: "Learn", s: "Capture the decision and later operating outcome" },
+    { t: "Capture", s: "Preserve irrecoverable runtime context" },
+    { t: "Reconstruct", s: "Align runtime, software, configuration and human evidence" },
+    { t: "Understand", s: "Separate observation, hypothesis, uncertainty and counterevidence" },
+    { t: "Compare", s: "Find related conditions and historical episodes" },
+    { t: "Decide", s: "Record attributable human action" },
+    { t: "Learn", s: "Attach later outcome without rewriting earlier knowledge" },
   ];
   return (
-    <div className="w-full space-y-0">
+    <div className="min-w-[560px] space-y-0">
       {steps.map((st, i) => (
         <div key={st.t}>
           <div className="flex items-center gap-4">
-            <div
-              className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border font-mono text-[11px] ${
-                i === steps.length - 1
-                  ? "border-primary/50 bg-primary/[0.06] text-primary/80"
-                  : "border-border bg-background text-muted-foreground"
-              }`}
-            >
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border bg-background font-mono text-[11px] text-muted-foreground">
               {String(i + 1).padStart(2, "0")}
             </div>
             <div className="flex-1 rounded-xl border border-border bg-background px-4 py-3">
               <div className="text-[15px] text-foreground">{st.t}</div>
-              <div className="mt-0.5 text-[13px] leading-relaxed text-muted-foreground">{st.s}</div>
+              <div className="mt-0.5 text-[13px] text-muted-foreground">{st.s}</div>
             </div>
           </div>
-          {i < steps.length - 1 && <div className="ml-[18px] h-6 w-px bg-border" aria-hidden />}
+          {i < steps.length - 1 && (
+            <div className="ml-[18px] h-6 w-px bg-border" aria-hidden />
+          )}
         </div>
       ))}
-      <div className="mt-5 rounded-xl border border-dashed border-primary/50 bg-primary/[0.04] px-4 py-3">
-        <div className="font-mono text-[10px] tracking-[0.18em] uppercase text-primary/70">
-          Feedback loop
-        </div>
-        <div className="mt-1 text-[13.5px] text-muted-foreground">
-          Decision and observed outcome return to the Operational Memory Engine as context for the
-          next review.
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const MemoryLoop = () => {
-  const steps = [
-    "Events",
-    "Workflow context",
-    "Review",
-    "Human decision",
-    "Real-world outcome",
-    "Updated operational memory",
-  ];
-  return (
-    <div className="rounded-2xl border border-border bg-surface p-5">
-      <div className="flex flex-wrap items-center gap-x-2 gap-y-2">
-        {steps.map((s, i) => (
-          <span key={s} className="flex items-center gap-2">
-            <span className="rounded-lg border border-border bg-background px-3 py-1.5 text-[13px] text-foreground">
-              {s}
-            </span>
-            {i < steps.length - 1 && (
-              <span className="font-mono text-[12px] text-muted-foreground">&rarr;</span>
-            )}
-          </span>
-        ))}
-      </div>
-      <div className="mt-3 font-mono text-[10px] tracking-[0.14em] uppercase text-muted-foreground">
-        Memory compounds with every completed review
-      </div>
     </div>
   );
 };
 
 const BoundaryDiagram = () => (
-  <div className="w-full">
+  <div className="min-w-[560px]">
     <div className="rounded-2xl border border-border bg-background p-5">
       <div className="font-mono text-[10px] tracking-[0.18em] uppercase text-muted-foreground mb-4">
-        Client systems
+        Client environment
       </div>
-      <div className="grid gap-3 sm:grid-cols-3">
+      <div className="grid grid-cols-3 gap-3">
         {[
-          "ROS / MCAP",
-          "Git / CI",
-          "Jira / maintenance",
-          "Inspection records",
-          "Human interventions",
-        ].map((a) => (
+          ["ROS 2 / MCAP logs", "Raw telemetry"],
+          ["Azure DevOps / Git", "Software revisions"],
+          ["Enterprise Jira / DBs", "Tickets, records"],
+        ].map(([a, b]) => (
           <div key={a} className="rounded-xl border border-border bg-surface px-3 py-3 text-center">
             <div className="text-[13.5px] text-foreground">{a}</div>
+            <div className="mt-0.5 text-[12px] text-muted-foreground">{b}</div>
           </div>
         ))}
       </div>
-    </div>
-    <Arrow />
-    <div className="rounded-xl border border-dashed border-border px-4 py-3 text-center">
-      <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-muted-foreground">
-        Read-only connectors
-      </span>
-    </div>
-    <Arrow />
-    <div className="rounded-xl border border-border bg-background px-4 py-3 text-center">
-      <span className="text-[14px] text-foreground">Local or customer-approved normalization</span>
-    </div>
-    <Arrow />
-    <div className="rounded-xl border border-foreground/25 bg-background px-5 py-4 text-center">
-      <div className="text-[15px] text-foreground">Operational Memory Engine</div>
-      <div className="mt-1 font-mono text-[10px] tracking-[0.14em] uppercase text-muted-foreground">
-        Backend architecture
+      <div className="mt-4 rounded-xl border border-dashed border-border px-4 py-3 text-center">
+        <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-muted-foreground">
+          Read-only API / adapter
+        </span>
       </div>
     </div>
-    <Arrow />
-    <div className="rounded-xl border border-primary/40 bg-primary/[0.05] px-5 py-4 text-center">
-      <div className="text-[15px] text-foreground">Veyra Workspace</div>
-      <div className="mt-1 font-mono text-[10px] tracking-[0.14em] uppercase text-primary/70">
-        Product surface
+
+    <div className="flex flex-col items-center py-3 text-muted-foreground">
+      <svg width="16" height="40" viewBox="0 0 16 40" fill="none">
+        <path d="M8 0 V34" stroke="currentColor" strokeWidth="1" strokeOpacity="0.5" />
+        <path d="M3 30 L8 37 L13 30" stroke="currentColor" strokeWidth="1" strokeOpacity="0.5" fill="none" />
+      </svg>
+      <span className="font-mono text-[10px] mt-1 text-center">
+        Signed metadata and evidence signatures only. No raw payload egress.
+      </span>
+    </div>
+
+    <div className="rounded-2xl border border-primary/40 bg-primary/[0.04] px-5 py-6 text-center">
+      <div className="text-[15px] text-foreground">Veyra platform</div>
+      <div className="mt-1 text-[13px] text-muted-foreground">
+        Machine episode reconstruction
       </div>
     </div>
   </div>
@@ -383,122 +352,25 @@ const CodeBlock = ({ code }: { code: string }) => (
   </pre>
 );
 
-const eventSchema = `{
-  "event_id": "evt_402",
-  "asset_id": "line_a_conveyor",
-  "event_type": "ANOMALY",
-  "source_system": "ros_mcap",
-  "source_record_id": "mcap_219_09_13",
-  "occurred_at": "2026-08-05T09:13:22Z",
-  "time_window": null,
-  "actor": "system",
-  "workflow_id": "return_to_service_91",
-  "deployment_id": "rev_218",
-  "source_reference": "client://mcap/mission_219",
-  "confidence": "observed"
-}`;
-
 const evidencePack = `{
-  "review_state": "LIMITED_OPERATION_MAY_BE_CONSIDERED",
-  "evidence_for": [
-    {
-      "source": "telemetry_normalizer",
-      "record_id": "rec_9941",
-      "summary": "Thermal telemetry remained within the expected envelope for three cycles."
-    },
-    {
-      "source": "jira_maintenance",
-      "record_id": "maint_8812",
-      "summary": "Belt tension was adjusted by the field technician."
-    }
-  ],
-  "evidence_against": [
-    {
-      "source": "git_deployment",
-      "record_id": "rev_218",
-      "summary": "The torque variance first appeared after deployment rev 218."
-    }
-  ],
-  "missing_evidence": [
-    {
-      "required_type": "INSPECTION_RECORD",
-      "owner": "field_safety_lead",
-      "status": "UNSUBMITTED"
-    }
-  ],
-  "uncertainties": [
-    {
-      "summary": "Only three stable operating cycles have been observed."
-    }
-  ],
-  "similar_prior_reviews": [
-    {
-      "review_id": "review_14_mar",
-      "outcome": "Cleared after belt tension adjustment."
-    }
-  ],
-  "suggested_next_step": {
-    "action": "RUN_LIMITED_TEST_CYCLE",
-    "basis": [
-      "Telemetry normalized after maintenance",
-      "A similar prior event cleared after belt adjustment"
-    ],
-    "constraints": {
-      "speed_cap": "0.5m/s",
-      "review_after": "30m"
-    }
+  "episode_id": "episode_402",
+  "asset_id": "line_a_conveyor",
+  "event_time": "2026-08-18T09:18:00Z",
+  "episode_type": "UNEXPECTED_MACHINE_BEHAVIOR",
+  "knowledge_state": {
+    "observed": ["abnormal vibration", "software rev 218 active"],
+    "human_asserted": ["belt tension suspected; not established"],
+    "derived": ["vibration returned within baseline after inspection"],
+    "unknown": ["whether restart caused the behavior"],
+    "counterevidence": ["same profile previously occurred without belt tension fault"]
   },
-  "human_decision": null,
-  "observed_outcome": null
+  "source_links": [
+    "runtime_snapshot_09_14",
+    "engineering_note_09_18",
+    "inspection_wo_4471"
+  ],
+  "later_outcome": "no recurrence after four hours"
 }`;
-
-const WorkspaceMock = () => {
-  const panel = (label: string, body: React.ReactNode, accent?: boolean) => (
-    <div
-      className={`rounded-xl border px-4 py-3 ${
-        accent ? "border-primary/40 bg-primary/[0.04]" : "border-border bg-background"
-      }`}
-    >
-      <div className="font-mono text-[9.5px] tracking-[0.18em] uppercase text-muted-foreground">
-        {label}
-      </div>
-      <div className="mt-1.5 text-[13.5px] leading-relaxed text-foreground">{body}</div>
-    </div>
-  );
-  const list = (items: string[]) => (
-    <ul className="space-y-1">
-      {items.map((i) => (
-        <li key={i} className="flex items-start gap-2 text-[13.5px] text-muted-foreground">
-          <span className="mt-[8px] h-1 w-1 shrink-0 rounded-full bg-muted-foreground/50" />
-          {i}
-        </li>
-      ))}
-    </ul>
-  );
-  return (
-    <div className="w-full space-y-3">
-      {panel("Review question", "Is Line A ready to return to service?", true)}
-      {panel("Current state", "Limited operation may be considered")}
-      <div className="grid gap-3 sm:grid-cols-2">
-        {panel(
-          "Evidence for",
-          list([
-            "Telemetry normalized after maintenance",
-            "Three stable cycles completed",
-            "Similar prior event cleared after belt adjustment",
-          ])
-        )}
-        {panel("Evidence against", list(["Torque variance began after deployment rev 218"]))}
-        {panel("Missing", list(["Post-maintenance inspection record"]))}
-        {panel("Uncertainty", list(["Only three stable cycles observed"]))}
-      </div>
-      {panel("Suggested next step", "Run one limited test cycle and review again after 30 minutes")}
-      <div className="rounded-xl border border-dashed border-border px-4 py-3 text-center font-mono text-[10.5px] tracking-[0.14em] uppercase text-muted-foreground">
-        Human approval required
-      </div>
-    </div>
-  );
-};
 
 const references = [
   {
@@ -551,52 +423,48 @@ const Engineering = () => {
           <h1 className="text-4xl md:text-[52px] font-semibold tracking-tight text-foreground leading-[1.05] mb-5">
             Building continuous operational memory for Physical AI
           </h1>
-          <p className="text-[17px] md:text-[18px] leading-[1.6] text-muted-foreground max-w-[62ch] mb-5">
-            How Veyra reconstructs machine, software and human history for readiness review.
+          <p className="font-mono text-[12px] text-muted-foreground">
+            Engineering note
           </p>
-          <p className="font-mono text-[12px] text-muted-foreground">Engineering note</p>
         </motion.header>
 
         <section className="mt-16">
-          <h2 className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground mb-4">
+          <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground mb-4">
             Abstract
-          </h2>
+          </p>
           <div className="space-y-5 border-l border-border pl-6">
             <Lead>
-              Physical AI fleets generate telemetry, MCAP files, deployment records, maintenance logs
-              and human interventions every day. The difficulty is not capturing more data. It is
-              continuously reconstructing enough operational context to answer a high-consequence
-              question: is this system ready for what comes next?
+              Physical AI systems generate enormous amounts of telemetry, logs and deployment data.
+              What is harder to preserve is the context required to reconstruct why a machine reached
+              a particular state.
             </Lead>
             <P>
-              After an anomaly or deployment change, engineers often rebuild the story manually
-              across ROS bags, software revisions, tickets, inspections and operator knowledge. The
-              records exist. The operational memory does not.
+              That context includes what software and configuration were active, what changed, what
+              engineers observed or suspected, what interventions were attempted, and what evidence
+              existed at the time.
             </P>
             <P>
-              Veyra runs alongside the existing stack through read-only integrations. It converts
-              operational changes into normalized events, groups them into workflow context,
-              preserves source provenance and maintains a persistent memory across deployments,
-              incidents, maintenance and human decisions.
+              Veyra is an operational evidence layer that preserves this context across runtime
+              systems, engineering tools and human workflows. It reconstructs persistent Machine
+              Episodes without collapsing observation, inference and hindsight into a single version
+              of truth.
             </P>
             <P>
-              That memory powers the Veyra Workspace: a human review environment showing what
-              happened, what changed, what supports readiness, what remains uncertain and what
-              evidence is still missing. AI can retrieve, compare and summarize this context, but the
-              final operational decision remains with the human reviewer.
+              The result is an operational memory that can support incident investigation, fleet
+              comparison, engineering decisions and future learning.
             </P>
           </div>
         </section>
 
-        <Section num="01" title="The missing operational memory layer">
+        <Section num="01" title="System framing">
           <P>
-            Today&rsquo;s Physical AI stack is mature at recording, visualization and fleet
-            operation. The missing layer is persistent operational memory across systems and time.
+            Today's Physical AI stack is mature at capture and immature at reconstruction. The
+            missing layer is persistent operational memory across systems and time.
           </P>
 
           <Figure
             label="Figure 1"
-            caption="Veyra sits above existing runtime, data and fleet platforms. It does not replace them."
+            caption="Veyra reconstructs Machine Episodes above existing data, fleet and engineering systems."
           >
             <LandscapeDiagram />
           </Figure>
@@ -605,439 +473,247 @@ const Engineering = () => {
             items={[
               [
                 "Recording layer",
-                "ROS 2 bags and MCAP provide timestamped serialization and storage for raw operational data.",
+                "ROS 2 bags and MCAP handle low-latency, timestamped serialization and local storage of raw topic data.",
               ],
               [
                 "Robotics data platforms",
-                "Foxglove and similar systems index, search, replay and visualize multimodal robotics streams.",
+                "Foxglove and similar tools ingest, index, search and visualize multimodal robotics streams.",
               ],
               [
                 "Fleet operations",
-                "Formant, InOrbit and related platforms support orchestration, deployment, alerting and teleoperation.",
-              ],
-              [
-                "Veyra",
-                "Veyra reconstructs the cross-system history needed for a readiness review and preserves the result as future operational memory.",
+                "Formant and InOrbit provide orchestration, OTA deployment, alerting and teleoperation.",
               ],
             ]}
           />
-
-          <Sub num="1.1" title="The operational context gap">
-            <P>
-              Existing platforms can store, replay and operate a system, but the context behind one
-              operational decision is often distributed across separate forms of state.
-            </P>
-
-            <Figure
-              label="Figure 2"
-              caption="The history behind one readiness decision is distributed across systems, people and time."
-            >
-              <GapDiagram />
-            </Figure>
-
-            <DefList
-              items={[
-                [
-                  "Edge state",
-                  "Sensor streams, joint torque, camera frames and local state-machine transitions.",
-                ],
-                [
-                  "Software state",
-                  "Commit hashes, pipelines, model versions, configuration parameters and deployment revisions.",
-                ],
-                [
-                  "Human state",
-                  "Teleoperation, manual overrides, technician notes, operator observations and sign-offs.",
-                ],
-                [
-                  "Lifecycle state",
-                  "Incident tickets, inspection records, maintenance logs, component history and commercial records.",
-                ],
-                [
-                  "Decision state",
-                  "Readiness reviews, approvals, rejected releases, requested evidence, operating constraints and observed outcomes.",
-                ],
-              ]}
-            />
-
-            <P>
-              Data volume is no longer the primary constraint. Continuous context reconstruction is.
-            </P>
-          </Sub>
         </Section>
 
-        <Section num="02" title="Why readiness review matters">
+        <Section num="1.1" title="The operational context gap">
           <P>
-            The IFR reports 542,000 industrial robot installations globally in 2024. Capgemini&rsquo;s
-            2026 Physical AI study finds 79% of enterprises engaging with Physical AI while only 4%
-            run it at scale, with operational readiness named as the primary barrier.
+            These platforms store and replay topics, but they do not encode cross-system meaning.
+            When you reconstruct a Machine Episode, the evidence does not live inside the robot. It is
+            spread across systems, people and time.
+          </P>
+
+          <Figure
+            label="Figure 2"
+            caption="Evidence for a single decision is distributed across unconnected systems."
+          >
+            <GapDiagram />
+          </Figure>
+
+          <DefList
+            items={[
+              ["Edge state", "Sensor streams, joint torque, camera frames, local state-machine transitions."],
+              ["Software state", "Commit hashes, pipelines, configuration parameters, deployment revisions."],
+              ["Human state", "Teleoperation, manual overrides, engineering notes, technician observations."],
+              ["Lifecycle state", "Incident tickets, maintenance logs, parts history, lease and payment records."],
+              ["Knowledge & decision state", "Observations, hypotheses, uncertainty, reviews, decisions and outcomes."],
+            ]}
+          />
+
+          <P>
+            Data volume is no longer the constraint. Context reconstruction is.
+          </P>
+        </Section>
+
+        <Section num="02" title="Why operational context matters">
+          <P>
+            Physical AI failures are rarely data-free. The harder problem is reconstructing the
+            operational context around an event after software, configuration, machine state and
+            human understanding have already changed.
           </P>
           <P>
-            In software, a failed deployment can often be rolled back remotely. In the physical
-            world, an incorrect readiness decision may lead to unplanned downtime, field-service
-            work, safety exposure or accelerated asset degradation.
-          </P>
-          <P>
-            Veyra does not claim to eliminate downtime or predict every physical failure. Its
-            narrower objective is to reduce the manual and cognitive cost of readiness review:
-            locating relevant records, reconstructing sequence, checking prior occurrences,
-            identifying missing evidence and documenting why a decision was made.
-          </P>
-          <P>
-            The commercial value appears in the decision chain: shorter evidence preparation, more
-            consistent reviews, clearer accountability and an operational memory that compounds
-            across repeated incidents and deployments.
+            Missing context increases investigation time, makes repeated incidents harder to
+            recognize, obscures fleet-wide exposure and causes engineering knowledge to disappear into
+            tickets and individual memory.
           </P>
           <div className="rounded-2xl border border-border bg-surface px-6 py-5">
             <p className="text-[15px] leading-relaxed text-foreground/80">
-              Operational readiness is an engineering and business problem, not only an observability
-              problem.
+              The technical problem is not storing every signal. It is preserving what cannot be
+              reliably reconstructed later and linking it to the evidence that can.
             </p>
           </div>
         </Section>
 
-        <Section num="03" title="Architecture: continuous context reconstruction">
+        <Section num="03" title="Architecture: reconstructing Machine Episodes">
           <P>
-            Veyra continuously converts fragmented operational records into persistent workflow
-            memory. The architecture separates high-volume source data from the smaller set of
-            events, relationships, policies and outcomes required for review.
-          </P>
-
-          <Sub num="3.1" title="Read-only event layer">
-            <P>
-              Veyra does not send continuous raw telemetry into an LLM. Raw payloads remain in the
-              systems that already store and process them.
-            </P>
-            <P>
-              Read-only connectors receive or extract selected operational events, metadata and
-              references to source records.
-            </P>
-            <CodeBlock code={eventSchema} />
-            <P>
-              Events may come from log listeners, webhooks, cloud storage adapters, REST APIs,
-              operational databases or user-submitted records.
-            </P>
-          </Sub>
-
-          <Sub num="3.2" title="Identity and context resolution">
-            <P>
-              Relationships are established from explicit operational anchors first: asset IDs,
-              deployment IDs, run or mission IDs, ticket references, component serial numbers and
-              customer-defined workflow identifiers.
-            </P>
-            <P>
-              Temporal proximity provides secondary context but is not treated as proof of causality.
-            </P>
-            <P>
-              Precise machine events and human records are not forced onto the same timestamp model.
-              Hardware telemetry may have exact timestamps, while maintenance notes may belong to a
-              broader operational window. Veyra preserves that difference and exposes uncertainty
-              rather than inventing precision.
-            </P>
-            <ol className="divide-y divide-border border-y border-border">
-              {[
-                "Explicit identifiers",
-                "Workflow membership",
-                "Source-declared relationships",
-                "Bounded temporal context",
-                "Suggested semantic similarity",
-              ].map((t, i) => (
-                <li key={t} className="flex items-center gap-4 py-3.5">
-                  <span className="font-mono text-[11px] text-muted-foreground tabular-nums">
-                    {i + 1}
-                  </span>
-                  <span className="text-[15px] text-foreground">{t}</span>
-                  {i === 4 && (
-                    <span className="ml-auto rounded-full border border-border bg-surface px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
-                      Review required
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ol>
-          </Sub>
-
-          <Sub num="3.3" title="Persistent operational memory">
-            <P>
-              Events are grouped into persistent workflow memories such as deployments, missions,
-              incidents, maintenance interventions and readiness reviews.
-            </P>
-            <p className="text-[15px] text-foreground">A workflow memory can contain:</p>
-            <Bullets
-              items={[
-                "key events and source references",
-                "changes since the previous operating state",
-                "software and configuration context",
-                "human interventions",
-                "unresolved conflicts",
-                "missing evidence",
-                "comparable previous occurrences",
-                "the final human decision",
-                "the observed operating outcome",
-              ]}
-            />
-            <P>
-              A completed review does not disappear into a static report. Its decision, rationale and
-              later outcome become context for future reviews, subject to the customer&rsquo;s
-              retention and governance policy.
-            </P>
-            <MemoryLoop />
-          </Sub>
-
-          <Sub num="3.4" title="Provenance graph">
-            <P>
-              The provenance graph links operational memories, assets, deployments, people, decisions
-              and source records. It answers what is related and where each surfaced claim came from.
-            </P>
-            <P>
-              It does not claim physical causality unless that relationship is explicitly supported
-              by a source, policy or human review.
-            </P>
-
-            <h4 className="text-[15px] font-semibold text-foreground pt-2">Node types</h4>
-            <div className="flex flex-wrap gap-2">
-              {[
-                "Asset",
-                "Run or Mission",
-                "Deployment",
-                "Anomaly",
-                "Intervention",
-                "Maintenance",
-                "Record",
-                "Review",
-                "Decision",
-                "Outcome",
-              ].map((n) => (
-                <span
-                  key={n}
-                  className="rounded-lg border border-border bg-surface px-3 py-1.5 text-[13px] text-foreground"
-                >
-                  {n}
-                </span>
-              ))}
-            </div>
-
-            <h4 className="text-[15px] font-semibold text-foreground pt-4">Relationship types</h4>
-            <div className="flex flex-wrap gap-2">
-              {[
-                "observed_during",
-                "executed_under",
-                "changed_after",
-                "correlated_with",
-                "supported_by",
-                "contradicted_by",
-                "resolved_by",
-                "approved_after",
-                "missing_evidence_for",
-                "similar_to",
-                "resulted_in",
-              ].map((e) => (
-                <span
-                  key={e}
-                  className="rounded-full border border-border bg-surface px-3 py-1.5 font-mono text-[12px] text-muted-foreground"
-                >
-                  {e}
-                </span>
-              ))}
-            </div>
-
-            <Figure
-              label="Figure 3"
-              caption="The graph preserves relationships and source provenance inside a larger operational memory system."
-            >
-              <GraphDiagram />
-            </Figure>
-          </Sub>
-
-          <Sub num="3.5" title="Retrieval, policy and bounded AI reasoning">
-            <P>
-              When a readiness review is opened, Veyra retrieves the current workflow memory, relevant
-              previous occurrences, applicable review requirements and unresolved evidence gaps.
-            </P>
-            <p className="text-[15px] text-foreground">AI may assist with bounded tasks:</p>
-            <Bullets
-              items={[
-                "extracting structured events from technician notes",
-                "summarizing already selected evidence",
-                "comparing the current case with prior reviews",
-                "surfacing inconsistencies or missing records",
-                "drafting a human-readable explanation of the review state",
-              ]}
-            />
-            <P>
-              AI does not process the entire continuous telemetry stream, invent missing evidence,
-              silently assert physical causality or autonomously authorize operation.
-            </P>
-
-            <div className="rounded-2xl border border-primary/40 bg-primary/[0.04] px-6 py-6 space-y-3">
-              <div className="text-[16px] font-semibold text-foreground">Evidence before inference</div>
-              <p className="text-[15px] leading-relaxed text-muted-foreground">
-                Veyra prioritizes explicit identifiers, source provenance and customer-defined policy.
-                Possible relationships may be suggested, but ambiguous links remain labelled until
-                reviewed or supported by additional evidence.
-              </p>
-              <p className="text-[15px] leading-relaxed text-muted-foreground">
-                Missing and conflicting records remain visible. The system does not complete an
-                operational story merely because a plausible narrative exists.
-              </p>
-            </div>
-          </Sub>
-
-          <Sub title="System non-goals">
-            <DefList
-              items={[
-                ["Not teleoperation", "No low-latency video streaming or remote-driving interface."],
-                [
-                  "Not raw storage",
-                  "MCAP files, video, point clouds and existing data platforms retain their source payloads.",
-                ],
-                [
-                  "Not a controller",
-                  "Veyra does not dispatch actuation commands or operate inside the real-time control loop.",
-                ],
-                [
-                  "Not autonomous authorization",
-                  "Veyra can organize evidence and suggest a next step, but the readiness decision remains human-owned or governed by the customer's explicit approval process.",
-                ],
-              ]}
-            />
-          </Sub>
-        </Section>
-
-        <Section num="04" title="Reference workflow: return-to-service">
-          <P>
-            The first reference workflow is a return-to-service review triggered by an anomaly,
-            deployment change, human intervention or maintenance event.
+            Internally, Veyra represents operational history as bounded Machine Episodes: important
+            physical-system events and the evidence, knowledge, interventions and outcomes around
+            them. Event primitives are extracted through read-only integrations such as webhooks, log
+            subscribers and REST APIs, then organized into typed nodes and directed edges.
           </P>
 
           <Figure
-            label="Figure 4"
-            caption="The review closes only when the human decision and later outcome return to operational memory."
+            label="Figure 3"
+            caption="A Machine Episode links state, changes, evidence, human context and outcome."
           >
+            <GraphDiagram />
+          </Figure>
+
+          <h3 className="text-[17px] font-semibold text-foreground pt-2">Node types</h3>
+          <DefList
+            items={[
+              ["Mission", "The intended task, route or operational cycle."],
+              ["Deployment", "Software, model weights or configuration revision."],
+              ["Anomaly", "Telemetry boundary violation, exception or physical near-miss."],
+              ["Intervention", "Human override, teleoperation take-over or E-stop."],
+              ["Maintenance", "Component replacement, calibration or manual adjustment."],
+              ["Decision", "An attributable human or governed action."],
+              ["Record", "Engineering notes, tickets, inspection PDFs, logs and reports."],
+            ]}
+          />
+
+          <h3 className="text-[17px] font-semibold text-foreground pt-2">Edge relations</h3>
+          <div className="flex flex-wrap gap-2">
+            {[
+              "observed_during",
+              "correlated_with",
+              "contradicted_by",
+              "resolved_by",
+              "approved_after",
+              "missing_evidence_for",
+            ].map((e) => (
+              <span
+                key={e}
+                className="rounded-full border border-border bg-surface px-3 py-1.5 font-mono text-[12px] text-muted-foreground"
+              >
+                {e}
+              </span>
+            ))}
+          </div>
+
+          <h3 className="text-[17px] font-semibold text-foreground pt-4">
+            Observed is not derived
+          </h3>
+          <P>
+            Veyra separates evidence kinds as a foundational type system. OBSERVED means directly
+            emitted or recorded by a source. DERIVED means deterministically calculated from observed
+            evidence. HUMAN_ASSERTED means an engineer's observation or interpretation. INFERRED
+            means a system-generated hypothesis. DECISION means an attributable human or governed
+            action. OUTCOME means a later observed result.
+          </P>
+
+          <h3 className="text-[17px] font-semibold text-foreground pt-4">
+            Reconstructability over completeness
+          </h3>
+          <P>
+            Veyra does not try to store every signal. It captures enough runtime context to make a
+            future episode reconstructable: event IDs, precise timestamps, software and firmware
+            versions, configuration, operating mode, critical state vectors, state diffs and related
+            interventions.
+          </P>
+
+          <h3 className="text-[17px] font-semibold text-foreground pt-4">Non-goals</h3>
+          <DefList
+            items={[
+              ["Not teleoperation", "No low-latency video streaming for remote driving."],
+              ["Not raw storage", "MCAP files and data platforms keep their payloads."],
+              ["Not a controller", "No execution commands dispatched to edge hardware."],
+            ]}
+          />
+        </Section>
+
+        <Section num="04" title="Reference episode: unexpected machine behavior">
+          <P>
+            The first implementation targets one bounded episode: unexpected machine behavior after a
+            deployment, restart, intervention or maintenance event.
+          </P>
+
+          <Figure label="Figure 4" caption="From runtime event to reusable operational memory.">
             <PipelineDiagram />
           </Figure>
 
-          <Figure
-            label="Figure 4b"
-            caption="End-to-end view: raw operational events through working review, human decision, case episode, operational memory and the exported Decision Evidence Pack. Tap or click to open full resolution."
-          >
-            <a
-              href={decisionLoopImg}
-              target="_blank"
-              rel="noreferrer"
-              className="block"
-            >
-              <img
-                src={decisionLoopImg}
-                alt="End-to-end Veyra decision loop: raw operational events, working review, human decision, case episode, operational memory and decision evidence pack, with a continuous learning loop"
-                width={1201}
-                height={1310}
-                className="w-full min-w-[760px] h-auto rounded-lg"
-              />
-            </a>
-          </Figure>
-
-          <Sub num="4.1" title="The Veyra Workspace">
-            <P>The primary product surface is the Veyra Workspace, not the underlying graph.</P>
-            <p className="text-[15px] text-foreground">The Workspace presents:</p>
-            <Bullets
-              items={[
-                "the current review question",
-                "reconstructed operational history",
-                "what changed",
-                "evidence supporting readiness",
-                "evidence against readiness",
-                "missing and conflicting records",
-                "comparable previous occurrences",
-                "suggested next steps",
-                "the human decision",
-                "the later operating outcome",
-              ]}
-            />
-            <div className="my-8 rounded-2xl border border-border bg-surface p-4 md:p-6">
-              <WorkspaceMock />
-            </div>
-          </Sub>
-
-          <Sub num="4.2" title="Exportable review record">
-            <P>
-              A Decision Evidence Pack is an exportable snapshot of a completed Workspace review. It
-              can support audit, handover, external approval or later comparison, but it is not the
-              primary product interface.
-            </P>
-            <CodeBlock code={evidencePack} />
-            <P>
-              Veyra recommends or drafts. Existing fleet, deployment and control systems execute
-              approved actions.
-            </P>
-          </Sub>
+          <h3 className="text-[17px] font-semibold text-foreground">
+            Anatomy of a Machine Episode
+          </h3>
+          <P>
+            The output is a structured record of what happened, what was known, what was believed,
+            what contradicted the working hypothesis, what intervention occurred and what became
+            known later.
+          </P>
+          <CodeBlock code={evidencePack} />
         </Section>
 
-        <Section num="05" title="Security and deployment models">
+        <Section num="05" title="Human evidence and engineering notes">
           <P>
-            Veyra remains outside the real-time control path. Connectors use read-only access against
-            fleet cloud environments, log aggregation systems, operational databases, cloud storage
-            or replicated data stores.
+            Machines observe physical state. Engineers observe context machines often cannot. In
+            Veyra, an engineering note is not treated as a loose comment box. It is a source record
+            that can contain observations, hypotheses, interventions, interpretations and outcomes.
           </P>
+          <P>
+            The original note remains intact. Any extracted structure is linked back to that source,
+            so inferred or derived information is never presented as direct machine observation.
+          </P>
+          <CodeBlock
+            code={`Original note:
+"Elevated vibration appeared after restart. Belt tension suspected; not established.
+Inspection completed and vibration returned to baseline."
 
-          <DefList
-            items={[
-              [
-                "Customer-hosted",
-                "The Operational Memory Engine and Workspace run inside the customer environment.",
-              ],
-              [
-                "Hybrid",
-                "Normalization and raw-data access remain inside the customer environment. Selected metadata, source references and review state may synchronize with Veyra cloud under customer policy.",
-              ],
-              [
-                "Veyra cloud",
-                "For lower-sensitivity pilots, Veyra connects to existing cloud systems and replicated operational stores.",
-              ],
-            ]}
+Derived objects:
+OBSERVATION   -> elevated vibration
+HYPOTHESIS    -> belt tension involvement
+INTERVENTION  -> inspection
+OUTCOME       -> vibration returned to baseline`}
           />
+        </Section>
 
-          <Bullets
-            items={[
-              "no control-loop dependency",
-              "read-only access by default",
-              "raw payloads remain in source systems unless the customer explicitly chooses otherwise",
-              "customer-defined retention and access controls",
-              "every surfaced claim links to a source or is clearly labelled as inferred",
-              "human approvals remain attributable",
-            ]}
+        <Section num="06" title="Preserving what was known when">
+          <P>
+            Veyra does not maintain one mutable version of truth. It preserves the operational
+            knowledge state at each point in time: what was observed, what was supported, what was
+            assumed, what remained unknown and what was later contradicted.
+          </P>
+          <CodeBlock
+            code={`14:18  Hypothesis H17 created
+       Retry configuration may explain acknowledgement latency
+
+15:02  Counterevidence observed
+       Same configuration exists on another unaffected machine
+
+15:04  H17 weakened
+
+17:31  Alternative explanation established`}
           />
+          <P>
+            New evidence may change the present conclusion without rewriting the information state
+            under which an earlier decision was made.
+          </P>
+        </Section>
 
+        <Section num="07" title="Security & system boundary">
           <Figure
             label="Figure 5"
-            caption="Veyra can be deployed without entering the real-time control path."
+            caption="Raw payloads stay inside the client perimeter; only normalized, signed metadata leaves."
           >
             <BoundaryDiagram />
           </Figure>
+
+          <P>
+            Veyra runs as a passive sidecar observer alongside live operations. It does not touch
+            motor actuation, CAN bus control loops or teleoperation command channels. Ingestion is
+            strictly read-only: log listeners, cloud storage adapters and webhook subscriptions.
+          </P>
+          <P>
+            Raw video frames and high-frequency point clouds never leave the client's security
+            perimeter. Veyra ingests and signs normalized metadata, event timestamps and state
+            hashes, which is the minimum required to verify evidence.
+          </P>
         </Section>
 
-        <Section num="06" title="Design commitments">
+        <Section num="08" title="Design commitments">
           <div className="space-y-4">
             {[
               [
-                "Source provenance",
-                "Every surfaced claim links back to a source record or is clearly labelled as inferred.",
+                "Schema reusability",
+                "Machine Episodes built for one asset can map onto mobile fleets without breaking core evidence relations.",
               ],
               [
-                "Visible uncertainty",
-                "Missing, conflicting and ambiguous evidence remains visible rather than being silently completed.",
+                "Integration friction",
+                "Read-only, payload-light integration should make IT and OT approval easier than control-path software.",
               ],
               [
-                "Passive integration",
-                "Veyra remains outside the real-time control path and works through read-only integrations by default.",
-              ],
-              [
-                "Human-owned decisions",
-                "Recommendations can organize context and suggest next steps, but operational authorization remains explicit and attributable.",
-              ],
-              [
-                "Compounding memory",
-                "Every completed review and observed outcome can become context for later reviews, subject to customer retention and governance policy.",
+                "Decision latency",
+                "Automated correlation should reduce manual context stitching before investigation or review.",
               ],
             ].map(([t, d], i) => (
               <div
@@ -1081,15 +757,10 @@ const Engineering = () => {
 
         <div className="mt-20 divider" />
         <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <p className="text-[16px] text-foreground mb-1">
-              Interested in discussing readiness review workflows?
-            </p>
-            <p className="text-[14.5px] text-muted-foreground max-w-[52ch]">
-              We are looking for design partners working with autonomous systems, Physical AI and
-              industrial operations.
-            </p>
-          </div>
+          <p className="text-[15px] text-muted-foreground">
+            Interested in operational evidence for Physical AI? We are looking for design partners
+            operating robots, autonomous systems and other Physical AI in real environments.
+          </p>
           <Link
             to="/contact"
             className="inline-flex items-center gap-1.5 rounded-full bg-foreground text-background px-4 py-2 text-[12px] font-medium hover:bg-foreground/90 transition-colors"
