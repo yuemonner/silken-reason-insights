@@ -264,6 +264,25 @@ const ProductWorkspace = () => {
                 same vibration profile previously occurred without belt tension fault
               </p>
             </div>
+            <div className="rounded-xl border border-border bg-surface/60 px-4 py-3">
+              <div className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-foreground mb-3">
+                Last known good
+              </div>
+              <div className="space-y-2 text-[12px]">
+                {[
+                  ["Revision", "rev 217"],
+                  ["Config", "C16"],
+                  ["Validated", "08:42"],
+                  ["Tests", "3 successful cycles"],
+                  ["Exceptions", "no Redis storm"],
+                ].map(([k, v]) => (
+                  <div key={k} className="flex items-center justify-between gap-3">
+                    <span className="text-muted-foreground">{k}</span>
+                    <span className="font-mono text-foreground text-right">{v}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
             <div className="border-t border-border pt-5">
               <div className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-foreground mb-3">
                 Episode state
