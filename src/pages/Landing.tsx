@@ -18,7 +18,7 @@ const FlowVisualization = () => {
     { label: "Software", x: 342, y: 52 },
     { label: "Configuration", x: 586, y: 92 },
     { label: "Environment", x: 96, y: 352 },
-    { label: "Human input", x: 352, y: 404 },
+    { label: "Human context", x: 342, y: 404 },
     { label: "Events", x: 610, y: 352 },
   ];
   const operations = [
@@ -44,7 +44,7 @@ const FlowVisualization = () => {
         <ellipse cx="400" cy="238" rx="118" ry="92" fill="hsl(var(--primary) / 0.035)" stroke="hsl(var(--primary) / 0.28)" />
         <circle cx="400" cy="238" r="36" fill="hsl(var(--background))" stroke="hsl(var(--foreground) / 0.7)" filter="url(#softShadow)" />
         <circle cx="400" cy="238" r="7" fill="hsl(var(--foreground))" />
-        <text x="400" y="302" textAnchor="middle" className="font-mono" fontSize="11" fill="hsl(var(--muted-foreground))">
+        <text x="400" y="304" textAnchor="middle" className="font-mono" fontSize="10.5" fill="hsl(var(--muted-foreground))">
           persistent machine context
         </text>
 
@@ -71,7 +71,7 @@ const FlowVisualization = () => {
         ))}
 
         <path d="M 400 330 C 400 360, 400 382, 400 408" fill="none" stroke="hsl(var(--border))" strokeWidth="1" />
-        <rect x="286" y="392" width="228" height="48" rx="14" fill="hsl(var(--background))" stroke="hsl(var(--primary) / 0.35)" />
+        <rect x="286" y="392" width="228" height="48" rx="14" fill="hsl(var(--background))" stroke="hsl(var(--foreground) / 0.35)" />
         <text x="400" y="421" textAnchor="middle" className="font-mono" fontSize="12" fill="hsl(var(--foreground))">
           machine episode
         </text>
@@ -153,7 +153,25 @@ const ProductWorkspace = () => {
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-[1fr_360px] gap-0">
-        <div className="relative min-h-[620px] p-6 sm:p-8 overflow-hidden">
+        <div className="min-h-[620px] p-6 sm:p-8 overflow-hidden">
+          <div className="grid gap-5 lg:grid-cols-[220px_1fr_240px]">
+            <div className="rounded-2xl border border-border bg-background p-4 self-start">
+              <div className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-foreground mb-3">
+                Context constellation
+              </div>
+              {[
+                "Machine state · autonomous mode",
+                "Software rev 218 · config C17",
+                "Inspection WO-4471",
+                "Vibration RMS 0.31 mm/s",
+              ].map((item) => (
+                <div key={item} className="border-t border-border py-2 text-[12px] text-muted-foreground first:border-t-0">
+                  {item}
+                </div>
+              ))}
+            </div>
+
+            <div className="relative min-h-[560px]">
           <div className="absolute left-1/2 top-8 bottom-8 w-px bg-border" />
           <div className="absolute left-1/2 top-[300px] -translate-x-1/2 h-3 w-3 rounded-full bg-foreground ring-8 ring-background" />
 
@@ -186,24 +204,9 @@ const ProductWorkspace = () => {
               </div>
             ))}
           </div>
-
-          <div className="absolute left-8 top-[248px] hidden lg:block max-w-[240px] rounded-2xl border border-border bg-background/95 p-4">
-            <div className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-foreground mb-3">
-              Context constellation
             </div>
-            {[
-              "Machine state · autonomous mode",
-              "Software rev 218 · config C17",
-              "Inspection WO-4471",
-              "Vibration RMS 0.31 mm/s",
-            ].map((item) => (
-              <div key={item} className="border-t border-border py-2 text-[12px] text-muted-foreground first:border-t-0">
-                {item}
-              </div>
-            ))}
-          </div>
 
-          <div className="absolute right-8 top-[230px] hidden lg:block max-w-[255px] rounded-2xl border border-primary/30 bg-primary/[0.035] p-4">
+          <div className="rounded-2xl border border-primary/30 bg-primary/[0.035] p-4 self-start">
             <div className="font-mono text-[10px] tracking-[0.15em] uppercase text-primary/70 mb-3">
               Engineering note
             </div>
@@ -216,6 +219,7 @@ const ProductWorkspace = () => {
               <div>INTERVENTION → inspection</div>
               <div>OUTCOME → returned to baseline</div>
             </div>
+          </div>
           </div>
 
           <div className="mt-8 grid gap-3 sm:grid-cols-5 text-[11px] text-muted-foreground">
@@ -391,7 +395,7 @@ const Landing = () => {
         <div className="container mx-auto px-6 py-28 max-w-6xl">
           <div className="mb-16 max-w-2xl">
             <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-4">
-              Continuous Operations
+              Operational Context
             </p>
           </div>
 

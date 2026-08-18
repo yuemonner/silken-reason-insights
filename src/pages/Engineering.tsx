@@ -180,7 +180,7 @@ const GraphDiagram = () => {
   const H = 54;
   const edges: { from: number; to: number; label: string; dir: "h" | "v" }[] = [
     { from: 0, to: 1, label: "observed_during", dir: "h" },
-    { from: 1, to: 3, label: "caused_by", dir: "v" },
+    { from: 1, to: 3, label: "associated_with", dir: "v" },
     { from: 0, to: 2, label: "executed_under", dir: "v" },
     { from: 2, to: 3, label: "changed_after", dir: "h" },
     { from: 2, to: 4, label: "approved_by", dir: "v" },
@@ -333,7 +333,7 @@ const BoundaryDiagram = () => (
         <path d="M3 30 L8 37 L13 30" stroke="currentColor" strokeWidth="1" strokeOpacity="0.5" fill="none" />
       </svg>
       <span className="font-mono text-[10px] mt-1 text-center">
-        Signed metadata and evidence signatures only. No raw payload egress.
+        Designed for metadata-only synchronization. Raw payloads remain inside the client environment.
       </span>
     </div>
 
@@ -458,8 +458,9 @@ const Engineering = () => {
 
         <Section num="01" title="System framing">
           <P>
-            Today's Physical AI stack is mature at capture and immature at reconstruction. The
-            missing layer is persistent operational memory across systems and time.
+            Today's Physical AI stack is increasingly mature at capture, but cross-system
+            reconstruction remains fragmented. The missing layer is persistent operational memory
+            across systems and time.
           </P>
 
           <Figure
@@ -695,8 +696,8 @@ OUTCOME       -> vibration returned to baseline`}
           </P>
           <P>
             Raw video frames and high-frequency point clouds never leave the client's security
-            perimeter. Veyra ingests and signs normalized metadata, event timestamps and state
-            hashes, which is the minimum required to verify evidence.
+            perimeter. Normalized metadata, source references and state hashes can be synchronized
+            according to deployment policy.
           </P>
         </Section>
 
