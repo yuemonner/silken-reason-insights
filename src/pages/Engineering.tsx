@@ -421,7 +421,7 @@ const Engineering = () => {
           </p>
           <div className="divider mb-8" />
           <h1 className="text-4xl md:text-[52px] font-semibold tracking-tight text-foreground leading-[1.05] mb-5">
-            Building continuous operational memory for Physical AI
+            Building operational context for Physical AI
           </h1>
           <p className="font-mono text-[12px] text-muted-foreground">
             Engineering note
@@ -444,10 +444,9 @@ const Engineering = () => {
               existed at the time.
             </P>
             <P>
-              Veyra is an operational evidence layer that preserves this context across runtime
-              systems, engineering tools and human workflows. It reconstructs persistent Machine
-              Episodes without collapsing observation, inference and hindsight into a single version
-              of truth.
+              Veyra is an operational context layer that reconstructs machine state, software changes,
+              human observations and decisions across existing systems, while preserving what was known
+              at each point in time.
             </P>
             <P>
               The result is an operational memory that can support incident investigation, fleet
