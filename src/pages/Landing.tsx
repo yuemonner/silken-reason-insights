@@ -7,30 +7,42 @@ import {
 import Layout from "@/components/Layout";
 
 const workflows = [
-  { tag: "Incident Reconstruction", title: "Reconstruct What Happened" },
-  { tag: "Fleet Context", title: "Find Where Else" },
-  { tag: "Operational Memory", title: "Reuse What Was Learned" },
+  {
+    tag: "RECONSTRUCT",
+    title: "Understand What Changed",
+    description:
+      "Bring together machine state, software/config changes, service actions and what the team knew at the time.",
+  },
+  {
+    tag: "COMPARE",
+    title: "Find Where Else",
+    description:
+      "See where the same exposure, signals or interventions appear across the fleet.",
+  },
+  {
+    tag: "LEARN",
+    title: "Carry Decisions Forward",
+    description:
+      "Preserve what the team decided, what happened afterwards, and which context may matter the next time a similar case appears.",
+  },
 ];
 
 const FlowVisualization = () => {
-  const context = [
-    { label: "Runtime state", x: 112, y: 92 },
-    { label: "Software", x: 342, y: 52 },
-    { label: "Configuration", x: 586, y: 92 },
-    { label: "Environment", x: 96, y: 352 },
-    { label: "Human context", x: 342, y: 404 },
-    { label: "Events", x: 610, y: 352 },
-  ];
-  const operations = [
-    { label: "Reconstruct", x: 148 },
-    { label: "Compare", x: 344 },
-    { label: "Recall", x: 540 },
+  const machineContext = ["Runtime state", "Software", "Configuration", "Environment"];
+  const humanContext = ["Service actions", "Operator interventions", "Team observations", "Hypotheses / decisions"];
+  const flow = [
+    { label: "RECONSTRUCT", detail: "what changed" },
+    { label: "DECISION CONTEXT", detail: "what was known / missing" },
+    { label: "HUMAN DECISION", detail: "hold · inspect · rollback" },
+    { label: "OUTCOME", detail: "fixed · recurring · unrelated" },
+    { label: "OPERATIONAL MEMORY", detail: "reusable context" },
+    { label: "WHERE ELSE?", detail: "similar cases across fleet" },
   ];
 
   return (
     <div className="w-full">
       <svg
-        viewBox="0 0 800 500"
+        viewBox="0 0 920 620"
         className="w-full h-auto"
         preserveAspectRatio="xMidYMid meet"
       >
@@ -40,58 +52,72 @@ const FlowVisualization = () => {
           </filter>
         </defs>
 
-        <line x1="400" y1="60" x2="400" y2="410" stroke="hsl(var(--border))" strokeDasharray="4 8" />
-        <ellipse cx="400" cy="238" rx="118" ry="92" fill="hsl(var(--primary) / 0.035)" stroke="hsl(var(--primary) / 0.28)" />
-        <circle cx="400" cy="238" r="36" fill="hsl(var(--background))" stroke="hsl(var(--foreground) / 0.7)" filter="url(#softShadow)" />
-        <circle cx="400" cy="238" r="7" fill="hsl(var(--foreground))" />
-        <text x="400" y="304" textAnchor="middle" className="font-mono" fontSize="10.5" fill="hsl(var(--muted-foreground))">
-          persistent machine context
+        <text x="160" y="48" textAnchor="middle" className="font-mono" fontSize="11" letterSpacing="2" fill="hsl(var(--muted-foreground))">
+          MACHINE CONTEXT
+        </text>
+        <text x="760" y="48" textAnchor="middle" className="font-mono" fontSize="11" letterSpacing="2" fill="hsl(var(--muted-foreground))">
+          HUMAN / OPERATIONAL CONTEXT
         </text>
 
-        {context.map((c, i) => (
-          <g key={c.label}>
-            <path
-              id={`ctx-${i}`}
-              d={`M ${c.x + 48} ${c.y + 18} C ${c.x < 400 ? 260 : 540} ${c.y}, ${c.x < 400 ? 305 : 495} 238, 400 238`}
-              fill="none"
-              stroke="hsl(var(--border))"
-              strokeWidth="1"
-            />
+        {machineContext.map((label, i) => (
+          <g key={label}>
+            <rect x="64" y={80 + i * 58} width="192" height="38" rx="11" fill="hsl(var(--background))" stroke="hsl(var(--border))" />
+            <text x="160" y={104 + i * 58} textAnchor="middle" fontSize="12" fill="hsl(var(--foreground))">{label}</text>
+            <path id={`machine-${i}`} d={`M 256 ${99 + i * 58} C 340 ${99 + i * 58}, 338 170, 432 170`} fill="none" stroke="hsl(var(--border))" strokeWidth="1" />
             <circle r="2.4" fill="hsl(var(--primary) / 0.75)">
-              <animateMotion dur={`${8 + i}s`} begin={`${-i * 0.9}s`} repeatCount="indefinite">
-                <mpath href={`#ctx-${i}`} />
+              <animateMotion dur={`${7 + i}s`} begin={`${-i * 0.6}s`} repeatCount="indefinite">
+                <mpath href={`#machine-${i}`} />
               </animateMotion>
-              <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.85;1" dur={`${8 + i}s`} begin={`${-i * 0.9}s`} repeatCount="indefinite" />
             </circle>
-            <rect x={c.x} y={c.y} width="116" height="36" rx="10" fill="hsl(var(--background))" stroke="hsl(var(--border))" />
-            <text x={c.x + 58} y={c.y + 23} textAnchor="middle" fontSize="11" fill="hsl(var(--foreground))">
-              {c.label}
-            </text>
           </g>
         ))}
 
-        <path d="M 400 330 C 400 360, 400 382, 400 408" fill="none" stroke="hsl(var(--border))" strokeWidth="1" />
-        <rect x="286" y="392" width="228" height="48" rx="14" fill="hsl(var(--background))" stroke="hsl(var(--foreground) / 0.35)" />
-        <text x="400" y="421" textAnchor="middle" className="font-mono" fontSize="12" fill="hsl(var(--foreground))">
-          machine episode
+        {humanContext.map((label, i) => (
+          <g key={label}>
+            <rect x="664" y={80 + i * 58} width="208" height="38" rx="11" fill="hsl(var(--background))" stroke="hsl(var(--border))" />
+            <text x="768" y={104 + i * 58} textAnchor="middle" fontSize="12" fill="hsl(var(--foreground))">{label}</text>
+            <path id={`human-${i}`} d={`M 664 ${99 + i * 58} C 580 ${99 + i * 58}, 582 170, 488 170`} fill="none" stroke="hsl(var(--border))" strokeWidth="1" />
+            <circle r="2.4" fill="hsl(var(--primary) / 0.75)">
+              <animateMotion dur={`${8 + i}s`} begin={`${-i * 0.7}s`} repeatCount="indefinite">
+                <mpath href={`#human-${i}`} />
+              </animateMotion>
+            </circle>
+          </g>
+        ))}
+
+        <rect x="342" y="132" width="236" height="76" rx="18" fill="hsl(var(--background))" stroke="hsl(var(--foreground) / 0.4)" filter="url(#softShadow)" />
+        <text x="460" y="164" textAnchor="middle" className="font-mono" fontSize="11" letterSpacing="1.8" fill="hsl(var(--muted-foreground))">
+          COSTLY MACHINE DECISION
+        </text>
+        <text x="460" y="187" textAnchor="middle" fontSize="20" fontWeight="600" fill="hsl(var(--foreground))">
+          Decision Context
         </text>
 
-        {operations.map((o, i) => (
-          <g key={o.label}>
-            <path d={`M 400 440 C ${o.x + 70} 458, ${o.x + 56} 466, ${o.x + 56} 466`} fill="none" stroke="hsl(var(--border))" strokeWidth="1" />
-            <rect x={o.x} y="452" width="112" height="32" rx="10" fill="hsl(var(--surface))" stroke="hsl(var(--border))" />
-            <text x={o.x + 56} y="472" textAnchor="middle" fontSize="10.5" fill={i === 0 ? "hsl(var(--primary))" : "hsl(var(--muted-foreground))"}>
-              {o.label}
-            </text>
-          </g>
-        ))}
+        {flow.map((item, i) => {
+          const y = 250 + i * 55;
+          return (
+            <g key={item.label}>
+              {i > 0 && <path d={`M 460 ${y - 17} L 460 ${y - 2}`} stroke="hsl(var(--border))" strokeWidth="1" />}
+              <rect x="304" y={y} width="312" height="42" rx="13" fill={i === 4 ? "hsl(var(--primary) / 0.06)" : "hsl(var(--surface))"} stroke={i === 4 ? "hsl(var(--primary) / 0.35)" : "hsl(var(--border))"} />
+              <text x="382" y={y + 26} textAnchor="middle" className="font-mono" fontSize="10" letterSpacing="1.4" fill={i === 4 ? "hsl(var(--primary))" : "hsl(var(--foreground))"}>
+                {item.label}
+              </text>
+              <text x="510" y={y + 26} textAnchor="middle" fontSize="11" fill="hsl(var(--muted-foreground))">
+                {item.detail}
+              </text>
+            </g>
+          );
+        })}
+
+        <path d="M 616 567 C 760 560, 812 410, 620 384" fill="none" stroke="hsl(var(--primary) / 0.45)" strokeDasharray="5 8" strokeWidth="1.4" />
+        <text x="736" y="490" textAnchor="middle" className="font-mono" fontSize="10" letterSpacing="1.6" fill="hsl(var(--primary))">
+          LEARNING LOOP
+        </text>
       </svg>
 
-      <div className="mt-6 flex items-center justify-between border-t border-border pt-4">
-        <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Signals</span>
-        <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-foreground">Context</span>
-        <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Learning</span>
-      </div>
+      <p className="mt-6 border-t border-border pt-4 text-[13px] leading-relaxed text-muted-foreground">
+        Every reviewed decision becomes structured context for the next one.
+      </p>
     </div>
   );
 };
@@ -347,13 +373,14 @@ const Landing = () => {
             className="max-w-4xl"
           >
             <h1 className="text-5xl md:text-7xl lg:text-[80px] font-semibold tracking-tight text-foreground leading-[1.02] mb-8">
-              Operational evidence for{" "}
+              Operational context for{" "}
               <span className="text-primary">Physical AI</span>.
             </h1>
 
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mb-10">
-              An operational workspace for Physical AI and autonomous systems.
-              Turn operational history into trusted evidence.
+              Veyra reconstructs what machines did, what changed, what people
+              knew, and what happened next, giving teams better context for
+              every decision.
             </p>
 
             <Link
@@ -381,9 +408,9 @@ const Landing = () => {
               Workflows
             </p>
             <p className="text-[17px] text-muted-foreground leading-relaxed">
-              Operational evidence is fragmented across systems, teams and time.
-              Veyra reconstructs it into persistent machine context for
-              investigation, decisions and learning.
+              Operational context is fragmented across systems, teams and time.
+              Veyra reconstructs it into a persistent record of what changed,
+              what was known, what was decided and what happened next.
             </p>
           </div>
 
@@ -403,6 +430,9 @@ const Landing = () => {
                 <h3 className="text-[22px] font-semibold text-foreground leading-snug">
                   {w.title}
                 </h3>
+                <p className="mt-4 text-[13px] leading-relaxed text-muted-foreground">
+                  {w.description}
+                </p>
               </motion.div>
             ))}
           </div>
@@ -431,29 +461,30 @@ const Landing = () => {
             <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-4">
               Product
             </p>
+            <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-foreground leading-[1.1] max-w-3xl">
+              From one costly machine decision to reusable operational memory.
+            </h2>
           </div>
 
           {/* Workflow banner */}
-          <div className="mb-8 rounded-2xl border border-border bg-surface/50 px-4 sm:px-6 py-4">
-            <ol className="flex flex-wrap items-center gap-x-3 gap-y-2">
+          <div className="mb-8 rounded-2xl border border-border bg-surface/50 p-4 sm:p-6">
+            <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-7">
               {[
-                "Runtime",
-                "Evidence",
-                "Context",
-                "Decision",
-                "Memory",
-              ].map((step, i, arr) => (
-                <li key={step} className="flex items-center gap-3">
-                  <span
-                    className={`font-mono text-[10px] sm:text-[11px] tracking-[0.15em] uppercase ${
-                      i === arr.length - 1 ? "text-foreground" : "text-muted-foreground"
-                    }`}
-                  >
-                    {step}
+                ["01", "A costly decision appears"],
+                ["02", "Reconstruct"],
+                ["03", "Challenge the conclusion"],
+                ["04", "Where else?"],
+                ["05", "Team decision"],
+                ["06", "Outcome"],
+                ["07", "Learn"],
+              ].map(([n, step]) => (
+                <li key={step} className="rounded-xl border border-border bg-background px-3 py-3">
+                  <span className="font-mono text-[9px] tracking-[0.16em] uppercase text-muted-foreground">
+                    {n}
                   </span>
-                  {i < arr.length - 1 && (
-                    <ChevronRight size={12} className="text-muted-foreground/60 shrink-0" />
-                  )}
+                  <div className="mt-2 text-[12px] font-medium leading-snug text-foreground">
+                    {step}
+                  </div>
                 </li>
               ))}
             </ol>
@@ -476,15 +507,15 @@ const Landing = () => {
             Pilot
           </p>
           <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-foreground leading-[1.1] mb-12 max-w-3xl">
-            We partner with teams operating Physical AI systems in production.
+            4-week design partner pilot
           </h2>
 
           <ol className="grid gap-4 md:grid-cols-4 mb-12">
             {[
-              { n: "01", t: "Choose one episode", d: "Identify one real machine event worth reconstructing." },
-              { n: "02", t: "Connect the evidence", d: "Connect the systems that hold its operational context using read-only access. Keep existing workflows unchanged." },
-              { n: "03", t: "Reconstruct the context", d: "Align machine state, software and configuration changes, runtime evidence, engineering notes and interventions over time." },
-              { n: "04", t: "Review and reuse", d: "See what was known, what changed, what remained uncertain, and what the team can carry forward." },
+              { n: "01", t: "Choose one costly machine decision", d: "Pick one recurring review your team already spends too much time piecing together." },
+              { n: "02", t: "Map today’s decision workflow", d: "Where does the team look? What gets lost? What is only known by people?" },
+              { n: "03", t: "Connect the minimum sources and reconstruct one real case", d: "Read-only access or exports from the few systems that actually matter." },
+              { n: "04", t: "Design what should happen next time", d: "Identify what could not be reconstructed, what should be captured, and what Veyra should make easier in production." },
             ].map((s) => (
               <li
                 key={s.n}
@@ -496,6 +527,11 @@ const Landing = () => {
               </li>
             ))}
           </ol>
+
+          <p className="mb-8 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
+            If the workflow proves useful, we scope a production deployment
+            together.
+          </p>
 
           <Link
             to="/contact"
