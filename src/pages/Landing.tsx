@@ -94,22 +94,22 @@ const FlowVisualization = () => {
         </text>
 
         {flow.map((item, i) => {
-          const y = 250 + i * 55;
+          const y = 246 + i * 58;
           return (
             <g key={item.label}>
               {i > 0 && <path d={`M 460 ${y - 17} L 460 ${y - 2}`} stroke="hsl(var(--border))" strokeWidth="1" />}
-              <rect x="304" y={y} width="312" height="42" rx="13" fill={i === 4 ? "hsl(var(--primary) / 0.06)" : "hsl(var(--surface))"} stroke={i === 4 ? "hsl(var(--primary) / 0.35)" : "hsl(var(--border))"} />
-              <text x="382" y={y + 26} textAnchor="middle" className="font-mono" fontSize="10" letterSpacing="1.4" fill={i === 4 ? "hsl(var(--primary))" : "hsl(var(--foreground))"}>
+              <rect x="266" y={y} width="388" height="48" rx="13" fill={i === 4 ? "hsl(var(--primary) / 0.06)" : "hsl(var(--surface))"} stroke={i === 4 ? "hsl(var(--primary) / 0.35)" : "hsl(var(--border))"} />
+              <text x="460" y={y + 20} textAnchor="middle" className="font-mono" fontSize="10" letterSpacing="1.4" fill={i === 4 ? "hsl(var(--primary))" : "hsl(var(--foreground))"}>
                 {item.label}
               </text>
-              <text x="510" y={y + 26} textAnchor="middle" fontSize="11" fill="hsl(var(--muted-foreground))">
+              <text x="460" y={y + 36} textAnchor="middle" fontSize="11" fill="hsl(var(--muted-foreground))">
                 {item.detail}
               </text>
             </g>
           );
         })}
 
-        <path d="M 616 567 C 760 560, 812 410, 620 384" fill="none" stroke="hsl(var(--primary) / 0.45)" strokeDasharray="5 8" strokeWidth="1.4" />
+        <path d="M 654 584 C 760 560, 812 420, 654 404" fill="none" stroke="hsl(var(--primary) / 0.45)" strokeDasharray="5 8" strokeWidth="1.4" />
         <text x="736" y="490" textAnchor="middle" className="font-mono" fontSize="10" letterSpacing="1.6" fill="hsl(var(--primary))">
           LEARNING LOOP
         </text>
