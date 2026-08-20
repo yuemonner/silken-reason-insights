@@ -10,9 +10,9 @@ const Contact = () => {
           Talk to the team.
         </h1>
         <p className="text-lg text-muted-foreground leading-relaxed max-w-xl mb-14">
-          Veyra is currently onboarding a small number of design partners across machine finance,
-          industrial deployment and autonomous operations. If you operate high-value physical systems,
-          we would like to hear from you.
+          Veyra is currently onboarding a small number of design partners across industrial
+          machinery, robotics and autonomous systems. If your team operates complex physical
+          systems and regularly makes costly operational decisions, we would like to hear from you.
         </p>
 
         <div className="grid sm:grid-cols-2 gap-4">
