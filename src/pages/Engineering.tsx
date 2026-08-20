@@ -758,8 +758,9 @@ OUTCOME       -> vibration returned to baseline`}
         <div className="mt-20 divider" />
         <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
           <p className="text-[15px] text-muted-foreground">
-            Interested in operational evidence for Physical AI? We are looking for design partners
-            operating robots, autonomous systems and other Physical AI in real environments.
+            Interested in operational context for Physical AI? We are looking for design partners
+            operating industrial machines, robots, autonomous systems and other Physical AI in real
+            environments.
           </p>
           <Link
             to="/contact"
