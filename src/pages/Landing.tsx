@@ -17,7 +17,7 @@ const workflows = [
     tag: "COMPARE",
     title: "Find Where Else",
     description:
-      "See where the same exposure, signals or interventions appear across the fleet.",
+      "See where the same conditions appear across other deployed systems and environments.",
   },
   {
     tag: "LEARN",
@@ -36,7 +36,7 @@ const FlowVisualization = () => {
     { label: "HUMAN DECISION", detail: "hold · inspect · rollback" },
     { label: "OUTCOME", detail: "fixed · recurring · unrelated" },
     { label: "OPERATIONAL MEMORY", detail: "reusable context" },
-    { label: "WHERE ELSE?", detail: "similar cases across fleet" },
+    { label: "WHERE ELSE?", detail: "similar cases across systems and deployments" },
   ];
 
   return (
@@ -151,14 +151,14 @@ const ProductWorkspace = () => {
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <div className="font-mono text-[10px] tracking-[0.18em] uppercase text-muted-foreground">
-              Line A Conveyor · Machine Episode
+              Line A Conveyor · Decision Review
             </div>
             <div className="mt-1 text-[13px] text-muted-foreground">
               Today · 11 evidence records · 218 days of related history
             </div>
           </div>
           <nav className="flex gap-4 font-mono text-[10px] tracking-[0.14em] uppercase text-muted-foreground">
-            {["Episodes", "Fleet Context", "Memory", "Evidence"].map((item, index) => (
+            {["Timeline", "Context", "Similar Cases", "Decisions", "History"].map((item, index) => (
               <span key={item} className={index === 0 ? "text-foreground" : ""}>{item}</span>
             ))}
           </nav>
@@ -309,9 +309,33 @@ const ProductWorkspace = () => {
                 ))}
               </div>
             </div>
+            <div className="rounded-xl border border-primary/30 bg-primary/[0.035] px-4 py-3">
+              <div className="font-mono text-[10px] tracking-[0.15em] uppercase text-primary/70 mb-3">
+                Preserve for next time
+              </div>
+              <div className="grid gap-4 text-[12px] leading-relaxed">
+                <div>
+                  <div className="mb-2 font-medium text-foreground">Already available</div>
+                  <ul className="space-y-1 text-muted-foreground">
+                    <li>software version</li>
+                    <li>configuration</li>
+                    <li>runtime alarm</li>
+                  </ul>
+                </div>
+                <div className="border-t border-primary/20 pt-3">
+                  <div className="mb-2 font-medium text-foreground">Should be preserved next time</div>
+                  <ul className="space-y-1 text-muted-foreground">
+                    <li>pre-event controller state</li>
+                    <li>intervention reason</li>
+                    <li>config diff</li>
+                    <li>local state during connectivity loss</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
             <div className="border-t border-border pt-5">
               <div className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-foreground mb-3">
-                Episode state
+                Review state
               </div>
               <div className="text-[13px] text-foreground">Under review</div>
             </div>
@@ -409,8 +433,8 @@ const Landing = () => {
             </p>
             <p className="text-[17px] text-muted-foreground leading-relaxed">
               Operational context is fragmented across systems, teams and time.
-              Veyra reconstructs it into a persistent record of what changed,
-              what was known, what was decided and what happened next.
+              Veyra turns those fragments into a working history teams can
+              review, compare and carry forward.
             </p>
           </div>
 
