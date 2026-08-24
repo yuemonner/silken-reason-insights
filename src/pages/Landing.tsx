@@ -163,6 +163,29 @@ const ProductWorkspace = () => {
             ))}
           </nav>
         </div>
+
+        <div className="mt-4 grid gap-3 rounded-xl border border-border bg-muted/20 p-4 sm:grid-cols-[1.4fr_0.7fr_0.8fr]">
+          <div>
+            <div className="font-mono text-[10px] tracking-[0.16em] uppercase text-muted-foreground">
+              Decision under review
+            </div>
+            <div className="mt-1 text-[15px] font-medium text-foreground">
+              Continue operation or hold for inspection?
+            </div>
+          </div>
+          <div>
+            <div className="font-mono text-[10px] tracking-[0.16em] uppercase text-muted-foreground">
+              Decision authority
+            </div>
+            <div className="mt-1 text-[13px] text-foreground">Operations Lead</div>
+          </div>
+          <div>
+            <div className="font-mono text-[10px] tracking-[0.16em] uppercase text-muted-foreground">
+              Review conditions
+            </div>
+            <div className="mt-1 text-[13px] text-foreground">4 of 5 supported</div>
+          </div>
+        </div>
       </div>
 
       <div className="px-4 sm:px-6 py-4 border-b border-border">
