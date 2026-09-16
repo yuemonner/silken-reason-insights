@@ -29,53 +29,141 @@ const workflows = [
 
 const FlowVisualization = () => {
   const flow = [
-    { label: "ISSUE", detail: "Something changed" },
-    { label: "UNDERSTAND", detail: "What changed? Where else?" },
-    { label: "DECIDE", detail: "What do we do now?" },
-    { label: "ACT", detail: "What did the team actually do?" },
-    { label: "OUTCOME", detail: "Did it work?" },
-    { label: "REUSE", detail: "What should we do next time?" },
+    { label: "Issue", detail: "Machine behavior changes", metric: "signal" },
+    { label: "Understand", detail: "Reconstruct what changed", metric: "context" },
+    { label: "Scope", detail: "Find where else it appears", metric: "peers" },
+    { label: "Decide", detail: "Choose the next action", metric: "owner" },
+    { label: "Outcome", detail: "Measure what happened", metric: "result" },
+    { label: "Reuse", detail: "Bring it back next time", metric: "memory" },
   ];
 
   return (
     <div className="w-full">
-      <div className="relative overflow-hidden rounded-2xl border border-border bg-background p-5 md:p-7">
-        <div className="absolute left-8 right-8 top-1/2 hidden h-px bg-border md:block" />
-        <motion.div
-          className="absolute top-1/2 hidden h-2 w-2 rounded-full bg-primary shadow-[0_0_24px_hsl(var(--primary)/0.55)] md:block"
-          animate={{ left: ["5%", "94%"] }}
-          transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
+      <div className="relative overflow-hidden rounded-2xl border border-border bg-background px-5 py-6 md:px-8 md:py-8">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.45]"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px), linear-gradient(to bottom, hsl(var(--border)) 1px, transparent 1px)",
+            backgroundSize: "36px 36px",
+            maskImage: "radial-gradient(ellipse at center, black 25%, transparent 76%)",
+            WebkitMaskImage: "radial-gradient(ellipse at center, black 25%, transparent 76%)",
+          }}
         />
-        <div className="relative grid gap-3 md:grid-cols-6">
-          {flow.map((item, i) => {
-            const active = i === 4 || i === 5;
-            return (
+
+        <div className="relative hidden md:block">
+          <svg viewBox="0 0 1120 210" className="h-[210px] w-full" role="img" aria-label="Operational case loop">
+            <defs>
+              <linearGradient id="caseFlow" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="hsl(var(--muted-foreground))" stopOpacity="0.18" />
+                <stop offset="48%" stopColor="hsl(var(--primary))" stopOpacity="0.55" />
+                <stop offset="100%" stopColor="hsl(var(--muted-foreground))" stopOpacity="0.18" />
+              </linearGradient>
+              <filter id="flowGlow">
+                <feGaussianBlur stdDeviation="5" result="coloredBlur" />
+                <feMerge>
+                  <feMergeNode in="coloredBlur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+            <path
+              d="M 75 92 C 210 25, 335 155, 470 92 S 730 25, 865 92 S 1015 150, 1045 92"
+              fill="none"
+              stroke="url(#caseFlow)"
+              strokeWidth="1.5"
+            />
+            <path
+              d="M 1045 92 C 970 190, 220 190, 75 92"
+              fill="none"
+              stroke="hsl(var(--primary))"
+              strokeDasharray="8 12"
+              strokeOpacity="0.32"
+              strokeWidth="1.5"
+            />
+            <motion.circle
+              r="6"
+              fill="hsl(var(--primary))"
+              filter="url(#flowGlow)"
+              animate={{
+                cx: [75, 250, 420, 600, 780, 950, 1045],
+                cy: [92, 79, 104, 76, 101, 83, 92],
+              }}
+              transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.circle
+              r="3"
+              fill="hsl(var(--primary))"
+              animate={{
+                cx: [1045, 820, 610, 390, 190, 75],
+                cy: [92, 168, 182, 177, 158, 92],
+              }}
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
+            />
+          </svg>
+
+          <div className="absolute inset-x-0 top-0 grid grid-cols-6 gap-3">
+            {flow.map((item, i) => (
               <motion.div
                 key={item.label}
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 8 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.06, duration: 0.35 }}
-                className={`relative min-h-[130px] rounded-2xl border p-4 ${
-                  active
-                    ? "border-primary/40 bg-primary/[0.055]"
-                    : "border-border bg-background"
-                }`}
+                whileHover={{ y: -4 }}
+                className="group relative min-h-[118px] rounded-2xl border border-border/80 bg-background/80 p-4 shadow-sm backdrop-blur transition-colors hover:border-primary/45 hover:bg-primary/[0.035]"
               >
-                <div className={`font-mono text-[10px] uppercase tracking-[0.16em] ${active ? "text-primary" : "text-muted-foreground"}`}>
-                  {item.label}
+                <div className="mb-5 flex items-center justify-between">
+                  <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground group-hover:text-primary">
+                    {item.label}
+                  </div>
+                  <div className="h-2 w-2 rounded-full bg-foreground/45 group-hover:bg-primary group-hover:shadow-[0_0_18px_hsl(var(--primary)/0.6)]" />
                 </div>
-                <div className="mt-7 text-[17px] font-medium leading-snug text-foreground">
+                <div className="text-[15px] font-medium leading-snug text-foreground">
                   {item.detail}
                 </div>
-                <div className="absolute bottom-4 left-4 h-1.5 w-1.5 rounded-full bg-foreground/70" />
+                <div className="mt-4 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
+                  {item.metric}
+                </div>
               </motion.div>
-            );
-          })}
+            ))}
+          </div>
         </div>
-        <div className="mt-5 rounded-full border border-primary/20 bg-primary/[0.035] px-4 py-2 text-center font-mono text-[10px] uppercase tracking-[0.16em] text-primary">
+
+        <div className="relative grid gap-3 md:hidden">
+          {flow.map((item, i) => (
+            <motion.div
+              key={item.label}
+              initial={{ opacity: 0, y: 8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.04, duration: 0.3 }}
+              className="flex items-center gap-4 rounded-2xl border border-border bg-background/85 p-4"
+            >
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary/[0.05] font-mono text-[10px] text-primary">
+                {String(i + 1).padStart(2, "0")}
+              </div>
+              <div>
+                <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+                  {item.label}
+                </div>
+                <div className="mt-1 text-[15px] font-medium leading-snug text-foreground">
+                  {item.detail}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <motion.div
+          className="relative mt-5 rounded-full border border-primary/25 bg-primary/[0.035] px-4 py-2 text-center font-mono text-[10px] uppercase tracking-[0.16em] text-primary md:mt-0"
+          initial={{ opacity: 0, y: 8 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3, duration: 0.35 }}
+        >
           Every case makes the next one easier to handle
-        </div>
+        </motion.div>
       </div>
 
       <p className="mt-5 border-t border-border pt-4 text-[13px] leading-relaxed text-muted-foreground">
