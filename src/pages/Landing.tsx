@@ -20,6 +20,12 @@ const workflows = [
       "Compare affected and healthy machines. See which other deployed systems share the same conditions.",
   },
   {
+    tag: "ACT",
+    title: "Decide what to do",
+    description:
+      "Use the evidence available now to choose the next action, assign ownership and record what was actually done.",
+  },
+  {
     tag: "LEARN",
     title: "Know what worked",
     description:
@@ -33,6 +39,7 @@ const FlowVisualization = () => {
     { label: "Understand", detail: "Reconstruct what changed", metric: "context" },
     { label: "Scope", detail: "Find where else it appears", metric: "peers" },
     { label: "Decide", detail: "Choose the next action", metric: "owner" },
+    { label: "Act", detail: "Record what was actually done", metric: "action" },
     { label: "Outcome", detail: "Measure what happened", metric: "result" },
     { label: "Reuse", detail: "Bring it back next time", metric: "memory" },
   ];
@@ -52,7 +59,7 @@ const FlowVisualization = () => {
         />
 
         <div className="relative hidden md:block">
-          <svg viewBox="0 0 1120 210" className="h-[210px] w-full" role="img" aria-label="Operational case loop">
+          <svg viewBox="0 0 1260 210" className="h-[210px] w-full" role="img" aria-label="Operational case loop">
             <defs>
               <linearGradient id="caseFlow" x1="0" y1="0" x2="1" y2="0">
                 <stop offset="0%" stopColor="hsl(var(--muted-foreground))" stopOpacity="0.18" />
@@ -68,13 +75,13 @@ const FlowVisualization = () => {
               </filter>
             </defs>
             <path
-              d="M 75 92 C 210 25, 335 155, 470 92 S 730 25, 865 92 S 1015 150, 1045 92"
+              d="M 70 92 C 205 25, 320 155, 455 92 S 690 25, 825 92 S 1030 155, 1190 92"
               fill="none"
               stroke="url(#caseFlow)"
               strokeWidth="1.5"
             />
             <path
-              d="M 1045 92 C 970 190, 220 190, 75 92"
+              d="M 1190 92 C 1060 190, 220 190, 70 92"
               fill="none"
               stroke="hsl(var(--primary))"
               strokeDasharray="8 12"
@@ -86,8 +93,8 @@ const FlowVisualization = () => {
               fill="hsl(var(--primary))"
               filter="url(#flowGlow)"
               animate={{
-                cx: [75, 250, 420, 600, 780, 950, 1045],
-                cy: [92, 79, 104, 76, 101, 83, 92],
+                cx: [70, 245, 410, 585, 760, 960, 1120, 1190],
+                cy: [92, 79, 104, 76, 99, 82, 107, 92],
               }}
               transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}
             />
@@ -95,14 +102,14 @@ const FlowVisualization = () => {
               r="3"
               fill="hsl(var(--primary))"
               animate={{
-                cx: [1045, 820, 610, 390, 190, 75],
-                cy: [92, 168, 182, 177, 158, 92],
+                cx: [1190, 980, 760, 540, 310, 150, 70],
+                cy: [92, 168, 182, 177, 172, 150, 92],
               }}
               transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
             />
           </svg>
 
-          <div className="absolute inset-x-0 top-0 grid grid-cols-6 gap-3">
+          <div className="absolute inset-x-0 top-0 grid grid-cols-7 gap-2">
             {flow.map((item, i) => (
               <motion.div
                 key={item.label}
@@ -111,7 +118,7 @@ const FlowVisualization = () => {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.06, duration: 0.35 }}
                 whileHover={{ y: -4 }}
-                className="group relative min-h-[118px] rounded-2xl border border-border/80 bg-background/80 p-4 shadow-sm backdrop-blur transition-colors hover:border-primary/45 hover:bg-primary/[0.035]"
+                className="group relative min-h-[118px] rounded-2xl border border-border/80 bg-background/80 p-3 shadow-sm backdrop-blur transition-colors hover:border-primary/45 hover:bg-primary/[0.035]"
               >
                 <div className="mb-5 flex items-center justify-between">
                   <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground group-hover:text-primary">
@@ -119,7 +126,7 @@ const FlowVisualization = () => {
                   </div>
                   <div className="h-2 w-2 rounded-full bg-foreground/45 group-hover:bg-primary group-hover:shadow-[0_0_18px_hsl(var(--primary)/0.6)]" />
                 </div>
-                <div className="text-[15px] font-medium leading-snug text-foreground">
+                <div className="text-[14px] font-medium leading-snug text-foreground">
                   {item.detail}
                 </div>
                 <div className="mt-4 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
@@ -180,7 +187,7 @@ const ProductWorkspace = () => {
       n: "01",
       label: "Detect",
       title: "Something changes on a deployed machine.",
-      detail: "R03 and R05 begin showing abnormal grip pose drift after the same software update.",
+      detail: "R03 and R05 are affected after a software update. The case opens from machine evidence and engineer context.",
       focus: ["2 affected machines", "first signal 14:11", "engineer note 14:26"],
       metric: "2 affected",
       memory: "A new case opens automatically from machine state and engineer context.",
@@ -216,8 +223,8 @@ const ProductWorkspace = () => {
       n: "05",
       label: "Act",
       title: "Record what the team actually does.",
-      detail: "Decision and execution are separated: pause rollout, roll back affected machines, monitor exposed machines.",
-      focus: ["roll back R03/R05", "monitor R06", "support notified"],
+      detail: "Rollout paused. R03 and R05 rolled back. Field dispatch held until the team has stronger evidence.",
+      focus: ["rollout paused", "R03/R05 rolled back", "field dispatch held"],
       metric: "3 actions",
       memory: "The operational record captures the action scope and owner.",
     },
@@ -225,8 +232,8 @@ const ProductWorkspace = () => {
       n: "06",
       label: "Measure",
       title: "Track whether the action worked.",
-      detail: "The case follows recovery, recurrence, field visits and rollout impact after the action.",
-      focus: ["R03 recovered", "R05 recovered", "field visit avoided"],
+      detail: "R03 and R05 recovered. No field visit required. R06 later showed the same pattern.",
+      focus: ["R03 recovered", "R05 recovered", "R06 later affected"],
       metric: "2 recovered",
       memory: "The outcome is linked back to the action that produced it.",
     },
@@ -422,13 +429,13 @@ const ProductWorkspace = () => {
 
             <div className="rounded-2xl border border-primary/25 bg-primary/[0.035] p-4">
               <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-primary/80">
-                Prior case
+                Relevant history
               </div>
               <p className="mt-3 text-[13px] leading-relaxed text-foreground">
-                Similar case 12 days ago. Rollback recovered affected machines and avoided a field visit.
+                Similar case found. Last time, rollback recovered 2 of 2 affected machines. One additional machine was affected later.
               </p>
               <div className="mt-4 rounded-xl border border-primary/20 bg-background/70 p-3 text-[12px] leading-relaxed text-muted-foreground">
-                Next case starts with prior action and outcome.
+                Use previous outcome
               </div>
             </div>
 
@@ -490,8 +497,7 @@ const Landing = () => {
 
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mb-10">
               Veyra helps teams understand what changed, decide what to do,
-              and learn from what actually worked across deployed physical
-              systems.
+              and learn from what worked across deployed physical systems.
             </p>
 
             <Link
@@ -525,7 +531,7 @@ const Landing = () => {
             </div>
             <div className="rounded-2xl border border-border bg-surface/45 p-5">
               <div className="grid gap-2 sm:grid-cols-2">
-                {["What changed?", "Where else?", "What now?", "Did it work?"].map((question, index) => (
+                {["What changed?", "Where else?", "What should we do?", "Did it work?"].map((question, index) => (
                   <div key={question} className="rounded-xl border border-border bg-background px-4 py-3">
                     <div className="font-mono text-[10px] text-muted-foreground">0{index + 1}</div>
                     <div className="mt-1 text-[15px] font-medium text-foreground">{question}</div>
@@ -540,7 +546,7 @@ const Landing = () => {
             </div>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {workflows.map((w, i) => (
               <motion.div
                 key={w.tag}
@@ -644,8 +650,8 @@ const Landing = () => {
           </ol>
 
           <p className="mb-8 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
-            If Veyra becomes part of the team's real operational workflow, we
-            move into a production deployment.
+            If the deployment proves repeatable value in a live workflow, we
+            move into production.
           </p>
 
           <Link
