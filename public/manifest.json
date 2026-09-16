@@ -1,7 +1,7 @@
 {
   "name": "Silken Reason",
   "short_name": "Silken Reason",
-  "description": "Know when an autonomous system is ready for what comes next. Veyra reconstructs operational history across telemetry, software revisions and maintenance records into trusted evidence for deployment and operational reviews.",
+  "description": "Veyra helps teams understand what changed, decide what to do, and learn from what actually worked across deployed physical systems.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

@@ -1,48 +1,46 @@
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
-  ChevronRight,
 } from "lucide-react";
 import Layout from "@/components/Layout";
 
 const workflows = [
   {
-    tag: "RECONSTRUCT",
-    title: "Understand What Changed",
+    tag: "UNDERSTAND",
+    title: "See what changed",
     description:
-      "Bring together machine state, software/config changes, service actions and what the team knew at the time.",
+      "Bring together machine state, software, configuration, service history and recent changes around the incident.",
   },
   {
-    tag: "COMPARE",
-    title: "Find Where Else",
+    tag: "SCOPE",
+    title: "Find where else",
     description:
-      "See where the same conditions appear across other deployed systems and environments.",
+      "Compare affected and healthy machines. See which other deployed systems share the same conditions.",
   },
   {
     tag: "LEARN",
-    title: "Carry Decisions Forward",
+    title: "Know what worked",
     description:
-      "Preserve what the team decided, what happened afterwards, and which context may matter the next time a similar case appears.",
+      "Record what the team actually did, what happened afterwards, and reuse that history when a similar case appears again.",
   },
 ];
 
 const FlowVisualization = () => {
-  const machineContext = ["Runtime state", "Software", "Configuration", "Environment"];
-  const humanContext = ["Service actions", "Operator interventions", "Team observations", "Hypotheses / decisions"];
   const flow = [
-    { label: "RECONSTRUCT", detail: "what changed" },
-    { label: "DECISION CONTEXT", detail: "what was known / missing" },
-    { label: "HUMAN DECISION", detail: "hold · inspect · rollback" },
-    { label: "OUTCOME", detail: "fixed · recurring · unrelated" },
-    { label: "OPERATIONAL MEMORY", detail: "reusable context" },
-    { label: "WHERE ELSE?", detail: "similar cases across systems and deployments" },
+    { label: "ISSUE", detail: "Something changed" },
+    { label: "UNDERSTAND", detail: "What changed? Where else?" },
+    { label: "DECIDE", detail: "What do we do now?" },
+    { label: "ACT", detail: "What did the team actually do?" },
+    { label: "OUTCOME", detail: "Did it work?" },
+    { label: "REUSE", detail: "What should we do next time?" },
   ];
 
   return (
     <div className="w-full">
       <svg
-        viewBox="0 0 920 620"
+        viewBox="0 0 960 260"
         className="w-full h-auto"
         preserveAspectRatio="xMidYMid meet"
       >
@@ -52,71 +50,41 @@ const FlowVisualization = () => {
           </filter>
         </defs>
 
-        <text x="160" y="48" textAnchor="middle" className="font-mono" fontSize="11" letterSpacing="2" fill="hsl(var(--muted-foreground))">
-          MACHINE CONTEXT
-        </text>
-        <text x="760" y="48" textAnchor="middle" className="font-mono" fontSize="11" letterSpacing="2" fill="hsl(var(--muted-foreground))">
-          HUMAN / OPERATIONAL CONTEXT
-        </text>
-
-        {machineContext.map((label, i) => (
-          <g key={label}>
-            <rect x="64" y={80 + i * 58} width="192" height="38" rx="11" fill="hsl(var(--background))" stroke="hsl(var(--border))" />
-            <text x="160" y={104 + i * 58} textAnchor="middle" fontSize="12" fill="hsl(var(--foreground))">{label}</text>
-            <path id={`machine-${i}`} d={`M 256 ${99 + i * 58} C 340 ${99 + i * 58}, 338 170, 432 170`} fill="none" stroke="hsl(var(--border))" strokeWidth="1" />
-            <circle r="2.4" fill="hsl(var(--primary) / 0.75)">
-              <animateMotion dur={`${7 + i}s`} begin={`${-i * 0.6}s`} repeatCount="indefinite">
-                <mpath href={`#machine-${i}`} />
-              </animateMotion>
-            </circle>
-          </g>
-        ))}
-
-        {humanContext.map((label, i) => (
-          <g key={label}>
-            <rect x="664" y={80 + i * 58} width="208" height="38" rx="11" fill="hsl(var(--background))" stroke="hsl(var(--border))" />
-            <text x="768" y={104 + i * 58} textAnchor="middle" fontSize="12" fill="hsl(var(--foreground))">{label}</text>
-            <path id={`human-${i}`} d={`M 664 ${99 + i * 58} C 580 ${99 + i * 58}, 582 170, 488 170`} fill="none" stroke="hsl(var(--border))" strokeWidth="1" />
-            <circle r="2.4" fill="hsl(var(--primary) / 0.75)">
-              <animateMotion dur={`${8 + i}s`} begin={`${-i * 0.7}s`} repeatCount="indefinite">
-                <mpath href={`#human-${i}`} />
-              </animateMotion>
-            </circle>
-          </g>
-        ))}
-
-        <rect x="342" y="132" width="236" height="76" rx="18" fill="hsl(var(--background))" stroke="hsl(var(--foreground) / 0.4)" filter="url(#softShadow)" />
-        <text x="460" y="164" textAnchor="middle" className="font-mono" fontSize="11" letterSpacing="1.8" fill="hsl(var(--muted-foreground))">
-          COSTLY MACHINE DECISION
-        </text>
-        <text x="460" y="187" textAnchor="middle" fontSize="20" fontWeight="600" fill="hsl(var(--foreground))">
-          Decision Context
-        </text>
-
         {flow.map((item, i) => {
-          const y = 246 + i * 58;
+          const x = 34 + i * 150;
+          const active = i === 4 || i === 5;
           return (
             <g key={item.label}>
-              {i > 0 && <path d={`M 460 ${y - 17} L 460 ${y - 2}`} stroke="hsl(var(--border))" strokeWidth="1" />}
-              <rect x="266" y={y} width="388" height="48" rx="13" fill={i === 4 ? "hsl(var(--primary) / 0.06)" : "hsl(var(--surface))"} stroke={i === 4 ? "hsl(var(--primary) / 0.35)" : "hsl(var(--border))"} />
-              <text x="460" y={y + 20} textAnchor="middle" className="font-mono" fontSize="10" letterSpacing="1.4" fill={i === 4 ? "hsl(var(--primary))" : "hsl(var(--foreground))"}>
+              <rect x={x} y="82" width="128" height="92" rx="18" fill={active ? "hsl(var(--primary) / 0.06)" : "hsl(var(--background))"} stroke={active ? "hsl(var(--primary) / 0.35)" : "hsl(var(--border))"} filter="url(#softShadow)" />
+              <text x={x + 64} y="113" textAnchor="middle" className="font-mono" fontSize="10" letterSpacing="1.4" fill={active ? "hsl(var(--primary))" : "hsl(var(--muted-foreground))"}>
                 {item.label}
               </text>
-              <text x="460" y={y + 36} textAnchor="middle" fontSize="11" fill="hsl(var(--muted-foreground))">
-                {item.detail}
-              </text>
+              {item.detail.split(" ").length > 3 ? (
+                <>
+                  <text x={x + 64} y="139" textAnchor="middle" fontSize="12" fill="hsl(var(--foreground))">{item.detail.split(" ").slice(0, 3).join(" ")}</text>
+                  <text x={x + 64} y="158" textAnchor="middle" fontSize="12" fill="hsl(var(--foreground))">{item.detail.split(" ").slice(3).join(" ")}</text>
+                </>
+              ) : (
+                <text x={x + 64} y="148" textAnchor="middle" fontSize="12" fill="hsl(var(--foreground))">{item.detail}</text>
+              )}
+              {i < flow.length - 1 && (
+                <>
+                  <path d={`M ${x + 128} 128 L ${x + 146} 128`} stroke="hsl(var(--border))" strokeWidth="1.4" />
+                  <path d={`M ${x + 144} 122 L ${x + 151} 128 L ${x + 144} 134`} fill="none" stroke="hsl(var(--muted-foreground))" strokeWidth="1.4" />
+                </>
+              )}
             </g>
           );
         })}
 
-        <path d="M 654 584 C 760 560, 812 420, 654 404" fill="none" stroke="hsl(var(--primary) / 0.45)" strokeDasharray="5 8" strokeWidth="1.4" />
-        <text x="736" y="490" textAnchor="middle" className="font-mono" fontSize="10" letterSpacing="1.6" fill="hsl(var(--primary))">
-          LEARNING LOOP
+        <path d="M 856 178 C 790 238, 174 238, 96 178" fill="none" stroke="hsl(var(--primary) / 0.38)" strokeDasharray="5 8" strokeWidth="1.4" />
+        <text x="480" y="230" textAnchor="middle" className="font-mono" fontSize="10" letterSpacing="1.6" fill="hsl(var(--primary))">
+          EVERY CASE MAKES THE NEXT ONE EASIER TO HANDLE
         </text>
       </svg>
 
       <p className="mt-6 border-t border-border pt-4 text-[13px] leading-relaxed text-muted-foreground">
-        Every reviewed decision becomes structured context for the next one.
+        Veyra turns every operational incident into reusable evidence for the next one.
       </p>
     </div>
   );
@@ -124,270 +92,249 @@ const FlowVisualization = () => {
 
 /* ---------- Product episode canvas mock ---------- */
 const ProductWorkspace = () => {
-  const events = [
-    { t: "09:13", title: "Runtime anomaly detected", kind: "OBSERVED", side: "left" },
-    { t: "09:14", title: "Runtime snapshot captured", kind: "OBSERVED", side: "right" },
-    { t: "09:17", title: "Maintenance intervention", kind: "INTERVENTION", side: "left" },
-    { t: "09:18", title: "Engineer observation added", kind: "HUMAN", side: "right", active: true },
-    { t: "09:26", title: "Vibration returned within baseline", kind: "DERIVED", side: "left" },
-    { t: "09:31", title: "Inspection completed", kind: "OBSERVED", side: "right" },
-    { t: "09:34", title: "Working hypothesis weakened", kind: "COUNTEREVIDENCE", side: "left" },
-    { t: "09:44", title: "Continue operation under observation", kind: "DECISION", side: "right" },
-    { t: "13:44", title: "No recurrence after four hours", kind: "OUTCOME", side: "left" },
+  const steps = [
+    {
+      n: "01",
+      label: "Detect",
+      title: "Something changes on a deployed machine.",
+      detail: "R03 and R05 begin showing abnormal grip pose drift after the same software update.",
+      focus: ["2 affected machines", "first signal 14:11", "engineer note 14:26"],
+    },
+    {
+      n: "02",
+      label: "Reconstruct",
+      title: "See the relevant machine context.",
+      detail: "Veyra brings software, configuration, machine state and service history into one case.",
+      focus: ["policy v0.8 → v0.9", "camera calibration B → C", "gripper firmware 7.2 → 7.3"],
+    },
+    {
+      n: "03",
+      label: "Compare",
+      title: "Understand what differs between affected and healthy machines.",
+      detail: "The same software ran everywhere. Calibration C and gripper firmware 7.3 concentrate on the affected machines.",
+      focus: ["2 affected", "4 healthy", "R06 exposed but healthy"],
+    },
+    {
+      n: "04",
+      label: "Decide",
+      title: "See what is known, uncertain and actionable.",
+      detail: "The team can act while preserving what was known and what remained unresolved.",
+      focus: ["known: R03/R05 affected", "unknown: R06 later behavior", "option: pause rollout"],
+    },
+    {
+      n: "05",
+      label: "Act",
+      title: "Record what the team actually does.",
+      detail: "Decision and execution are separated: pause rollout, roll back affected machines, monitor exposed machines.",
+      focus: ["roll back R03/R05", "monitor R06", "support notified"],
+    },
+    {
+      n: "06",
+      label: "Measure",
+      title: "Track whether the action worked.",
+      detail: "The case follows recovery, recurrence, field visits and rollout impact after the action.",
+      focus: ["R03 recovered", "R05 recovered", "field visit avoided"],
+    },
+    {
+      n: "07",
+      label: "Reuse",
+      title: "Bring back what worked before.",
+      detail: "When a similar case appears again, Veyra surfaces the previous action, outcome and missing evidence.",
+      focus: ["similar case found", "rollback worked", "check config before dispatch"],
+    },
   ];
-  const kindStyles: Record<string, string> = {
-    OBSERVED: "border-foreground/30 text-foreground",
-    INTERVENTION: "border-primary/40 text-primary",
-    HUMAN: "border-foreground bg-foreground text-background",
-    DERIVED: "border-primary/40 text-primary",
-    COUNTEREVIDENCE: "border-destructive/40 text-destructive",
-    DECISION: "border-foreground/40 text-foreground",
-    OUTCOME: "border-primary/40 bg-primary/[0.06] text-primary",
-  };
+  const [active, setActive] = useState(0);
+  const current = steps[active];
 
   return (
-    <div className="rounded-2xl border border-border bg-background overflow-hidden shadow-[0_1px_0_hsl(var(--border)),0_30px_60px_-30px_hsl(var(--foreground)/0.15)]">
-      <div className="border-b border-border px-4 sm:px-6 py-4">
+    <div className="overflow-hidden rounded-2xl border border-border bg-background shadow-[0_1px_0_hsl(var(--border)),0_30px_60px_-30px_hsl(var(--foreground)/0.15)]">
+      <div className="border-b border-border px-4 py-4 sm:px-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <div className="font-mono text-[10px] tracking-[0.18em] uppercase text-muted-foreground">
-              Line A Conveyor · Decision Review
+            <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+              Case workspace
             </div>
             <div className="mt-1 text-[13px] text-muted-foreground">
-              Today · 11 evidence records · 218 days of related history
+              Post-update machine behavior · live operational case
             </div>
           </div>
-          <nav className="flex gap-4 font-mono text-[10px] tracking-[0.14em] uppercase text-muted-foreground">
-            {["Timeline", "Context", "Similar Cases", "Decisions", "History"].map((item, index) => (
-              <span key={item} className={index === 0 ? "text-foreground" : ""}>{item}</span>
+          <nav className="flex flex-wrap gap-2">
+            {steps.map((step, index) => (
+              <button
+                key={step.label}
+                onClick={() => setActive(index)}
+                className={`rounded-full border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors ${
+                  active === index
+                    ? "border-foreground bg-foreground text-background"
+                    : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground"
+                }`}
+              >
+                {step.n} {step.label}
+              </button>
             ))}
           </nav>
         </div>
-
-        <div className="mt-4 grid gap-3 rounded-xl border border-border bg-muted/20 p-4 sm:grid-cols-[1.4fr_0.7fr_0.8fr]">
-          <div>
-            <div className="font-mono text-[10px] tracking-[0.16em] uppercase text-muted-foreground">
-              Decision under review
-            </div>
-            <div className="mt-1 text-[15px] font-medium text-foreground">
-              Continue operation or hold for inspection?
-            </div>
-          </div>
-          <div>
-            <div className="font-mono text-[10px] tracking-[0.16em] uppercase text-muted-foreground">
-              Decision authority
-            </div>
-            <div className="mt-1 text-[13px] text-foreground">Operations Lead</div>
-          </div>
-          <div>
-            <div className="font-mono text-[10px] tracking-[0.16em] uppercase text-muted-foreground">
-              Review conditions
-            </div>
-            <div className="mt-1 text-[13px] text-foreground">4 of 5 supported</div>
-          </div>
-        </div>
       </div>
 
-      <div className="px-4 sm:px-6 py-4 border-b border-border">
-        <ol className="flex flex-wrap items-center gap-x-3 gap-y-2">
-          {["Runtime", "Evidence", "Context", "Decision", "Memory"].map((step, i, arr) => (
-            <li key={step} className="flex items-center gap-3">
-              <span className={`font-mono text-[10px] tracking-[0.15em] uppercase ${i === 2 ? "text-foreground" : "text-muted-foreground"}`}>
-                {step}
-              </span>
-              {i < arr.length - 1 && <ChevronRight size={12} className="text-muted-foreground/50" />}
-            </li>
-          ))}
-        </ol>
-      </div>
-
-      <div className="grid grid-cols-1 xl:grid-cols-[1fr_360px] gap-0">
-        <div className="min-h-[620px] p-6 sm:p-8 overflow-hidden">
-          <div className="grid gap-5 lg:grid-cols-[220px_1fr_240px]">
-            <div className="rounded-2xl border border-border bg-background p-4 self-start">
-              <div className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-foreground mb-3">
-                Context constellation
-              </div>
-              {[
-                "Machine state · autonomous mode",
-                "Software rev 218 · config C17",
-                "Inspection WO-4471",
-                "Vibration RMS 0.31 mm/s",
-              ].map((item) => (
-                <div key={item} className="border-t border-border py-2 text-[12px] text-muted-foreground first:border-t-0">
-                  {item}
-                </div>
-              ))}
-            </div>
-
-            <div className="relative min-h-[560px]">
-          <div className="absolute left-1/2 top-8 bottom-8 w-px bg-border" />
-          <div className="absolute left-1/2 top-[300px] -translate-x-1/2 h-3 w-3 rounded-full bg-foreground ring-8 ring-background" />
-
-          <div className="relative mx-auto max-w-3xl">
-            {events.map((event, index) => (
-              <div
-                key={`${event.t}-${event.title}`}
-                className={`relative grid grid-cols-[1fr_34px_1fr] items-center min-h-[58px] ${
-                  event.active ? "my-3" : ""
+      <div className="grid min-h-[620px] lg:grid-cols-[250px_1fr_320px]">
+        <aside className="border-b border-border bg-surface/40 p-5 lg:border-b-0 lg:border-r">
+          <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+            Active cases
+          </div>
+          <div className="mt-4 space-y-3">
+            {[
+              ["R03 / R05", "Post-update anomaly", "OPEN · HIGH"],
+              ["R12", "Similar drift pattern", "WATCH"],
+              ["Line B", "Outcome follow-up", "DUE"],
+            ].map(([asset, title, status], index) => (
+              <button
+                key={asset}
+                onClick={() => index === 0 && setActive(0)}
+                className={`w-full rounded-xl border p-4 text-left transition-colors ${
+                  index === 0
+                    ? "border-foreground/30 bg-background"
+                    : "border-border bg-background/60 hover:border-foreground/20"
                 }`}
               >
-                <div className={event.side === "left" ? "pr-5 text-right" : "col-start-3 pl-5"}>
-                  <div
-                    className={`inline-block rounded-xl border bg-background px-4 py-3 text-left ${
-                      event.active ? "border-foreground shadow-[0_16px_40px_-28px_hsl(var(--foreground))]" : "border-border"
-                    }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono text-[10px] tabular-nums text-muted-foreground">{event.t}</span>
-                      <span className={`rounded-full border px-2 py-0.5 font-mono text-[8.5px] tracking-[0.12em] ${kindStyles[event.kind]}`}>
-                        {event.kind}
-                      </span>
-                    </div>
-                    <div className="mt-1 text-[13px] leading-snug text-foreground">{event.title}</div>
-                  </div>
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-[13px] font-semibold text-foreground">{asset}</span>
+                  <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-muted-foreground">{status}</span>
                 </div>
-                <div className="col-start-2 flex justify-center">
-                  <span className={`h-2.5 w-2.5 rounded-full border bg-background ${event.active ? "border-foreground" : "border-muted-foreground/40"}`} />
-                </div>
-              </div>
+                <p className="mt-2 text-[12px] text-muted-foreground">{title}</p>
+              </button>
             ))}
           </div>
-            </div>
 
-          <div className="rounded-2xl border border-primary/30 bg-primary/[0.035] p-4 self-start">
-            <div className="font-mono text-[10px] tracking-[0.15em] uppercase text-primary/70 mb-3">
-              Engineering note
+          <div className="mt-8 rounded-xl border border-primary/25 bg-primary/[0.035] p-4">
+            <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-primary/80">
+              Needs attention
             </div>
-            <p className="text-[12px] leading-relaxed text-foreground/80">
-              Elevated vibration appeared after restart. Belt tension suspected; not established.
+            <p className="mt-3 text-[12px] leading-relaxed text-muted-foreground">
+              R06 shares the exposure and needs follow-up after the first action.
             </p>
-            <div className="mt-3 space-y-1.5 font-mono text-[10px] text-muted-foreground">
-              <div>OBSERVATION → elevated vibration</div>
-              <div>HYPOTHESIS → belt tension involvement</div>
-              <div>INTERVENTION → inspection</div>
-              <div>OUTCOME → returned to baseline</div>
-            </div>
-          </div>
-          </div>
-
-          <div className="mt-8 grid gap-3 sm:grid-cols-5 text-[11px] text-muted-foreground">
-            {[
-              ["19 May", "similar signal"],
-              ["27 Apr", "tension arm reseated"],
-              ["14 Mar", "four-hour stoppage"],
-              ["02 Feb", "belt adjusted"],
-              ["11 Jan", "housing inspected"],
-            ].map(([date, detail]) => (
-              <div key={date} className="rounded-xl border border-border bg-surface/50 px-3 py-3">
-                <div className="font-mono text-[10px] text-foreground">{date}</div>
-                <div className="mt-1">{detail}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <aside className="border-t xl:border-t-0 xl:border-l border-border p-6">
-          <div className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-foreground mb-5">
-            What was known at 09:18
-          </div>
-          <div className="space-y-5">
-            <div>
-              <div className="text-[12px] font-medium text-foreground mb-2">Established</div>
-              <ul className="space-y-1.5 text-[12px] leading-relaxed text-muted-foreground">
-                <li>abnormal vibration occurred</li>
-                <li>software rev 218 active</li>
-              </ul>
-            </div>
-            <div>
-              <div className="text-[12px] font-medium text-foreground mb-2">Working hypothesis</div>
-              <p className="text-[12px] leading-relaxed text-muted-foreground">belt tension may be involved</p>
-            </div>
-            <div>
-              <div className="text-[12px] font-medium text-foreground mb-2">Unknown</div>
-              <p className="text-[12px] leading-relaxed text-muted-foreground">whether restart caused the behavior</p>
-            </div>
-            <div>
-              <div className="text-[12px] font-medium text-foreground mb-2">Counterevidence</div>
-              <p className="text-[12px] leading-relaxed text-muted-foreground">
-                same vibration profile previously occurred without belt tension fault
-              </p>
-            </div>
-            <div className="rounded-xl border border-border bg-surface/60 px-4 py-3">
-              <div className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-foreground mb-3">
-                Last known good
-              </div>
-              <div className="space-y-2 text-[12px]">
-                {[
-                  ["Revision", "rev 217"],
-                  ["Config", "C16"],
-                  ["Validated", "08:42"],
-                  ["Tests", "3 successful cycles"],
-                  ["Exceptions", "no Redis storm"],
-                ].map(([k, v]) => (
-                  <div key={k} className="flex items-center justify-between gap-3">
-                    <span className="text-muted-foreground">{k}</span>
-                    <span className="font-mono text-foreground text-right">{v}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="rounded-xl border border-primary/30 bg-primary/[0.035] px-4 py-3">
-              <div className="font-mono text-[10px] tracking-[0.15em] uppercase text-primary/70 mb-3">
-                Preserve for next time
-              </div>
-              <div className="grid gap-4 text-[12px] leading-relaxed">
-                <div>
-                  <div className="mb-2 font-medium text-foreground">Already available</div>
-                  <ul className="space-y-1 text-muted-foreground">
-                    <li>software version</li>
-                    <li>configuration</li>
-                    <li>runtime alarm</li>
-                  </ul>
-                </div>
-                <div className="border-t border-primary/20 pt-3">
-                  <div className="mb-2 font-medium text-foreground">Should be preserved next time</div>
-                  <ul className="space-y-1 text-muted-foreground">
-                    <li>pre-event controller state</li>
-                    <li>intervention reason</li>
-                    <li>config diff</li>
-                    <li>local state during connectivity loss</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div className="border-t border-border pt-5">
-              <div className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-foreground mb-3">
-                Review state
-              </div>
-              <div className="text-[13px] text-foreground">Under review</div>
-            </div>
-            <div>
-              <div className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-foreground mb-3">
-                Evidence coverage
-              </div>
-              <div className="space-y-2 text-[12px]">
-                {[
-                  ["Runtime", "complete"],
-                  ["Software/config", "complete"],
-                  ["Engineering context", "partial"],
-                  ["Outcome", "observed"],
-                ].map(([k, v]) => (
-                  <div key={k} className="flex items-center justify-between gap-3 border-b border-border pb-2 last:border-b-0">
-                    <span className="text-muted-foreground">{k}</span>
-                    <span className="font-mono text-foreground">{v}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="border-t border-border pt-5">
-              <div className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-foreground mb-2">
-                Current understanding
-              </div>
-              <p className="text-[13px] text-foreground">Cause not established</p>
-            </div>
           </div>
         </aside>
+
+        <main className="p-5 sm:p-7">
+          <div className="mb-5 rounded-2xl border border-border bg-surface/40 p-5">
+            <div className="flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                  Operational case
+                </div>
+                <h3 className="mt-2 text-2xl font-semibold tracking-tight text-foreground">
+                  R03 / R05 anomaly after release v0.9
+                </h3>
+                <p className="mt-2 max-w-2xl text-[13px] leading-relaxed text-muted-foreground">
+                  R03 and R05 began showing abnormal behavior within 20 minutes of release v0.9. Both share camera calibration C and gripper firmware 7.3. Four comparable machines remain healthy.
+                </p>
+              </div>
+              <div className="rounded-full border border-border bg-background px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground">
+                Open · action pending
+              </div>
+            </div>
+          </div>
+
+          <div className="grid gap-5 xl:grid-cols-[1fr_280px]">
+            <section className="rounded-2xl border border-border bg-background p-6">
+              <div className="flex items-center gap-3">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-foreground font-mono text-[11px] text-background">
+                  {current.n}
+                </span>
+                <div>
+                  <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                    {current.label}
+                  </div>
+                  <h4 className="text-[22px] font-semibold tracking-tight text-foreground">
+                    {current.title}
+                  </h4>
+                </div>
+              </div>
+              <p className="mt-5 max-w-2xl text-[14px] leading-relaxed text-muted-foreground">
+                {current.detail}
+              </p>
+
+              <div className="mt-7 grid gap-3 sm:grid-cols-3">
+                {current.focus.map((item) => (
+                  <div key={item} className="rounded-xl border border-border bg-surface/50 p-4">
+                    <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+                      Evidence
+                    </div>
+                    <div className="mt-2 text-[13px] font-medium leading-snug text-foreground">
+                      {item}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-7 overflow-hidden rounded-xl border border-border">
+                <div className="grid grid-cols-4 border-b border-border bg-surface/50 px-4 py-3 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+                  <span>Machine</span>
+                  <span>Status</span>
+                  <span>Release</span>
+                  <span>Profile</span>
+                </div>
+                {[
+                  ["R03", "affected", "v0.9", "C · fw 7.3"],
+                  ["R05", "affected", "v0.9", "C · fw 7.3"],
+                  ["R06", "healthy / exposed", "v0.9", "C · fw 7.3"],
+                  ["R01", "healthy", "v0.9", "B · fw 7.2"],
+                  ["R02", "healthy", "v0.9", "B · fw 7.2"],
+                ].map((row) => (
+                  <div key={row[0]} className="grid grid-cols-4 border-b border-border px-4 py-3 text-[12px] last:border-b-0">
+                    <span className="font-mono text-foreground">{row[0]}</span>
+                    <span className={row[1].includes("affected") ? "text-destructive" : "text-muted-foreground"}>{row[1]}</span>
+                    <span className="text-muted-foreground">{row[2]}</span>
+                    <span className="text-foreground">{row[3]}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <aside className="space-y-4">
+              <div className="rounded-2xl border border-border bg-background p-5">
+                <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                  Fleet overview
+                </div>
+                <div className="mt-4 grid grid-cols-3 gap-2">
+                  {Array.from({ length: 18 }).map((_, index) => {
+                    const affected = index === 2 || index === 4;
+                    const exposed = index === 5 || index === 11 || index === 15;
+                    return (
+                      <span
+                        key={index}
+                        className={`h-8 rounded-md border ${
+                          affected
+                            ? "border-destructive/40 bg-destructive/15"
+                            : exposed
+                              ? "border-primary/35 bg-primary/10"
+                              : "border-border bg-surface"
+                        }`}
+                      />
+                    );
+                  })}
+                </div>
+                <div className="mt-4 space-y-2 text-[12px] text-muted-foreground">
+                  <div className="flex justify-between"><span>affected</span><b className="text-foreground">2</b></div>
+                  <div className="flex justify-between"><span>same profile</span><b className="text-foreground">5</b></div>
+                  <div className="flex justify-between"><span>same release</span><b className="text-foreground">17</b></div>
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-primary/25 bg-primary/[0.035] p-5">
+                <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-primary/80">
+                  Memory layer
+                </div>
+                <p className="mt-3 text-[13px] leading-relaxed text-foreground">
+                  Similar case 12 days ago: rollback recovered affected machines and avoided a field visit.
+                </p>
+                <div className="mt-4 rounded-xl border border-primary/20 bg-background/70 p-3 text-[12px] text-muted-foreground">
+                  Next case starts with the prior action and outcome, not a blank investigation.
+                </div>
+              </div>
+            </aside>
+          </div>
+        </main>
       </div>
     </div>
   );
@@ -420,21 +367,21 @@ const Landing = () => {
             className="max-w-4xl"
           >
             <h1 className="text-5xl md:text-7xl lg:text-[80px] font-semibold tracking-tight text-foreground leading-[1.02] mb-8">
-              Operational context for{" "}
+              Operational Intelligence for{" "}
               <span className="text-primary">Physical AI</span>.
             </h1>
 
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mb-10">
-              Veyra reconstructs what machines did, what changed, what people
-              knew, and what happened next, giving teams better context for
-              every decision.
+              Veyra helps teams understand what changed, decide what to do,
+              and learn from what actually worked across deployed physical
+              systems.
             </p>
 
             <Link
               to="/contact"
               className="inline-flex items-center gap-1.5 rounded-full bg-foreground text-background px-5 py-3 text-[13px] font-medium hover:bg-foreground/90 transition-colors"
             >
-              Request Pilot
+              Request a Design Partner Pilot
               <ArrowRight size={14} />
             </Link>
 
@@ -455,9 +402,20 @@ const Landing = () => {
               Workflows
             </p>
             <p className="text-[17px] text-muted-foreground leading-relaxed">
-              Operational context is fragmented across systems, teams and time.
-              Veyra turns those fragments into a working history teams can
-              review, compare and carry forward.
+              When a machine changes, the team has to answer four questions.
+            </p>
+            <div className="mt-6 grid gap-2 font-mono text-[12px] uppercase tracking-[0.14em] text-foreground">
+              <span>What changed?</span>
+              <span>Where else is this happening?</span>
+              <span>What should we do?</span>
+              <span>Did it work?</span>
+            </div>
+            <p className="mt-6 text-[17px] text-muted-foreground leading-relaxed">
+              Today, those answers are usually spread across telemetry,
+              deployments, configuration, service systems, tickets and people.
+            </p>
+            <p className="mt-3 text-[17px] text-muted-foreground leading-relaxed">
+              Veyra brings them into one operational case.
             </p>
           </div>
 
@@ -509,21 +467,25 @@ const Landing = () => {
               Product
             </p>
             <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-foreground leading-[1.1] max-w-3xl">
-              From one costly machine decision to reusable operational memory.
+              From machine issue to proven action.
             </h2>
+            <p className="mt-5 max-w-2xl text-[16px] leading-relaxed text-muted-foreground">
+              Veyra follows the case from the first signal through
+              investigation, decision, action and outcome.
+            </p>
           </div>
 
           {/* Workflow banner */}
           <div className="mb-8 rounded-2xl border border-border bg-surface/50 p-4 sm:p-6">
             <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-7">
               {[
-                ["01", "A costly decision appears"],
+                ["01", "Detect"],
                 ["02", "Reconstruct"],
-                ["03", "Challenge the conclusion"],
-                ["04", "Where else?"],
-                ["05", "Team decision"],
-                ["06", "Outcome"],
-                ["07", "Learn"],
+                ["03", "Compare"],
+                ["04", "Decide"],
+                ["05", "Act"],
+                ["06", "Measure"],
+                ["07", "Reuse"],
               ].map(([n, step]) => (
                 <li key={step} className="rounded-xl border border-border bg-background px-3 py-3">
                   <span className="font-mono text-[9px] tracking-[0.16em] uppercase text-muted-foreground">
@@ -554,15 +516,16 @@ const Landing = () => {
             Pilot
           </p>
           <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-foreground leading-[1.1] mb-12 max-w-3xl">
-            4-week design partner pilot
+            6–8 week design partner deployment
           </h2>
 
-          <ol className="grid gap-4 md:grid-cols-4 mb-12">
+          <ol className="grid gap-4 md:grid-cols-5 mb-12">
             {[
-              { n: "01", t: "Choose one costly machine decision", d: "Pick one recurring review your team already spends too much time piecing together." },
-              { n: "02", t: "Map today’s decision workflow", d: "Where does the team look? What gets lost? What is only known by people?" },
-              { n: "03", t: "Connect the minimum sources and reconstruct one real case", d: "Read-only access or exports from the few systems that actually matter." },
-              { n: "04", t: "Design what should happen next time", d: "Identify what could not be reconstructed, what should be captured, and what Veyra should make easier in production." },
+              { n: "01", t: "Choose one recurring operational problem", d: "Pick one class of machine issue your team already investigates repeatedly." },
+              { n: "02", t: "Connect the minimum data", d: "Read-only access to the few sources needed to understand the case — deployment, configuration, machine state and service data." },
+              { n: "03", t: "Use Veyra on real incidents", d: "When that issue occurs, use Veyra to reconstruct what changed, compare machines and decide what to do." },
+              { n: "04", t: "Track the action and outcome", d: "Record what the team actually did and whether it worked." },
+              { n: "05", t: "Measure the value", d: "Compare investigation time, field visits, time to decision and repeat-case reuse against the current workflow." },
             ].map((s) => (
               <li
                 key={s.n}
@@ -576,15 +539,15 @@ const Landing = () => {
           </ol>
 
           <p className="mb-8 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
-            If the workflow proves useful, we scope a production deployment
-            together.
+            If Veyra becomes part of the team's real operational workflow, we
+            move into a production deployment.
           </p>
 
           <Link
             to="/contact"
             className="inline-flex items-center gap-1.5 rounded-full bg-foreground text-background px-6 py-3 text-[13px] font-medium hover:bg-foreground/90 transition-colors"
           >
-            Request Pilot <ArrowRight size={14} />
+            Request a Design Partner Pilot <ArrowRight size={14} />
           </Link>
         </div>
       </section>

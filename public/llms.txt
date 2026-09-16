@@ -4,9 +4,9 @@
 
 Silken Reason creates Veyra, operational software for Physical AI.
 
-Veyra is a lightweight readiness review layer for autonomous systems, Physical AI and industrial IoT.
+Veyra is operational intelligence for Physical AI, autonomous systems and connected industrial machines.
 
-Veyra helps teams review operational history before high-cost decisions such as deployment readiness, return-to-service, mission readiness, after-action review, operational review and machine finance readiness.
+Veyra helps teams understand what changed, decide what to do, track what actually worked and reuse that history when a similar operational case appears again.
 
 ## Core Concepts
 
@@ -18,6 +18,8 @@ Veyra helps teams review operational history before high-cost decisions such as 
 - Operational history
 - Operating history
 - Operational memory
+- Operational intelligence
+- Operational case
 - Operational knowledge graph
 - Semantic execution graph
 - Read-only connector
