@@ -39,51 +39,46 @@ const FlowVisualization = () => {
 
   return (
     <div className="w-full">
-      <svg
-        viewBox="0 0 960 260"
-        className="w-full h-auto"
-        preserveAspectRatio="xMidYMid meet"
-      >
-        <defs>
-          <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="10" stdDeviation="16" floodColor="hsl(var(--foreground))" floodOpacity="0.07" />
-          </filter>
-        </defs>
+      <div className="relative overflow-hidden rounded-2xl border border-border bg-background p-5 md:p-7">
+        <div className="absolute left-8 right-8 top-1/2 hidden h-px bg-border md:block" />
+        <motion.div
+          className="absolute top-1/2 hidden h-2 w-2 rounded-full bg-primary shadow-[0_0_24px_hsl(var(--primary)/0.55)] md:block"
+          animate={{ left: ["5%", "94%"] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
+        />
+        <div className="relative grid gap-3 md:grid-cols-6">
+          {flow.map((item, i) => {
+            const active = i === 4 || i === 5;
+            return (
+              <motion.div
+                key={item.label}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.06, duration: 0.35 }}
+                className={`relative min-h-[130px] rounded-2xl border p-4 ${
+                  active
+                    ? "border-primary/40 bg-primary/[0.055]"
+                    : "border-border bg-background"
+                }`}
+              >
+                <div className={`font-mono text-[10px] uppercase tracking-[0.16em] ${active ? "text-primary" : "text-muted-foreground"}`}>
+                  {item.label}
+                </div>
+                <div className="mt-7 text-[17px] font-medium leading-snug text-foreground">
+                  {item.detail}
+                </div>
+                <div className="absolute bottom-4 left-4 h-1.5 w-1.5 rounded-full bg-foreground/70" />
+              </motion.div>
+            );
+          })}
+        </div>
+        <div className="mt-5 rounded-full border border-primary/20 bg-primary/[0.035] px-4 py-2 text-center font-mono text-[10px] uppercase tracking-[0.16em] text-primary">
+          Every case makes the next one easier to handle
+        </div>
+      </div>
 
-        {flow.map((item, i) => {
-          const x = 34 + i * 150;
-          const active = i === 4 || i === 5;
-          return (
-            <g key={item.label}>
-              <rect x={x} y="82" width="128" height="92" rx="18" fill={active ? "hsl(var(--primary) / 0.06)" : "hsl(var(--background))"} stroke={active ? "hsl(var(--primary) / 0.35)" : "hsl(var(--border))"} filter="url(#softShadow)" />
-              <text x={x + 64} y="113" textAnchor="middle" className="font-mono" fontSize="10" letterSpacing="1.4" fill={active ? "hsl(var(--primary))" : "hsl(var(--muted-foreground))"}>
-                {item.label}
-              </text>
-              {item.detail.split(" ").length > 3 ? (
-                <>
-                  <text x={x + 64} y="139" textAnchor="middle" fontSize="12" fill="hsl(var(--foreground))">{item.detail.split(" ").slice(0, 3).join(" ")}</text>
-                  <text x={x + 64} y="158" textAnchor="middle" fontSize="12" fill="hsl(var(--foreground))">{item.detail.split(" ").slice(3).join(" ")}</text>
-                </>
-              ) : (
-                <text x={x + 64} y="148" textAnchor="middle" fontSize="12" fill="hsl(var(--foreground))">{item.detail}</text>
-              )}
-              {i < flow.length - 1 && (
-                <>
-                  <path d={`M ${x + 128} 128 L ${x + 146} 128`} stroke="hsl(var(--border))" strokeWidth="1.4" />
-                  <path d={`M ${x + 144} 122 L ${x + 151} 128 L ${x + 144} 134`} fill="none" stroke="hsl(var(--muted-foreground))" strokeWidth="1.4" />
-                </>
-              )}
-            </g>
-          );
-        })}
-
-        <path d="M 856 178 C 790 238, 174 238, 96 178" fill="none" stroke="hsl(var(--primary) / 0.38)" strokeDasharray="5 8" strokeWidth="1.4" />
-        <text x="480" y="230" textAnchor="middle" className="font-mono" fontSize="10" letterSpacing="1.6" fill="hsl(var(--primary))">
-          EVERY CASE MAKES THE NEXT ONE EASIER TO HANDLE
-        </text>
-      </svg>
-
-      <p className="mt-6 border-t border-border pt-4 text-[13px] leading-relaxed text-muted-foreground">
+      <p className="mt-5 border-t border-border pt-4 text-[13px] leading-relaxed text-muted-foreground">
         Veyra turns every operational incident into reusable evidence for the next one.
       </p>
     </div>
@@ -99,13 +94,17 @@ const ProductWorkspace = () => {
       title: "Something changes on a deployed machine.",
       detail: "R03 and R05 begin showing abnormal grip pose drift after the same software update.",
       focus: ["2 affected machines", "first signal 14:11", "engineer note 14:26"],
+      metric: "2 affected",
+      memory: "A new case opens automatically from machine state and engineer context.",
     },
     {
       n: "02",
       label: "Reconstruct",
       title: "See the relevant machine context.",
       detail: "Veyra brings software, configuration, machine state and service history into one case.",
-      focus: ["policy v0.8 → v0.9", "camera calibration B → C", "gripper firmware 7.2 → 7.3"],
+      focus: ["policy v0.8 to v0.9", "camera calibration B to C", "gripper firmware 7.2 to 7.3"],
+      metric: "3 changes",
+      memory: "The case stores the change set beside the machine state that followed it.",
     },
     {
       n: "03",
@@ -113,6 +112,8 @@ const ProductWorkspace = () => {
       title: "Understand what differs between affected and healthy machines.",
       detail: "The same software ran everywhere. Calibration C and gripper firmware 7.3 concentrate on the affected machines.",
       focus: ["2 affected", "4 healthy", "R06 exposed but healthy"],
+      metric: "1 exposed healthy",
+      memory: "Affected and healthy machines are compared in the same operational context.",
     },
     {
       n: "04",
@@ -120,6 +121,8 @@ const ProductWorkspace = () => {
       title: "See what is known, uncertain and actionable.",
       detail: "The team can act while preserving what was known and what remained unresolved.",
       focus: ["known: R03/R05 affected", "unknown: R06 later behavior", "option: pause rollout"],
+      metric: "14:27",
+      memory: "The decision state records evidence, unknowns and options at that moment.",
     },
     {
       n: "05",
@@ -127,6 +130,8 @@ const ProductWorkspace = () => {
       title: "Record what the team actually does.",
       detail: "Decision and execution are separated: pause rollout, roll back affected machines, monitor exposed machines.",
       focus: ["roll back R03/R05", "monitor R06", "support notified"],
+      metric: "3 actions",
+      memory: "The operational record captures the action scope and owner.",
     },
     {
       n: "06",
@@ -134,6 +139,8 @@ const ProductWorkspace = () => {
       title: "Track whether the action worked.",
       detail: "The case follows recovery, recurrence, field visits and rollout impact after the action.",
       focus: ["R03 recovered", "R05 recovered", "field visit avoided"],
+      metric: "2 recovered",
+      memory: "The outcome is linked back to the action that produced it.",
     },
     {
       n: "07",
@@ -141,6 +148,8 @@ const ProductWorkspace = () => {
       title: "Bring back what worked before.",
       detail: "When a similar case appears again, Veyra surfaces the previous action, outcome and missing evidence.",
       focus: ["similar case found", "rollback worked", "check config before dispatch"],
+      metric: "12 days later",
+      memory: "The next case starts with prior action and outcome context.",
     },
   ];
   const [active, setActive] = useState(0);
@@ -148,193 +157,189 @@ const ProductWorkspace = () => {
 
   return (
     <div className="overflow-hidden rounded-2xl border border-border bg-background shadow-[0_1px_0_hsl(var(--border)),0_30px_60px_-30px_hsl(var(--foreground)/0.15)]">
-      <div className="border-b border-border px-4 py-4 sm:px-6">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-              Case workspace
-            </div>
-            <div className="mt-1 text-[13px] text-muted-foreground">
-              Post-update machine behavior · live operational case
-            </div>
-          </div>
-          <nav className="flex flex-wrap gap-2">
-            {steps.map((step, index) => (
-              <button
-                key={step.label}
-                onClick={() => setActive(index)}
-                className={`rounded-full border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors ${
-                  active === index
-                    ? "border-foreground bg-foreground text-background"
-                    : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground"
-                }`}
-              >
-                {step.n} {step.label}
-              </button>
-            ))}
-          </nav>
-        </div>
-      </div>
-
-      <div className="grid min-h-[620px] lg:grid-cols-[250px_1fr_320px]">
+      <div className="grid lg:grid-cols-[260px_1fr_300px]">
         <aside className="border-b border-border bg-surface/40 p-5 lg:border-b-0 lg:border-r">
           <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-            Active cases
+            Operational case
           </div>
-          <div className="mt-4 space-y-3">
+          <h3 className="mt-3 text-[21px] font-semibold tracking-tight text-foreground">
+            R03 / R05 anomaly
+          </h3>
+          <p className="mt-2 text-[12px] leading-relaxed text-muted-foreground">
+            Post update behavior change across a small deployed machine group.
+          </p>
+
+          <div className="mt-6 grid grid-cols-3 gap-2">
+            {Array.from({ length: 18 }).map((_, index) => {
+              const affected = index === 2 || index === 4;
+              const exposed = index === 5 || index === 11 || index === 15;
+              return (
+                <span
+                  key={index}
+                  className={`h-9 rounded-md border transition-colors ${
+                    affected
+                      ? "border-destructive/40 bg-destructive/15"
+                      : exposed
+                        ? "border-primary/35 bg-primary/10"
+                        : "border-border bg-background"
+                  }`}
+                />
+              );
+            })}
+          </div>
+
+          <div className="mt-6 space-y-2 text-[12px]">
             {[
-              ["R03 / R05", "Post-update anomaly", "OPEN · HIGH"],
-              ["R12", "Similar drift pattern", "WATCH"],
-              ["Line B", "Outcome follow-up", "DUE"],
-            ].map(([asset, title, status], index) => (
-              <button
-                key={asset}
-                onClick={() => index === 0 && setActive(0)}
-                className={`w-full rounded-xl border p-4 text-left transition-colors ${
-                  index === 0
-                    ? "border-foreground/30 bg-background"
-                    : "border-border bg-background/60 hover:border-foreground/20"
-                }`}
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <span className="text-[13px] font-semibold text-foreground">{asset}</span>
-                  <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-muted-foreground">{status}</span>
-                </div>
-                <p className="mt-2 text-[12px] text-muted-foreground">{title}</p>
-              </button>
+              ["affected", "2"],
+              ["same profile", "5"],
+              ["same release", "17"],
+            ].map(([label, value]) => (
+              <div key={label} className="flex items-center justify-between border-b border-border pb-2 last:border-b-0">
+                <span className="text-muted-foreground">{label}</span>
+                <b className="text-foreground">{value}</b>
+              </div>
             ))}
           </div>
 
-          <div className="mt-8 rounded-xl border border-primary/25 bg-primary/[0.035] p-4">
+          <div className="mt-6 rounded-xl border border-primary/25 bg-primary/[0.035] p-4">
             <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-primary/80">
               Needs attention
             </div>
             <p className="mt-3 text-[12px] leading-relaxed text-muted-foreground">
-              R06 shares the exposure and needs follow-up after the first action.
+              R06 shares the exposure and needs follow up after the first action.
             </p>
           </div>
         </aside>
 
-        <main className="p-5 sm:p-7">
-          <div className="mb-5 rounded-2xl border border-border bg-surface/40 p-5">
+        <main className="p-5 sm:p-6">
+          <nav className="mb-5 grid grid-cols-2 gap-2 sm:grid-cols-4 xl:grid-cols-7">
+            {steps.map((step, index) => (
+              <button
+                key={step.label}
+                onClick={() => setActive(index)}
+                className={`rounded-xl border px-3 py-3 text-left transition-all ${
+                  active === index
+                    ? "border-foreground bg-foreground text-background"
+                    : "border-border bg-surface/45 text-muted-foreground hover:border-foreground/30 hover:text-foreground"
+                }`}
+              >
+                <span className="font-mono text-[10px] uppercase tracking-[0.14em]">{step.n}</span>
+                <div className="mt-1 text-[13px] font-semibold">{step.label}</div>
+              </button>
+            ))}
+          </nav>
+
+          <motion.section
+            key={active}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.22 }}
+            className="rounded-2xl border border-border bg-background p-5 sm:p-7"
+          >
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
                 <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-                  Operational case
+                  {current.n} {current.label}
                 </div>
-                <h3 className="mt-2 text-2xl font-semibold tracking-tight text-foreground">
-                  R03 / R05 anomaly after release v0.9
-                </h3>
-                <p className="mt-2 max-w-2xl text-[13px] leading-relaxed text-muted-foreground">
-                  R03 and R05 began showing abnormal behavior within 20 minutes of release v0.9. Both share camera calibration C and gripper firmware 7.3. Four comparable machines remain healthy.
-                </p>
+                <h4 className="mt-3 max-w-2xl text-[28px] font-semibold leading-tight tracking-tight text-foreground">
+                  {current.title}
+                </h4>
               </div>
-              <div className="rounded-full border border-border bg-background px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground">
-                Open · action pending
+              <div className="rounded-full border border-border bg-surface/70 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground">
+                {current.metric}
               </div>
             </div>
-          </div>
 
-          <div className="grid gap-5 xl:grid-cols-[1fr_280px]">
-            <section className="rounded-2xl border border-border bg-background p-6">
-              <div className="flex items-center gap-3">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-foreground font-mono text-[11px] text-background">
-                  {current.n}
-                </span>
-                <div>
-                  <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-                    {current.label}
+            <p className="mt-5 max-w-2xl text-[14px] leading-relaxed text-muted-foreground">
+              {current.detail}
+            </p>
+
+            <div className="mt-7 grid gap-3 md:grid-cols-3">
+              {current.focus.map((item) => (
+                <div key={item} className="rounded-xl border border-border bg-surface/50 p-4">
+                  <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+                    Evidence
                   </div>
-                  <h4 className="text-[22px] font-semibold tracking-tight text-foreground">
-                    {current.title}
-                  </h4>
-                </div>
-              </div>
-              <p className="mt-5 max-w-2xl text-[14px] leading-relaxed text-muted-foreground">
-                {current.detail}
-              </p>
-
-              <div className="mt-7 grid gap-3 sm:grid-cols-3">
-                {current.focus.map((item) => (
-                  <div key={item} className="rounded-xl border border-border bg-surface/50 p-4">
-                    <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
-                      Evidence
-                    </div>
-                    <div className="mt-2 text-[13px] font-medium leading-snug text-foreground">
-                      {item}
-                    </div>
+                  <div className="mt-2 text-[13px] font-medium leading-snug text-foreground">
+                    {item}
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
+            </div>
 
-              <div className="mt-7 overflow-hidden rounded-xl border border-border">
-                <div className="grid grid-cols-4 border-b border-border bg-surface/50 px-4 py-3 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
-                  <span>Machine</span>
-                  <span>Status</span>
-                  <span>Release</span>
-                  <span>Profile</span>
-                </div>
-                {[
-                  ["R03", "affected", "v0.9", "C · fw 7.3"],
-                  ["R05", "affected", "v0.9", "C · fw 7.3"],
-                  ["R06", "healthy / exposed", "v0.9", "C · fw 7.3"],
-                  ["R01", "healthy", "v0.9", "B · fw 7.2"],
-                  ["R02", "healthy", "v0.9", "B · fw 7.2"],
-                ].map((row) => (
-                  <div key={row[0]} className="grid grid-cols-4 border-b border-border px-4 py-3 text-[12px] last:border-b-0">
-                    <span className="font-mono text-foreground">{row[0]}</span>
-                    <span className={row[1].includes("affected") ? "text-destructive" : "text-muted-foreground"}>{row[1]}</span>
-                    <span className="text-muted-foreground">{row[2]}</span>
-                    <span className="text-foreground">{row[3]}</span>
-                  </div>
-                ))}
+            <div className="mt-7 overflow-hidden rounded-xl border border-border">
+              <div className="grid grid-cols-4 border-b border-border bg-surface/50 px-4 py-3 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+                <span>Machine</span>
+                <span>Status</span>
+                <span>Release</span>
+                <span>Profile</span>
               </div>
-            </section>
-
-            <aside className="space-y-4">
-              <div className="rounded-2xl border border-border bg-background p-5">
-                <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-                  Fleet overview
+              {[
+                ["R03", "affected", "v0.9", "C fw 7.3"],
+                ["R05", "affected", "v0.9", "C fw 7.3"],
+                ["R06", "healthy exposed", "v0.9", "C fw 7.3"],
+                ["R01", "healthy", "v0.9", "B fw 7.2"],
+              ].map((row) => (
+                <div key={row[0]} className="grid grid-cols-4 border-b border-border px-4 py-3 text-[12px] last:border-b-0">
+                  <span className="font-mono text-foreground">{row[0]}</span>
+                  <span className={row[1].includes("affected") ? "text-destructive" : "text-muted-foreground"}>{row[1]}</span>
+                  <span className="text-muted-foreground">{row[2]}</span>
+                  <span className="text-foreground">{row[3]}</span>
                 </div>
-                <div className="mt-4 grid grid-cols-3 gap-2">
-                  {Array.from({ length: 18 }).map((_, index) => {
-                    const affected = index === 2 || index === 4;
-                    const exposed = index === 5 || index === 11 || index === 15;
-                    return (
-                      <span
-                        key={index}
-                        className={`h-8 rounded-md border ${
-                          affected
-                            ? "border-destructive/40 bg-destructive/15"
-                            : exposed
-                              ? "border-primary/35 bg-primary/10"
-                              : "border-border bg-surface"
-                        }`}
-                      />
-                    );
-                  })}
-                </div>
-                <div className="mt-4 space-y-2 text-[12px] text-muted-foreground">
-                  <div className="flex justify-between"><span>affected</span><b className="text-foreground">2</b></div>
-                  <div className="flex justify-between"><span>same profile</span><b className="text-foreground">5</b></div>
-                  <div className="flex justify-between"><span>same release</span><b className="text-foreground">17</b></div>
-                </div>
-              </div>
-
-              <div className="rounded-2xl border border-primary/25 bg-primary/[0.035] p-5">
-                <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-primary/80">
-                  Memory layer
-                </div>
-                <p className="mt-3 text-[13px] leading-relaxed text-foreground">
-                  Similar case 12 days ago: rollback recovered affected machines and avoided a field visit.
-                </p>
-                <div className="mt-4 rounded-xl border border-primary/20 bg-background/70 p-3 text-[12px] text-muted-foreground">
-                  Next case starts with the prior action and outcome, not a blank investigation.
-                </div>
-              </div>
-            </aside>
-          </div>
+              ))}
+            </div>
+          </motion.section>
         </main>
+
+        <aside className="border-t border-border bg-surface/35 p-5 lg:border-l lg:border-t-0">
+          <motion.div
+            key={`memory-${active}`}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.22 }}
+            className="space-y-4"
+          >
+            <div className="rounded-2xl border border-border bg-background p-5">
+              <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                Veyra
+              </div>
+              <p className="mt-3 text-[14px] leading-relaxed text-foreground">
+                {current.memory}
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-primary/25 bg-primary/[0.035] p-5">
+              <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-primary/80">
+                Memory layer
+              </div>
+              <p className="mt-3 text-[13px] leading-relaxed text-foreground">
+                Similar case 12 days ago. Rollback recovered affected machines and avoided a field visit.
+              </p>
+              <div className="mt-4 rounded-xl border border-primary/20 bg-background/70 p-3 text-[12px] text-muted-foreground">
+                Next case starts with the prior action and outcome.
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-border bg-background p-5">
+              <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                Case state
+              </div>
+              <div className="mt-4 space-y-2 text-[12px]">
+                {[
+                  ["known", "2 affected"],
+                  ["watch", "R06 exposed"],
+                  ["action", active >= 4 ? "recorded" : "pending"],
+                  ["outcome", active >= 5 ? "linked" : "pending"],
+                ].map(([k, v]) => (
+                  <div key={k} className="flex items-center justify-between border-b border-border pb-2 last:border-b-0">
+                    <span className="text-muted-foreground">{k}</span>
+                    <span className="font-mono text-foreground">{v}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </aside>
       </div>
     </div>
   );
@@ -397,26 +402,30 @@ const Landing = () => {
       {/* WORKFLOWS */}
       <section id="workflows" className="border-t border-border">
         <div className="container mx-auto px-6 py-28 max-w-6xl">
-          <div className="mb-16 max-w-2xl">
-            <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-4">
-              Workflows
-            </p>
-            <p className="text-[17px] text-muted-foreground leading-relaxed">
-              When a machine changes, the team has to answer four questions.
-            </p>
-            <div className="mt-6 grid gap-2 font-mono text-[12px] uppercase tracking-[0.14em] text-foreground">
-              <span>What changed?</span>
-              <span>Where else is this happening?</span>
-              <span>What should we do?</span>
-              <span>Did it work?</span>
+          <div className="mb-12 grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
+            <div>
+              <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-4">
+                Workflows
+              </p>
+              <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-foreground leading-[1.08]">
+                Four questions decide what happens next.
+              </h2>
             </div>
-            <p className="mt-6 text-[17px] text-muted-foreground leading-relaxed">
-              Today, those answers are usually spread across telemetry,
-              deployments, configuration, service systems, tickets and people.
-            </p>
-            <p className="mt-3 text-[17px] text-muted-foreground leading-relaxed">
-              Veyra brings them into one operational case.
-            </p>
+            <div className="rounded-2xl border border-border bg-surface/45 p-5">
+              <div className="grid gap-2 sm:grid-cols-2">
+                {["What changed?", "Where else?", "What now?", "Did it work?"].map((question, index) => (
+                  <div key={question} className="rounded-xl border border-border bg-background px-4 py-3">
+                    <div className="font-mono text-[10px] text-muted-foreground">0{index + 1}</div>
+                    <div className="mt-1 text-[15px] font-medium text-foreground">{question}</div>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-4 text-[13px] leading-relaxed text-muted-foreground">
+                The answers usually live across telemetry, deployments, configuration,
+                service systems, tickets and people. Veyra brings them into one
+                operational case.
+              </p>
+            </div>
           </div>
 
           <div className="grid md:grid-cols-3 gap-4">
@@ -427,10 +436,13 @@ const Landing = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08, duration: 0.5 }}
-                className="rounded-2xl border border-border bg-background p-8 hover:border-foreground/30 transition-colors"
+                className="rounded-2xl border border-border bg-background p-6 hover:border-foreground/30 transition-colors"
               >
-                <div className="text-[11px] font-mono tracking-[0.15em] uppercase text-muted-foreground mb-6">
+                <div className="mb-8 flex items-center justify-between">
+                  <div className="text-[11px] font-mono tracking-[0.15em] uppercase text-muted-foreground">
                   {w.tag}
+                  </div>
+                  <span className="h-2 w-2 rounded-full bg-foreground/70" />
                 </div>
                 <h3 className="text-[22px] font-semibold text-foreground leading-snug">
                   {w.title}
@@ -475,30 +487,6 @@ const Landing = () => {
             </p>
           </div>
 
-          {/* Workflow banner */}
-          <div className="mb-8 rounded-2xl border border-border bg-surface/50 p-4 sm:p-6">
-            <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-7">
-              {[
-                ["01", "Detect"],
-                ["02", "Reconstruct"],
-                ["03", "Compare"],
-                ["04", "Decide"],
-                ["05", "Act"],
-                ["06", "Measure"],
-                ["07", "Reuse"],
-              ].map(([n, step]) => (
-                <li key={step} className="rounded-xl border border-border bg-background px-3 py-3">
-                  <span className="font-mono text-[9px] tracking-[0.16em] uppercase text-muted-foreground">
-                    {n}
-                  </span>
-                  <div className="mt-2 text-[12px] font-medium leading-snug text-foreground">
-                    {step}
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </div>
-
           <ProductWorkspace />
 
           {/* Deployment & privacy note */}
@@ -516,13 +504,13 @@ const Landing = () => {
             Pilot
           </p>
           <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-foreground leading-[1.1] mb-12 max-w-3xl">
-            6–8 week design partner deployment
+            6 to 8 week design partner deployment
           </h2>
 
           <ol className="grid gap-4 md:grid-cols-5 mb-12">
             {[
               { n: "01", t: "Choose one recurring operational problem", d: "Pick one class of machine issue your team already investigates repeatedly." },
-              { n: "02", t: "Connect the minimum data", d: "Read-only access to the few sources needed to understand the case — deployment, configuration, machine state and service data." },
+              { n: "02", t: "Connect the minimum data", d: "Read-only access to the few sources needed to understand the case, including deployment, configuration, machine state and service data." },
               { n: "03", t: "Use Veyra on real incidents", d: "When that issue occurs, use Veyra to reconstruct what changed, compare machines and decide what to do." },
               { n: "04", t: "Track the action and outcome", d: "Record what the team actually did and whether it worked." },
               { n: "05", t: "Measure the value", d: "Compare investigation time, field visits, time to decision and repeat-case reuse against the current workflow." },
