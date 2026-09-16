@@ -493,6 +493,11 @@ const Landing = () => {
           <p className="mt-6 max-w-3xl text-[13px] leading-relaxed text-muted-foreground">
             Veyra runs alongside your existing operational systems. Raw operational
             data stays in your environment.
+            <span className="block mt-3">
+              <Link to="/engineering" className="text-foreground underline decoration-border underline-offset-4 hover:text-primary transition-colors">
+                Read the engineering note
+              </Link>
+            </span>
           </p>
         </div>
       </section>
@@ -551,6 +556,7 @@ const Landing = () => {
             </div>
             <ul className="flex items-center gap-6 text-[13px]">
               <li><Link to="/blog" className="text-muted-foreground hover:text-foreground transition-colors">Blog</Link></li>
+              <li><Link to="/engineering" className="text-muted-foreground hover:text-foreground transition-colors">Engineering</Link></li>
               <li><Link to="/contact" className="text-muted-foreground hover:text-foreground transition-colors">Contact</Link></li>
             </ul>
             <span className="font-mono text-[11px] tracking-[0.15em] uppercase text-muted-foreground">

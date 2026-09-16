@@ -119,11 +119,11 @@ const LandscapeDiagram = () => (
       title="Veyra workspace"
       note="Product surface"
       accent
-      items={["Episode reconstruction", "Fleet context", "Operational memory"]}
+      items={["Incident reconstruction", "Decision-time state", "Intervention", "Outcome", "Cross-case learning"]}
     />
     <StackLayer
-      title="Temporal evidence engine"
-      items={["State reconstruction", "Provenance", "Knowledge history"]}
+      title="Decision graph"
+      items={["Evidence", "Belief", "Decision", "Action", "Result"]}
     />
     <StackLayer
       title="Evidence layer"
@@ -340,7 +340,7 @@ const BoundaryDiagram = () => (
     <div className="rounded-2xl border border-primary/40 bg-primary/[0.04] px-5 py-6 text-center">
       <div className="text-[15px] text-foreground">Veyra platform</div>
       <div className="mt-1 text-[13px] text-muted-foreground">
-        Machine episode reconstruction
+        Operational case reconstruction
       </div>
     </div>
   </div>
@@ -353,23 +353,27 @@ const CodeBlock = ({ code }: { code: string }) => (
 );
 
 const evidencePack = `{
-  "episode_id": "episode_402",
-  "asset_id": "line_a_conveyor",
+  "case_id": "case_402",
+  "asset_id": "robot_r03",
   "event_time": "2026-08-18T09:18:00Z",
-  "episode_type": "UNEXPECTED_MACHINE_BEHAVIOR",
-  "knowledge_state": {
-    "observed": ["abnormal vibration", "software rev 218 active"],
-    "human_asserted": ["belt tension suspected; not established"],
-    "derived": ["vibration returned within baseline after inspection"],
-    "unknown": ["whether restart caused the behavior"],
-    "counterevidence": ["same profile previously occurred without belt tension fault"]
+  "known_at": "2026-08-18T09:27:00Z",
+  "case_type": "POST_UPDATE_MACHINE_BEHAVIOR",
+  "decision_state": {
+    "observed": ["R03 abnormal", "R05 abnormal", "release v0.9 active"],
+    "human_asserted": ["engineer suspects configuration involvement"],
+    "inferred": ["calibration C and firmware 7.3 are priority leads"],
+    "unknown": ["whether R06 will later show the same issue"],
+    "counterevidence": ["four comparable machines remain healthy"]
   },
+  "decision": "pause rollout and roll back affected machines",
+  "action": "rollback executed on R03 and R05",
+  "outcome": "both machines recovered; no field visit required",
   "source_links": [
     "runtime_snapshot_09_14",
-    "engineering_note_09_18",
-    "inspection_wo_4471"
+    "deployment_record_v0_9",
+    "engineering_note_09_18"
   ],
-  "later_outcome": "no recurrence after four hours"
+  "reusable_learning": "check calibration and gripper firmware before dispatch"
 }`;
 
 const references = [
@@ -421,7 +425,7 @@ const Engineering = () => {
           </p>
           <div className="divider mb-8" />
           <h1 className="text-4xl md:text-[52px] font-semibold tracking-tight text-foreground leading-[1.05] mb-5">
-            Building operational context for Physical AI
+            Engineering operational intelligence for Physical AI
           </h1>
           <p className="font-mono text-[12px] text-muted-foreground">
             Engineering note
@@ -434,37 +438,40 @@ const Engineering = () => {
           </p>
           <div className="space-y-5 border-l border-border pl-6">
             <Lead>
-              Physical AI systems generate enormous amounts of telemetry, logs and deployment data.
-              What is harder to preserve is the context required to reconstruct why a machine reached
-              a particular state.
+              Physical systems generate large amounts of telemetry and machine data. The harder
+              problem is turning that data into a reliable record of what changed, what was known,
+              what action was taken, and what happened afterwards.
             </Lead>
             <P>
-              That context includes what software and configuration were active, what changed, what
-              engineers observed or suspected, what interventions were attempted, and what evidence
-              existed at the time.
+              Veyra connects the technical state of a machine with the operational response around
+              it. A single case can include machine state, recent software and configuration changes,
+              human observations, the decision that was made, the action that was carried out and the
+              result that followed.
             </P>
             <P>
-              Veyra is an operational context layer that reconstructs machine state, software changes,
-              human observations and decisions across existing systems, while preserving what was known
-              at each point in time.
+              Veyra is an operational intelligence layer for incident reconstruction, decision-time
+              state, interventions, outcomes and cross-case learning across existing systems.
             </P>
             <P>
-              The result is an operational memory that can support incident investigation, fleet
-              comparison, engineering decisions and future learning.
+              The system is designed for one outcome: the next time a similar event occurs, the team
+              should not have to rebuild the same understanding from scratch.
             </P>
           </div>
         </section>
 
         <Section num="01" title="System framing">
           <P>
-            Today's Physical AI stack is increasingly mature at capture, but cross-system
-            reconstruction remains fragmented. The missing layer is persistent operational memory
-            across systems and time.
+            Veyra sits above existing operational systems. It does not replace telemetry
+            infrastructure, fleet platforms, CI systems, service tools or ticketing software. Those
+            systems remain the sources of record.
+          </P>
+          <P>
+            Veyra reconstructs the operational case that sits across them.
           </P>
 
           <Figure
             label="Figure 1"
-            caption="Veyra reconstructs Machine Episodes above existing data, fleet and engineering systems."
+            caption="Veyra links reconstruction, decision state, action, outcome and cross-case learning above existing systems."
           >
             <LandscapeDiagram />
           </Figure>
@@ -487,11 +494,11 @@ const Engineering = () => {
           />
         </Section>
 
-        <Section num="1.1" title="The operational context gap">
+        <Section num="1.1" title="The operational case gap">
           <P>
-            These platforms store and replay topics, but they do not encode cross-system meaning.
-            When you reconstruct a Machine Episode, the evidence does not live inside the robot. It is
-            spread across systems, people and time.
+            These platforms store, replay and operate parts of the system. They do not usually create
+            one reliable case record that follows what changed, what was known, what the team did and
+            whether it worked.
           </P>
 
           <Figure
@@ -512,7 +519,7 @@ const Engineering = () => {
           />
 
           <P>
-            Data volume is no longer the constraint. Context reconstruction is.
+            Data volume is no longer the constraint. Operational case reconstruction is.
           </P>
         </Section>
 
@@ -529,23 +536,23 @@ const Engineering = () => {
           </P>
           <div className="rounded-2xl border border-border bg-surface px-6 py-5">
             <p className="text-[15px] leading-relaxed text-foreground/80">
-              The technical problem is not storing every signal. It is preserving what cannot be
-              reliably reconstructed later and linking it to the evidence that can.
+              The technical problem is preserving enough evidence to explain the decision, measure
+              the action and reuse the learning when a similar case appears again.
             </p>
           </div>
         </Section>
 
-        <Section num="03" title="Architecture: reconstructing Machine Episodes">
+        <Section num="03" title="Architecture: reconstructing operational cases">
           <P>
-            Internally, Veyra represents operational history as bounded Machine Episodes: important
-            physical-system events and the evidence, knowledge, interventions and outcomes around
+            Internally, Veyra represents operational history as bounded cases: important
+            physical-system events and the evidence, decision state, interventions and outcomes around
             them. Event primitives are extracted through read-only integrations such as webhooks, log
             subscribers and REST APIs, then organized into typed nodes and directed edges.
           </P>
 
           <Figure
             label="Figure 3"
-            caption="A Machine Episode links state, changes, evidence, human context and outcome."
+            caption="An operational case links state, changes, evidence, human judgment, action and outcome."
           >
             <GraphDiagram />
           </Figure>
@@ -598,7 +605,7 @@ const Engineering = () => {
           </h3>
           <P>
             Veyra does not try to store every signal. It captures enough runtime context to make a
-            future episode reconstructable: event IDs, precise timestamps, software and firmware
+            future case reconstructable: event IDs, precise timestamps, software and firmware
             versions, configuration, operating mode, critical state vectors, state diffs and related
             interventions.
           </P>
@@ -613,9 +620,9 @@ const Engineering = () => {
           />
         </Section>
 
-        <Section num="04" title="Reference episode: unexpected machine behavior">
+        <Section num="04" title="Reference case: unexpected machine behavior">
           <P>
-            The first implementation targets one bounded episode: unexpected machine behavior after a
+            The first implementation targets one bounded case: unexpected machine behavior after a
             deployment, restart, intervention or maintenance event.
           </P>
 
@@ -624,12 +631,12 @@ const Engineering = () => {
           </Figure>
 
           <h3 className="text-[17px] font-semibold text-foreground">
-            Anatomy of a Machine Episode
+            Anatomy of an operational case
           </h3>
           <P>
             The output is a structured record of what happened, what was known, what was believed,
-            what contradicted the working hypothesis, what intervention occurred and what became
-            known later.
+            what contradicted the working hypothesis, what the team actually did, what happened
+            afterwards and what can be reused next time.
           </P>
           <CodeBlock code={evidencePack} />
         </Section>
@@ -683,7 +690,7 @@ OUTCOME       -> vibration returned to baseline`}
         <Section num="07" title="Security & system boundary">
           <Figure
             label="Figure 5"
-            caption="Raw payloads stay inside the client perimeter; only normalized, signed metadata leaves."
+            caption="Raw payloads stay inside the client perimeter; normalized metadata can be synchronized by deployment policy."
           >
             <BoundaryDiagram />
           </Figure>
@@ -705,7 +712,7 @@ OUTCOME       -> vibration returned to baseline`}
             {[
               [
                 "Schema reusability",
-                "Machine Episodes built for one asset can map onto mobile fleets without breaking core evidence relations.",
+                "Operational cases built for one asset can map onto mobile fleets without breaking core evidence relations.",
               ],
               [
                 "Integration friction",
@@ -713,7 +720,7 @@ OUTCOME       -> vibration returned to baseline`}
               ],
               [
                 "Decision latency",
-                "Automated correlation should reduce manual context stitching before investigation or review.",
+                "Automated reconstruction should reduce manual context stitching before teams decide what to do.",
               ],
             ].map(([t, d], i) => (
               <div
@@ -758,7 +765,7 @@ OUTCOME       -> vibration returned to baseline`}
         <div className="mt-20 divider" />
         <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
           <p className="text-[15px] text-muted-foreground">
-            Interested in operational context for Physical AI? We are looking for design partners
+            Interested in operational intelligence for Physical AI? We are looking for design partners
             operating industrial machines, robots, autonomous systems and other Physical AI in real
             environments.
           </p>
