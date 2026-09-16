@@ -245,30 +245,51 @@ const ProductWorkspace = () => {
 
   return (
     <div className="overflow-hidden rounded-2xl border border-border bg-background shadow-[0_1px_0_hsl(var(--border)),0_30px_60px_-30px_hsl(var(--foreground)/0.15)]">
-      <div className="grid lg:grid-cols-[260px_1fr_300px]">
-        <aside className="border-b border-border bg-surface/40 p-5 lg:border-b-0 lg:border-r">
-          <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-            Operational case
+      <div className="border-b border-border bg-surface/35 px-4 py-3 sm:px-5">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+              Case workspace
+            </div>
+            <div className="mt-1 text-[15px] font-semibold text-foreground">
+              R03 / R05 post update anomaly
+            </div>
           </div>
-          <h3 className="mt-3 text-[21px] font-semibold tracking-tight text-foreground">
-            R03 / R05 anomaly
-          </h3>
-          <p className="mt-2 text-[12px] leading-relaxed text-muted-foreground">
-            Post update behavior change across a small deployed machine group.
-          </p>
+          <div className="flex flex-wrap gap-2 text-[11px]">
+            <span className="rounded-full border border-destructive/30 bg-destructive/10 px-3 py-1 text-destructive">
+              2 affected
+            </span>
+            <span className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-primary">
+              1 exposed healthy
+            </span>
+            <span className="rounded-full border border-border bg-background px-3 py-1 text-muted-foreground">
+              action pending
+            </span>
+          </div>
+        </div>
+      </div>
 
-          <div className="mt-6 grid grid-cols-3 gap-2">
+      <div className="grid min-h-[620px] lg:grid-cols-[210px_minmax(0,1fr)_260px]">
+        <aside className="border-b border-border bg-surface/25 p-4 lg:border-b-0 lg:border-r">
+          <div className="mb-4 flex items-center justify-between">
+            <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+              Machines
+            </span>
+            <span className="font-mono text-[10px] text-muted-foreground">18</span>
+          </div>
+
+          <div className="grid grid-cols-3 gap-2">
             {Array.from({ length: 18 }).map((_, index) => {
               const affected = index === 2 || index === 4;
               const exposed = index === 5 || index === 11 || index === 15;
               return (
                 <span
                   key={index}
-                  className={`h-9 rounded-md border transition-colors ${
+                  className={`h-8 rounded-lg border transition-colors ${
                     affected
-                      ? "border-destructive/40 bg-destructive/15"
+                      ? "border-destructive/45 bg-destructive/15"
                       : exposed
-                        ? "border-primary/35 bg-primary/10"
+                        ? "border-primary/40 bg-primary/10"
                         : "border-border bg-background"
                   }`}
                 />
@@ -276,43 +297,46 @@ const ProductWorkspace = () => {
             })}
           </div>
 
-          <div className="mt-6 space-y-2 text-[12px]">
+          <div className="mt-5 space-y-2 text-[12px]">
             {[
-              ["affected", "2"],
-              ["same profile", "5"],
-              ["same release", "17"],
+              ["affected", "R03, R05"],
+              ["watch", "R06"],
+              ["release", "v0.9"],
+              ["profile", "C + fw 7.3"],
             ].map(([label, value]) => (
-              <div key={label} className="flex items-center justify-between border-b border-border pb-2 last:border-b-0">
+              <div key={label} className="flex items-center justify-between gap-3 border-b border-border pb-2 last:border-b-0">
                 <span className="text-muted-foreground">{label}</span>
-                <b className="text-foreground">{value}</b>
+                <span className="truncate text-right font-mono text-[11px] text-foreground">{value}</span>
               </div>
             ))}
           </div>
 
-          <div className="mt-6 rounded-xl border border-primary/25 bg-primary/[0.035] p-4">
-            <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-primary/80">
-              Needs attention
+          <div className="mt-5 rounded-xl border border-border bg-background p-3">
+            <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+              Current question
             </div>
-            <p className="mt-3 text-[12px] leading-relaxed text-muted-foreground">
-              R06 shares the exposure and needs follow up after the first action.
+            <p className="mt-2 text-[12px] leading-relaxed text-foreground">
+              Which machines share the conditions behind the behavior change?
             </p>
           </div>
         </aside>
 
-        <main className="p-5 sm:p-6">
-          <nav className="mb-5 grid grid-cols-2 gap-2 sm:grid-cols-4 xl:grid-cols-7">
+        <main className="min-w-0 p-4 sm:p-5">
+          <nav className="mb-5 flex gap-1.5 overflow-x-auto rounded-full border border-border bg-surface/35 p-1">
             {steps.map((step, index) => (
               <button
                 key={step.label}
                 onClick={() => setActive(index)}
-                className={`rounded-xl border px-3 py-3 text-left transition-all ${
+                className={`shrink-0 rounded-full px-3.5 py-2 text-left transition-all ${
                   active === index
-                    ? "border-foreground bg-foreground text-background"
-                    : "border-border bg-surface/45 text-muted-foreground hover:border-foreground/30 hover:text-foreground"
+                    ? "bg-foreground text-background shadow-sm"
+                    : "text-muted-foreground hover:bg-background hover:text-foreground"
                 }`}
               >
-                <span className="font-mono text-[10px] uppercase tracking-[0.14em]">{step.n}</span>
-                <div className="mt-1 text-[13px] font-semibold">{step.label}</div>
+                <span className="font-mono text-[10px] uppercase tracking-[0.12em]">
+                  {step.n}
+                </span>
+                <span className="ml-2 text-[12px] font-medium">{step.label}</span>
               </button>
             ))}
           </nav>
@@ -322,93 +346,93 @@ const ProductWorkspace = () => {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.22 }}
-            className="rounded-2xl border border-border bg-background p-5 sm:p-7"
+            className="rounded-2xl border border-border bg-background p-5 sm:p-6"
           >
             <div className="flex flex-wrap items-start justify-between gap-4">
-              <div>
+              <div className="min-w-0">
                 <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
                   {current.n} {current.label}
                 </div>
-                <h4 className="mt-3 max-w-2xl text-[28px] font-semibold leading-tight tracking-tight text-foreground">
+                <h4 className="mt-2 max-w-xl text-[24px] font-semibold leading-tight tracking-tight text-foreground md:text-[30px]">
                   {current.title}
                 </h4>
               </div>
-              <div className="rounded-full border border-border bg-surface/70 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground">
+              <div className="rounded-full border border-border bg-surface/70 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-foreground">
                 {current.metric}
               </div>
             </div>
 
-            <p className="mt-5 max-w-2xl text-[14px] leading-relaxed text-muted-foreground">
+            <p className="mt-4 max-w-2xl text-[13px] leading-relaxed text-muted-foreground md:text-[14px]">
               {current.detail}
             </p>
 
-            <div className="mt-7 grid gap-3 md:grid-cols-3">
+            <div className="mt-6 grid gap-3 sm:grid-cols-3">
               {current.focus.map((item) => (
-                <div key={item} className="rounded-xl border border-border bg-surface/50 p-4">
-                  <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+                <div key={item} className="min-h-[86px] rounded-xl border border-border bg-surface/45 p-4">
+                  <div className="font-mono text-[9px] uppercase tracking-[0.14em] text-muted-foreground">
                     Evidence
                   </div>
-                  <div className="mt-2 text-[13px] font-medium leading-snug text-foreground">
+                  <div className="mt-3 text-[13px] font-medium leading-snug text-foreground">
                     {item}
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="mt-7 overflow-hidden rounded-xl border border-border">
-              <div className="grid grid-cols-4 border-b border-border bg-surface/50 px-4 py-3 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+            <div className="mt-6 overflow-hidden rounded-xl border border-border">
+              <div className="grid grid-cols-[0.7fr_1fr_0.8fr_1fr] border-b border-border bg-surface/50 px-4 py-2.5 font-mono text-[9px] uppercase tracking-[0.12em] text-muted-foreground">
                 <span>Machine</span>
                 <span>Status</span>
                 <span>Release</span>
                 <span>Profile</span>
               </div>
               {[
-                ["R03", "affected", "v0.9", "C fw 7.3"],
-                ["R05", "affected", "v0.9", "C fw 7.3"],
-                ["R06", "healthy exposed", "v0.9", "C fw 7.3"],
-                ["R01", "healthy", "v0.9", "B fw 7.2"],
+                ["R03", "affected", "v0.9", "C + fw 7.3"],
+                ["R05", "affected", "v0.9", "C + fw 7.3"],
+                ["R06", "healthy exposed", "v0.9", "C + fw 7.3"],
+                ["R01", "healthy", "v0.9", "B + fw 7.2"],
               ].map((row) => (
-                <div key={row[0]} className="grid grid-cols-4 border-b border-border px-4 py-3 text-[12px] last:border-b-0">
+                <div key={row[0]} className="grid grid-cols-[0.7fr_1fr_0.8fr_1fr] border-b border-border px-4 py-3 text-[12px] last:border-b-0">
                   <span className="font-mono text-foreground">{row[0]}</span>
                   <span className={row[1].includes("affected") ? "text-destructive" : "text-muted-foreground"}>{row[1]}</span>
                   <span className="text-muted-foreground">{row[2]}</span>
-                  <span className="text-foreground">{row[3]}</span>
+                  <span className="truncate text-foreground">{row[3]}</span>
                 </div>
               ))}
             </div>
           </motion.section>
         </main>
 
-        <aside className="border-t border-border bg-surface/35 p-5 lg:border-l lg:border-t-0">
+        <aside className="border-t border-border bg-surface/20 p-4 lg:border-l lg:border-t-0">
           <motion.div
             key={`memory-${active}`}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.22 }}
-            className="space-y-4"
+            className="space-y-3"
           >
-            <div className="rounded-2xl border border-border bg-background p-5">
+            <div className="rounded-2xl border border-border bg-background p-4">
               <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-                Veyra
+                Case role
               </div>
-              <p className="mt-3 text-[14px] leading-relaxed text-foreground">
+              <p className="mt-3 text-[13px] leading-relaxed text-foreground">
                 {current.memory}
               </p>
             </div>
 
-            <div className="rounded-2xl border border-primary/25 bg-primary/[0.035] p-5">
+            <div className="rounded-2xl border border-primary/25 bg-primary/[0.035] p-4">
               <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-primary/80">
-                Memory layer
+                Prior case
               </div>
               <p className="mt-3 text-[13px] leading-relaxed text-foreground">
                 Similar case 12 days ago. Rollback recovered affected machines and avoided a field visit.
               </p>
-              <div className="mt-4 rounded-xl border border-primary/20 bg-background/70 p-3 text-[12px] text-muted-foreground">
-                Next case starts with the prior action and outcome.
+              <div className="mt-4 rounded-xl border border-primary/20 bg-background/70 p-3 text-[12px] leading-relaxed text-muted-foreground">
+                Next case starts with prior action and outcome.
               </div>
             </div>
 
-            <div className="rounded-2xl border border-border bg-background p-5">
+            <div className="rounded-2xl border border-border bg-background p-4">
               <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
                 Case state
               </div>
@@ -419,9 +443,9 @@ const ProductWorkspace = () => {
                   ["action", active >= 4 ? "recorded" : "pending"],
                   ["outcome", active >= 5 ? "linked" : "pending"],
                 ].map(([k, v]) => (
-                  <div key={k} className="flex items-center justify-between border-b border-border pb-2 last:border-b-0">
+                  <div key={k} className="flex items-center justify-between gap-3 border-b border-border pb-2 last:border-b-0">
                     <span className="text-muted-foreground">{k}</span>
-                    <span className="font-mono text-foreground">{v}</span>
+                    <span className="font-mono text-[11px] text-foreground">{v}</span>
                   </div>
                 ))}
               </div>
