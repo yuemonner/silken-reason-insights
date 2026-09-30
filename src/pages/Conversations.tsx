@@ -3,12 +3,12 @@ import Layout from "@/components/Layout";
 const Conversations = () => {
   return (
     <Layout>
-      <section className="border-b border-border">
+      <section className="border-b border-border bg-[#fbfbf8]">
         <div className="container mx-auto max-w-6xl px-6 pb-20 pt-36">
           <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
             Conversations
           </p>
-          <h1 className="max-w-5xl text-5xl font-semibold leading-[0.98] tracking-tight text-foreground md:text-7xl">
+          <h1 className="max-w-5xl text-5xl font-semibold leading-[0.98] tracking-tight text-[#053f31] md:text-7xl">
             How people and machines make sense of uncertain worlds.
           </h1>
           <p className="mt-7 max-w-2xl text-xl leading-relaxed text-muted-foreground">
@@ -18,14 +18,14 @@ const Conversations = () => {
       </section>
 
       <section className="border-b border-border">
-        <div className="container mx-auto grid max-w-6xl gap-4 px-6 py-20 md:grid-cols-2">
-          <article className="rounded-lg border border-border bg-background p-6">
+        <div className="container mx-auto grid max-w-6xl px-6 py-20 md:grid-cols-2">
+          <article className="border-y border-border p-6 md:border-r">
             <p className="mb-16 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Format</p>
             <h2 className="text-2xl font-semibold leading-tight tracking-tight text-foreground">
               One question. One person who has actually had to think about it.
             </h2>
           </article>
-          <article className="rounded-lg border border-border bg-background p-6">
+          <article className="border-b border-border p-6 md:border-y">
             <p className="mb-16 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Theme</p>
             <h2 className="text-2xl font-semibold leading-tight tracking-tight text-foreground">
               How intelligence becomes action when the answer is incomplete.

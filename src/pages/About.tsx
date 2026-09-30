@@ -5,12 +5,12 @@ import { ArrowRight } from "lucide-react";
 const About = () => {
   return (
     <Layout>
-      <section className="border-b border-border">
+      <section className="border-b border-border bg-[#fbfbf8]">
         <div className="container mx-auto max-w-6xl px-6 pb-20 pt-36">
           <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
             About
           </p>
-          <h1 className="max-w-5xl text-5xl font-semibold leading-[0.98] tracking-tight text-foreground md:text-7xl">
+          <h1 className="max-w-5xl text-5xl font-semibold leading-[0.98] tracking-tight text-[#053f31] md:text-7xl">
             An independent lab for intelligence in real-world systems.
           </h1>
           <p className="mt-7 max-w-2xl text-xl leading-relaxed text-muted-foreground">
@@ -20,25 +20,27 @@ const About = () => {
       </section>
 
       <section className="border-b border-border">
-        <div className="container mx-auto grid max-w-6xl gap-4 px-6 py-20 md:grid-cols-3">
-          <article className="rounded-lg border border-border bg-background p-6">
+        <div className="container mx-auto max-w-6xl px-6 py-20">
+          <div className="grid border-y border-border md:grid-cols-3">
+          <article className="border-b border-border p-6 md:border-b-0 md:border-r">
             <p className="mb-16 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Research</p>
             <h2 className="text-2xl font-semibold leading-tight tracking-tight text-foreground">
               Decision systems, operational intelligence and physical systems under uncertainty.
             </h2>
           </article>
-          <article className="rounded-lg border border-border bg-background p-6">
+          <article className="border-b border-border p-6 md:border-b-0 md:border-r">
             <p className="mb-16 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Products</p>
             <h2 className="text-2xl font-semibold leading-tight tracking-tight text-foreground">
               Veyra is the first product from the lab, built around operational intelligence for Physical AI.
             </h2>
           </article>
-          <article className="rounded-lg border border-border bg-background p-6">
+          <article className="p-6">
             <p className="mb-16 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Conversations</p>
             <h2 className="text-2xl font-semibold leading-tight tracking-tight text-foreground">
               Conversations with people working where intelligence, uncertainty and action meet.
             </h2>
           </article>
+          </div>
         </div>
       </section>
 

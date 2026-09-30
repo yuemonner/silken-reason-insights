@@ -10,12 +10,12 @@ const directions = [
 const Research = () => {
   return (
     <Layout>
-      <section className="border-b border-border">
+      <section className="border-b border-border bg-[#fbfbf8]">
         <div className="container mx-auto max-w-6xl px-6 pb-20 pt-36">
           <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
             Research
           </p>
-          <h1 className="max-w-4xl text-5xl font-semibold leading-[0.98] tracking-tight text-foreground md:text-7xl">
+          <h1 className="max-w-4xl text-5xl font-semibold leading-[0.98] tracking-tight text-[#053f31] md:text-7xl">
             Questions before products.
           </h1>
           <p className="mt-7 max-w-2xl text-xl leading-relaxed text-muted-foreground">
@@ -24,20 +24,23 @@ const Research = () => {
         </div>
       </section>
 
-      <section className="border-b border-border">
-        <div className="container mx-auto max-w-6xl px-6 py-20">
-          <div className="divide-y divide-border border-y border-border">
+      <section className="border-b border-border bg-background">
+        <div className="container mx-auto max-w-6xl px-6 py-24">
+          <div className="border-y border-border">
             {directions.map(([number, title, description]) => (
-              <article key={number} className="grid gap-6 py-10 md:grid-cols-[120px_1fr]">
-                <span className="font-mono text-sm text-primary">{number}</span>
-                <div>
-                  <h2 className="text-3xl font-semibold tracking-tight text-foreground md:text-5xl">
+              <article key={number} className="grid gap-8 border-b border-border py-12 last:border-b-0 md:grid-cols-[120px_minmax(0,1fr)_280px] md:items-start">
+                <span className="font-mono text-sm text-[#0b6b55]">{number}</span>
+                <div className="max-w-2xl">
+                  <h2 className="text-3xl font-semibold tracking-tight text-[#053f31] md:text-5xl">
                     {title}
                   </h2>
                   <p className="mt-4 max-w-2xl text-[16px] leading-relaxed text-muted-foreground">
                     {description}
                   </p>
                 </div>
+                <p className="font-mono text-[11px] uppercase leading-relaxed tracking-[0.18em] text-muted-foreground">
+                  Research area
+                </p>
               </article>
             ))}
           </div>

@@ -42,12 +42,13 @@ const Navbar = () => {
       );
     }
     const active = location.pathname === href || (href !== "/" && location.pathname.startsWith(href));
+    const activeClass = isVeyra ? "text-foreground" : "text-[#053f31]";
     return (
       <Link
         key={href}
         to={href}
         onClick={onClick}
-        className={`text-[13px] transition-colors ${active ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+        className={`text-[13px] transition-colors ${active ? activeClass : "text-muted-foreground hover:text-foreground"}`}
       >
         {label}
       </Link>
@@ -58,8 +59,8 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-md">
       <div className="container mx-auto flex items-center justify-between h-16 px-6">
         <Link to={isVeyra ? "/veyra" : "/"} className="flex items-center gap-2 group">
-          <span className="inline-block h-2.5 w-2.5 rounded-sm bg-foreground group-hover:bg-primary transition-colors" />
-          <span className="text-[15px] font-semibold tracking-tight text-foreground">{isVeyra ? "Veyra" : "Silken Reason"}</span>
+          <span className={`inline-block h-2.5 w-2.5 rounded-sm transition-colors ${isVeyra ? "bg-foreground group-hover:bg-primary" : "bg-[#053f31]"}`} />
+          <span className={`text-[15px] font-semibold tracking-tight ${isVeyra ? "text-foreground" : "text-[#053f31]"}`}>{isVeyra ? "Veyra" : "Silken Reason"}</span>
           <span className="ml-2 text-[11px] text-muted-foreground hidden sm:inline">{isVeyra ? "by Silken Reason" : "Independent Research Lab"}</span>
         </Link>
 
