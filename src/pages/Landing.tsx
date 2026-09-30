@@ -700,7 +700,6 @@ const Landing = () => {
             </div>
             <ul className="flex items-center gap-6 text-[13px]">
               <li><Link to="/blog" className="text-muted-foreground hover:text-foreground transition-colors">Blog</Link></li>
-              <li><Link to="/engineering" className="text-muted-foreground hover:text-foreground transition-colors">Engineering</Link></li>
               <li><Link to="/contact" className="text-muted-foreground hover:text-foreground transition-colors">Contact</Link></li>
             </ul>
             <span className="font-mono text-[11px] tracking-[0.15em] uppercase text-muted-foreground">

@@ -14,7 +14,6 @@ const productLinks = [
   { href: "/veyra#product", label: "Product" },
   { href: "/veyra#workflows", label: "Workflows" },
   { href: "/veyra#how", label: "Operations" },
-  { href: "/engineering", label: "Engineering" },
   { href: "/contact", label: "Request Pilot" },
 ];
 
