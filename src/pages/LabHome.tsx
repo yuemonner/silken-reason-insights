@@ -10,13 +10,6 @@ const themes = [
   ["Memory & Adaptation", "How prior outcomes become usable context for the next decision.", "04"],
 ];
 
-const questions = [
-  "Where does a decision live when both a human and a machine contribute to it?",
-  "What should an autonomous system know about what it does not know?",
-  "How does operational knowledge survive when the people, machines and models keep changing?",
-  "What new institutions emerge when machines begin making consequential decisions?",
-];
-
 const LabHome = () => {
   return (
     <Layout>
@@ -96,21 +89,6 @@ const LabHome = () => {
               How people and machines think, act and make sense of uncertain worlds.
             </h2>
           </Link>
-        </div>
-      </section>
-
-      <section className="border-b border-border">
-        <div className="container mx-auto max-w-6xl px-6 py-24">
-          <p className="mb-8 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-            What we are interested in
-          </p>
-          <div className="divide-y divide-border border-y border-border">
-            {questions.map((question) => (
-              <p key={question} className="py-8 text-3xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl">
-                {question}
-              </p>
-            ))}
-          </div>
         </div>
       </section>
 
