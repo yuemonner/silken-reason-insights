@@ -14,7 +14,7 @@ const productLinks = [
   { href: "/veyra#product", label: "Product" },
   { href: "/veyra#workflows", label: "Workflows" },
   { href: "/veyra#how", label: "Operations" },
-  { href: "/contact", label: "Request Pilot" },
+  { href: "/contact", label: "Contact" },
 ];
 
 const Navbar = () => {

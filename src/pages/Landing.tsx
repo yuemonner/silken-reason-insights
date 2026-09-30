@@ -481,25 +481,26 @@ const Landing = () => {
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_78%_18%,rgba(37,99,235,0.32),transparent_38%),linear-gradient(180deg,rgba(7,17,31,0.08),#07111f_92%)]" />
         </div>
 
-        <div className="container mx-auto px-6 pt-40 pb-32 max-w-6xl">
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end">
+        <div className="container mx-auto px-6 pt-32 pb-24 max-w-6xl">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end">
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               className="max-w-4xl"
             >
-              <p className="mb-6 font-mono text-[11px] uppercase tracking-[0.22em] text-blue-200/70">
+              <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.22em] text-blue-200/70">
                 Veyra by Silken Reason
               </p>
-              <h1 className="mb-8 text-5xl font-semibold leading-[0.98] tracking-tight text-white md:text-7xl lg:text-[82px]">
+              <h1 className="mb-6 text-5xl font-semibold leading-[1] tracking-tight text-white md:text-6xl lg:text-[74px]">
                 Operational Intelligence for{" "}
                 <span className="text-blue-300">Physical AI</span>.
               </h1>
 
-              <p className="mb-10 max-w-2xl text-lg leading-relaxed text-blue-50/68 md:text-xl">
-                Veyra helps teams understand what changed, decide what to do,
-                and learn from what worked across deployed physical systems.
+              <p className="mb-8 max-w-2xl text-lg leading-relaxed text-blue-50/68 md:text-xl">
+                Veyra helps robotics teams understand what changed, see what
+                else is affected, decide what to do next, and learn from what
+                worked.
               </p>
 
               <Link
@@ -510,7 +511,7 @@ const Landing = () => {
                 <ArrowRight size={14} />
               </Link>
 
-              <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100/60">
+              <div className="mt-7 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100/60">
                 <span>Read-only</span>
                 <span>Existing systems</span>
                 <span>No control path</span>
@@ -521,9 +522,9 @@ const Landing = () => {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.12, duration: 0.6 }}
-              className="border border-blue-300/20 bg-white/[0.035] p-5 backdrop-blur"
+              className="border border-blue-300/20 bg-white/[0.035] p-4 backdrop-blur"
             >
-              <div className="mb-8 flex items-center justify-between border-b border-blue-200/15 pb-4">
+              <div className="mb-5 flex items-center justify-between border-b border-blue-200/15 pb-3">
                 <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-blue-200/70">Live case</p>
                 <span className="h-2 w-2 bg-blue-300 shadow-[0_0_24px_rgba(147,197,253,0.8)]" />
               </div>
@@ -533,7 +534,7 @@ const Landing = () => {
                 ["Decision", "Remote recovery"],
                 ["Outcome", "Field dispatch avoided"],
               ].map(([label, value]) => (
-                <div key={label} className="grid grid-cols-[95px_1fr] border-b border-blue-200/10 py-3 last:border-b-0">
+                <div key={label} className="grid grid-cols-[95px_1fr] border-b border-blue-200/10 py-2.5 last:border-b-0">
                   <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-blue-200/45">{label}</span>
                   <span className="text-sm font-medium text-blue-50">{value}</span>
                 </div>
