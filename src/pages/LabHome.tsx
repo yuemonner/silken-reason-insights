@@ -28,7 +28,7 @@ const LabHome = () => {
           />
         </div>
 
-        <div className="container mx-auto max-w-6xl px-6 pb-28 pt-32 md:pb-36 md:pt-44">
+        <div className="container mx-auto max-w-6xl px-6 pb-24 pt-24 md:pb-32 md:pt-32">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
