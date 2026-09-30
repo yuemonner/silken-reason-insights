@@ -74,7 +74,7 @@ const LabHome = () => {
           <Link to="/research" className="group rounded-lg border border-border bg-background p-6 transition-colors hover:border-foreground/30">
             <p className="mb-16 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Research</p>
             <h2 className="text-2xl font-semibold leading-tight tracking-tight text-foreground">
-              Human-machine cognition, distributed intelligence, memory, adaptation and real-world systems.
+              How intelligence emerges across humans, machines and the systems around them.
             </h2>
           </Link>
           <Link to="/veyra" className="group rounded-lg border border-border bg-background p-6 transition-colors hover:border-foreground/30">

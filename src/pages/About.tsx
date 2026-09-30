@@ -11,7 +11,7 @@ const About = () => {
             About
           </p>
           <h1 className="max-w-5xl text-5xl font-semibold leading-[0.98] tracking-tight text-foreground md:text-7xl">
-            An independent lab for decision intelligence.
+            An independent lab for intelligence in real-world systems.
           </h1>
           <p className="mt-7 max-w-2xl text-xl leading-relaxed text-muted-foreground">
             Silken Reason studies how people, machines and organizations turn uncertain evidence into action in real-world systems.
@@ -21,22 +21,22 @@ const About = () => {
 
       <section className="border-b border-border">
         <div className="container mx-auto grid max-w-6xl gap-4 px-6 py-20 md:grid-cols-3">
-          <article className="rounded-2xl border border-border bg-background p-6">
+          <article className="rounded-lg border border-border bg-background p-6">
             <p className="mb-16 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Research</p>
             <h2 className="text-2xl font-semibold leading-tight tracking-tight text-foreground">
               Decision systems, operational intelligence and physical systems under uncertainty.
             </h2>
           </article>
-          <article className="rounded-2xl border border-border bg-background p-6">
+          <article className="rounded-lg border border-border bg-background p-6">
             <p className="mb-16 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Products</p>
             <h2 className="text-2xl font-semibold leading-tight tracking-tight text-foreground">
               Veyra is the first product from the lab, built around operational intelligence for Physical AI.
             </h2>
           </article>
-          <article className="rounded-2xl border border-border bg-background p-6">
+          <article className="rounded-lg border border-border bg-background p-6">
             <p className="mb-16 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Conversations</p>
             <h2 className="text-2xl font-semibold leading-tight tracking-tight text-foreground">
-              Field notes and interviews with people building autonomy, robots and machine operations.
+              Conversations with people working where intelligence, uncertainty and action meet.
             </h2>
           </article>
         </div>
