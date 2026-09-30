@@ -498,9 +498,9 @@ const Landing = () => {
               </h1>
 
               <p className="mb-8 max-w-2xl text-lg leading-relaxed text-blue-50/68 md:text-xl">
-                Veyra helps robotics teams understand what changed, see what
-                else is affected, decide what to do next, and learn from what
-                worked.
+                Veyra helps teams understand what changed, see what else is
+                affected, decide what to do next, and learn from what worked
+                across deployed physical systems.
               </p>
 
               <Link
