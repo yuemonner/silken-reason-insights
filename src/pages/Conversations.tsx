@@ -12,29 +12,23 @@ const Conversations = () => {
             How people and machines make sense of uncertain worlds.
           </h1>
           <p className="mt-7 max-w-2xl text-xl leading-relaxed text-muted-foreground">
-            A future home for interviews, field notes and conversations with builders working on robots, autonomy, cognition and operational systems.
+            Conversations with researchers, builders and operators working at the edge of intelligence and the real world.
           </p>
         </div>
       </section>
 
       <section className="border-b border-border">
-        <div className="container mx-auto grid max-w-6xl gap-4 px-6 py-20 md:grid-cols-3">
-          <article className="rounded-2xl border border-border bg-background p-6">
+        <div className="container mx-auto grid max-w-6xl gap-4 px-6 py-20 md:grid-cols-2">
+          <article className="rounded-lg border border-border bg-background p-6">
             <p className="mb-16 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Format</p>
             <h2 className="text-2xl font-semibold leading-tight tracking-tight text-foreground">
-              Interviews with builders, researchers and operators.
+              One question. One person who has actually had to think about it.
             </h2>
           </article>
-          <article className="rounded-2xl border border-border bg-background p-6">
+          <article className="rounded-lg border border-border bg-background p-6">
             <p className="mb-16 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Theme</p>
             <h2 className="text-2xl font-semibold leading-tight tracking-tight text-foreground">
-              How intelligence becomes action in real environments.
-            </h2>
-          </article>
-          <article className="rounded-2xl border border-border bg-background p-6">
-            <p className="mb-16 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Status</p>
-            <h2 className="text-2xl font-semibold leading-tight tracking-tight text-foreground">
-              Coming soon.
+              How intelligence becomes action when the answer is incomplete.
             </h2>
           </article>
         </div>
