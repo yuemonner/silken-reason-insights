@@ -3,17 +3,29 @@ import { useState } from "react";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 
-const navLinks = [
-  { href: "/#workflows", label: "Workflows" },
-  { href: "/#how", label: "Operations" },
-  { href: "/#product", label: "Product" },
-  { href: "/blog", label: "Blog" },
-  { href: "/contact", label: "Contact" },
+const labLinks = [
+  { href: "/research", label: "Research" },
+  { href: "/#products", label: "Products" },
+  { href: "/conversations", label: "Conversations" },
+  { href: "/#about", label: "About" },
+];
+
+const productLinks = [
+  { href: "/veyra#product", label: "Product" },
+  { href: "/veyra#workflows", label: "Workflows" },
+  { href: "/veyra#how", label: "Operations" },
+  { href: "/engineering", label: "Engineering" },
+  { href: "/contact", label: "Request Pilot" },
 ];
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const isVeyra = location.pathname === "/veyra" || location.pathname === "/engineering" || location.pathname === "/contact";
+  const navLinks = isVeyra ? productLinks : labLinks;
+  const cta = isVeyra
+    ? { href: "/contact", label: "Request Pilot" }
+    : { href: "/veyra", label: "Explore Veyra" };
 
   const renderLink = (href: string, label: string, onClick?: () => void) => {
     const isHash = href.includes("#");
@@ -45,10 +57,10 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-md">
       <div className="container mx-auto flex items-center justify-between h-16 px-6">
-        <Link to="/" className="flex items-center gap-2 group">
+        <Link to={isVeyra ? "/veyra" : "/"} className="flex items-center gap-2 group">
           <span className="inline-block h-2.5 w-2.5 rounded-sm bg-foreground group-hover:bg-primary transition-colors" />
-          <span className="text-[15px] font-semibold tracking-tight text-foreground">Veyra</span>
-          <span className="ml-2 text-[11px] text-muted-foreground hidden sm:inline">by Silken Reason</span>
+          <span className="text-[15px] font-semibold tracking-tight text-foreground">{isVeyra ? "Veyra" : "Silken Reason"}</span>
+          <span className="ml-2 text-[11px] text-muted-foreground hidden sm:inline">{isVeyra ? "by Silken Reason" : "Independent Research Lab"}</span>
         </Link>
 
         <div className="hidden md:flex items-center gap-8">
@@ -57,10 +69,10 @@ const Navbar = () => {
 
         <div className="hidden md:flex items-center">
           <Link
-            to="/contact"
+            to={cta.href}
             className="inline-flex items-center gap-1.5 rounded-full bg-foreground text-background px-4 py-2 text-[12px] font-medium hover:bg-foreground/90 transition-colors"
           >
-            Request Pilot
+            {cta.label}
             <ArrowRight size={13} />
           </Link>
         </div>
@@ -81,11 +93,11 @@ const Navbar = () => {
             <div className="flex flex-col items-start gap-5 py-6 px-6">
               {navLinks.map((l) => renderLink(l.href, l.label, () => setOpen(false)))}
               <Link
-                to="/contact"
+                to={cta.href}
                 onClick={() => setOpen(false)}
                 className="inline-flex items-center gap-1.5 rounded-full bg-foreground text-background px-4 py-2 text-[12px] font-medium"
               >
-                Request Pilot <ArrowRight size={13} />
+                {cta.label} <ArrowRight size={13} />
               </Link>
             </div>
           </motion.div>

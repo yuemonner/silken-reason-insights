@@ -1,10 +1,10 @@
 # Silken Reason
 
-> Creator of Veyra. Operational software for Physical AI.
+> Independent research lab studying intelligence in real-world systems.
 
-Silken Reason creates Veyra, operational software for Physical AI.
+Silken Reason studies distributed intelligence, decision systems, physical intelligence, memory and adaptation.
 
-Veyra is operational intelligence for Physical AI, autonomous systems and connected industrial machines.
+Veyra is the first product from Silken Reason Lab.
 
 Veyra helps teams understand what changed, decide what to do, track what actually worked and reuse that history when a similar operational case appears again.
 
@@ -47,6 +47,9 @@ Veyra helps teams understand what changed, decide what to do, track what actuall
 ## Key Pages
 
 - Home: https://www.silkenreason.com/
+- Veyra product: https://www.silkenreason.com/veyra
+- Research: https://www.silkenreason.com/research
+- Conversations: https://www.silkenreason.com/conversations
 - Engineering note: https://www.silkenreason.com/engineering
 - Definitions: https://www.silkenreason.com/blog/definitions
 - Operations: https://www.silkenreason.com/blog/operations
