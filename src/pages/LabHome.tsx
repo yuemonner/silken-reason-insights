@@ -25,7 +25,7 @@ const LabHome = () => {
           />
         </div>
 
-        <div className="container mx-auto max-w-6xl px-6 pb-20 pt-20 md:pb-28 md:pt-28">
+        <div className="container mx-auto max-w-6xl px-6 pb-16 pt-16 md:pb-20 md:pt-20">
           <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-end">
             <motion.div
               initial={{ opacity: 0, y: 12 }}
@@ -36,7 +36,7 @@ const LabHome = () => {
               <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.24em] text-muted-foreground">
                 Independent Research Lab
               </p>
-              <h1 className="mb-7 bg-[linear-gradient(112deg,#053f31_0%,#0b6b55_46%,#14352f_100%)] bg-clip-text text-[64px] font-semibold leading-[0.86] tracking-[-0.085em] text-transparent md:text-[96px] lg:text-[116px] [font-variant-ligatures:common-ligatures]">
+              <h1 className="mb-7 bg-[linear-gradient(112deg,#053f31_0%,#0b6b55_46%,#14352f_100%)] bg-clip-text text-[64px] font-semibold leading-[0.86] tracking-[-0.085em] text-transparent md:text-[92px] lg:text-[108px] [font-variant-ligatures:common-ligatures]">
                 Silken Reason
               </h1>
               <p className="max-w-3xl text-xl leading-relaxed text-muted-foreground md:text-2xl">
