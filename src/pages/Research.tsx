@@ -1,9 +1,10 @@
 import Layout from "@/components/Layout";
 
 const directions = [
-  ["01", "Human-Machine Decision Systems", "How human judgment and machine cognition combine into one decision."],
-  ["02", "Operational Intelligence", "How teams make decisions across complex physical systems under uncertainty."],
-  ["03", "Cognitive Architectures", "How memory, prediction, dissent, risk and context combine into coherent decisions."],
+  ["01", "Distributed Intelligence", "How human judgment, machine perception and organizational routines act as one system."],
+  ["02", "Decision Systems", "How action forms when evidence is incomplete and responsibility is shared."],
+  ["03", "Physical Intelligence", "How robots, embodied systems and machine fleets meet the real world."],
+  ["04", "Memory & Adaptation", "How prior outcomes become usable context for the next decision."],
 ];
 
 const Research = () => {
@@ -18,7 +19,7 @@ const Research = () => {
             Questions before products.
           </h1>
           <p className="mt-7 max-w-2xl text-xl leading-relaxed text-muted-foreground">
-            Silken Reason studies how people, machines and organizations turn uncertain evidence into action.
+            Silken Reason studies how intelligence emerges, acts and adapts in real-world systems.
           </p>
         </div>
       </section>

@@ -42,7 +42,7 @@ const LabHome = () => {
               Silken Reason
             </h1>
             <p className="max-w-2xl text-xl leading-relaxed text-muted-foreground md:text-2xl">
-              Silken Reason is an independent research lab studying intelligence in real-world systems.
+              Silken Reason is an independent research lab studying how intelligence emerges, acts and adapts in real-world systems.
             </p>
           </motion.div>
 
