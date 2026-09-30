@@ -46,12 +46,12 @@ const FlowVisualization = () => {
 
   return (
     <div className="w-full">
-      <div className="relative overflow-hidden rounded-2xl border border-border bg-background px-5 py-6 md:px-8 md:py-8">
+      <div className="relative overflow-hidden rounded-lg border border-[#c8d5e8] bg-[#f8fbff] px-5 py-6 md:px-8 md:py-8">
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.45]"
+          className="pointer-events-none absolute inset-0 opacity-[0.55]"
           style={{
             backgroundImage:
-              "linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px), linear-gradient(to bottom, hsl(var(--border)) 1px, transparent 1px)",
+              "linear-gradient(to right, rgba(37,99,235,0.09) 1px, transparent 1px), linear-gradient(to bottom, rgba(37,99,235,0.075) 1px, transparent 1px)",
             backgroundSize: "36px 36px",
             maskImage: "radial-gradient(ellipse at center, black 25%, transparent 76%)",
             WebkitMaskImage: "radial-gradient(ellipse at center, black 25%, transparent 76%)",
@@ -118,7 +118,7 @@ const FlowVisualization = () => {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.06, duration: 0.35 }}
                 whileHover={{ y: -4 }}
-                className="group relative min-h-[118px] rounded-2xl border border-border/80 bg-background/80 p-3 shadow-sm backdrop-blur transition-colors hover:border-primary/45 hover:bg-primary/[0.035]"
+                className="group relative min-h-[118px] rounded-lg border border-[#c8d5e8] bg-white/85 p-3 shadow-sm backdrop-blur transition-colors hover:border-[#2563eb]/55 hover:bg-[#eef4ff]"
               >
                 <div className="mb-5 flex items-center justify-between">
                   <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground group-hover:text-primary">
@@ -145,7 +145,7 @@ const FlowVisualization = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.04, duration: 0.3 }}
-              className="flex items-center gap-4 rounded-2xl border border-border bg-background/85 p-4"
+              className="flex items-center gap-4 rounded-lg border border-[#c8d5e8] bg-background/85 p-4"
             >
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary/[0.05] font-mono text-[10px] text-primary">
                 {String(i + 1).padStart(2, "0")}
@@ -163,7 +163,7 @@ const FlowVisualization = () => {
         </div>
 
         <motion.div
-          className="relative mt-5 rounded-full border border-primary/25 bg-primary/[0.035] px-4 py-2 text-center font-mono text-[10px] uppercase tracking-[0.16em] text-primary md:mt-0"
+          className="relative mt-5 border border-[#2563eb]/25 bg-[#2563eb]/[0.045] px-4 py-2 text-center font-mono text-[10px] uppercase tracking-[0.16em] text-[#2563eb] md:mt-0"
           initial={{ opacity: 0, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -251,8 +251,8 @@ const ProductWorkspace = () => {
   const current = steps[active];
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-border bg-background shadow-[0_1px_0_hsl(var(--border)),0_30px_60px_-30px_hsl(var(--foreground)/0.15)]">
-      <div className="border-b border-border bg-surface/35 px-4 py-3 sm:px-5">
+    <div className="overflow-hidden rounded-lg border border-[#c8d5e8] bg-background shadow-[0_1px_0_rgba(15,23,42,0.08),0_30px_80px_-45px_rgba(37,99,235,0.32)]">
+      <div className="border-b border-[#c8d5e8] bg-[#f7faff] px-4 py-3 sm:px-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
@@ -277,7 +277,7 @@ const ProductWorkspace = () => {
       </div>
 
       <div className="grid min-h-[620px] lg:grid-cols-[210px_minmax(0,1fr)_260px]">
-        <aside className="border-b border-border bg-surface/25 p-4 lg:border-b-0 lg:border-r">
+        <aside className="border-b border-[#c8d5e8] bg-[#f8fbff] p-4 lg:border-b-0 lg:border-r">
           <div className="mb-4 flex items-center justify-between">
             <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
               Machines
@@ -292,7 +292,7 @@ const ProductWorkspace = () => {
               return (
                 <span
                   key={index}
-                  className={`h-8 rounded-lg border transition-colors ${
+                  className={`h-8 rounded-md border transition-colors ${
                     affected
                       ? "border-destructive/45 bg-destructive/15"
                       : exposed
@@ -318,7 +318,7 @@ const ProductWorkspace = () => {
             ))}
           </div>
 
-          <div className="mt-5 rounded-xl border border-border bg-background p-3">
+          <div className="mt-5 rounded-lg border border-[#c8d5e8] bg-background p-3">
             <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
               Current question
             </div>
@@ -329,14 +329,14 @@ const ProductWorkspace = () => {
         </aside>
 
         <main className="min-w-0 p-4 sm:p-5">
-          <nav className="mb-5 flex gap-1.5 overflow-x-auto rounded-full border border-border bg-surface/35 p-1">
+          <nav className="mb-5 flex gap-1.5 overflow-x-auto rounded-lg border border-[#c8d5e8] bg-[#f7faff] p-1">
             {steps.map((step, index) => (
               <button
                 key={step.label}
                 onClick={() => setActive(index)}
                 className={`shrink-0 rounded-full px-3.5 py-2 text-left transition-all ${
                   active === index
-                    ? "bg-foreground text-background shadow-sm"
+                    ? "bg-[#0f172a] text-background shadow-sm"
                     : "text-muted-foreground hover:bg-background hover:text-foreground"
                 }`}
               >
@@ -353,7 +353,7 @@ const ProductWorkspace = () => {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.22 }}
-            className="rounded-2xl border border-border bg-background p-5 sm:p-6"
+            className="rounded-lg border border-[#c8d5e8] bg-background p-5 sm:p-6"
           >
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div className="min-w-0">
@@ -364,7 +364,7 @@ const ProductWorkspace = () => {
                   {current.title}
                 </h4>
               </div>
-              <div className="rounded-full border border-border bg-surface/70 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-foreground">
+              <div className="rounded-md border border-[#c8d5e8] bg-[#f7faff] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-foreground">
                 {current.metric}
               </div>
             </div>
@@ -375,7 +375,7 @@ const ProductWorkspace = () => {
 
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
               {current.focus.map((item) => (
-                <div key={item} className="min-h-[86px] rounded-xl border border-border bg-surface/45 p-4">
+                <div key={item} className="min-h-[86px] rounded-lg border border-[#c8d5e8] bg-[#f8fbff] p-4">
                   <div className="font-mono text-[9px] uppercase tracking-[0.14em] text-muted-foreground">
                     Evidence
                   </div>
@@ -386,8 +386,8 @@ const ProductWorkspace = () => {
               ))}
             </div>
 
-            <div className="mt-6 overflow-hidden rounded-xl border border-border">
-              <div className="grid grid-cols-[0.7fr_1fr_0.8fr_1fr] border-b border-border bg-surface/50 px-4 py-2.5 font-mono text-[9px] uppercase tracking-[0.12em] text-muted-foreground">
+            <div className="mt-6 overflow-hidden rounded-lg border border-[#c8d5e8]">
+              <div className="grid grid-cols-[0.7fr_1fr_0.8fr_1fr] border-b border-[#c8d5e8] bg-[#f7faff] px-4 py-2.5 font-mono text-[9px] uppercase tracking-[0.12em] text-muted-foreground">
                 <span>Machine</span>
                 <span>Status</span>
                 <span>Release</span>
@@ -399,7 +399,7 @@ const ProductWorkspace = () => {
                 ["R06", "healthy exposed", "v0.9", "C + fw 7.3"],
                 ["R01", "healthy", "v0.9", "B + fw 7.2"],
               ].map((row) => (
-                <div key={row[0]} className="grid grid-cols-[0.7fr_1fr_0.8fr_1fr] border-b border-border px-4 py-3 text-[12px] last:border-b-0">
+                <div key={row[0]} className="grid grid-cols-[0.7fr_1fr_0.8fr_1fr] border-b border-[#e1e8f4] px-4 py-3 text-[12px] last:border-b-0">
                   <span className="font-mono text-foreground">{row[0]}</span>
                   <span className={row[1].includes("affected") ? "text-destructive" : "text-muted-foreground"}>{row[1]}</span>
                   <span className="text-muted-foreground">{row[2]}</span>
@@ -410,7 +410,7 @@ const ProductWorkspace = () => {
           </motion.section>
         </main>
 
-        <aside className="border-t border-border bg-surface/20 p-4 lg:border-l lg:border-t-0">
+        <aside className="border-t border-[#c8d5e8] bg-[#f8fbff] p-4 lg:border-l lg:border-t-0">
           <motion.div
             key={`memory-${active}`}
             initial={{ opacity: 0, y: 8 }}
@@ -418,7 +418,7 @@ const ProductWorkspace = () => {
             transition={{ duration: 0.22 }}
             className="space-y-3"
           >
-            <div className="rounded-2xl border border-border bg-background p-4">
+            <div className="rounded-lg border border-[#c8d5e8] bg-background p-4">
               <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
                 Case role
               </div>
@@ -427,19 +427,19 @@ const ProductWorkspace = () => {
               </p>
             </div>
 
-            <div className="rounded-2xl border border-primary/25 bg-primary/[0.035] p-4">
+            <div className="rounded-lg border border-[#2563eb]/25 bg-[#2563eb]/[0.045] p-4">
               <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-primary/80">
                 Relevant history
               </div>
               <p className="mt-3 text-[13px] leading-relaxed text-foreground">
                 Similar case found. Last time, rollback recovered 2 of 2 affected machines. One additional machine was affected later.
               </p>
-              <div className="mt-4 rounded-xl border border-primary/20 bg-background/70 p-3 text-[12px] leading-relaxed text-muted-foreground">
+              <div className="mt-4 rounded-md border border-[#2563eb]/20 bg-background/70 p-3 text-[12px] leading-relaxed text-muted-foreground">
                 Use previous outcome
               </div>
             </div>
 
-            <div className="rounded-2xl border border-border bg-background p-4">
+            <div className="rounded-lg border border-[#c8d5e8] bg-background p-4">
               <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
                 Case state
               </div>
@@ -468,57 +468,83 @@ const Landing = () => {
   return (
     <Layout>
       {/* HERO */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden bg-[#07111f] text-white">
         <div className="absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,hsl(var(--primary)/0.08),transparent_60%)]" />
           <div
-            className="absolute inset-0 opacity-[0.35]"
+            className="absolute inset-0 opacity-[0.4]"
             style={{
               backgroundImage:
-                "linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px), linear-gradient(to bottom, hsl(var(--border)) 1px, transparent 1px)",
-              backgroundSize: "56px 56px",
-              maskImage: "radial-gradient(ellipse at center, black 40%, transparent 75%)",
-              WebkitMaskImage: "radial-gradient(ellipse at center, black 40%, transparent 75%)",
+                "linear-gradient(to right, rgba(96,165,250,0.16) 1px, transparent 1px), linear-gradient(to bottom, rgba(96,165,250,0.12) 1px, transparent 1px)",
+              backgroundSize: "64px 64px",
             }}
           />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_78%_18%,rgba(37,99,235,0.32),transparent_38%),linear-gradient(180deg,rgba(7,17,31,0.08),#07111f_92%)]" />
         </div>
 
         <div className="container mx-auto px-6 pt-40 pb-32 max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-4xl"
-          >
-            <h1 className="text-5xl md:text-7xl lg:text-[80px] font-semibold tracking-tight text-foreground leading-[1.02] mb-8">
-              Operational Intelligence for{" "}
-              <span className="text-primary">Physical AI</span>.
-            </h1>
-
-            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mb-10">
-              Veyra helps teams understand what changed, decide what to do,
-              and learn from what worked across deployed physical systems.
-            </p>
-
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-1.5 rounded-full bg-foreground text-background px-5 py-3 text-[13px] font-medium hover:bg-foreground/90 transition-colors"
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="max-w-4xl"
             >
-              Request a Design Partner Pilot
-              <ArrowRight size={14} />
-            </Link>
+              <p className="mb-6 font-mono text-[11px] uppercase tracking-[0.22em] text-blue-200/70">
+                Veyra by Silken Reason
+              </p>
+              <h1 className="mb-8 text-5xl font-semibold leading-[0.98] tracking-tight text-white md:text-7xl lg:text-[82px]">
+                Operational Intelligence for{" "}
+                <span className="text-blue-300">Physical AI</span>.
+              </h1>
 
-            <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] tracking-[0.12em] uppercase text-muted-foreground">
-              <span>✓ Read-only</span>
-              <span>✓ Works with existing systems</span>
-              <span>✓ No control path</span>
-            </div>
-          </motion.div>
+              <p className="mb-10 max-w-2xl text-lg leading-relaxed text-blue-50/68 md:text-xl">
+                Veyra helps teams understand what changed, decide what to do,
+                and learn from what worked across deployed physical systems.
+              </p>
+
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-1.5 rounded-md bg-blue-400 px-5 py-3 text-[13px] font-semibold text-[#06101f] transition-colors hover:bg-blue-300"
+              >
+                Request a Design Partner Pilot
+                <ArrowRight size={14} />
+              </Link>
+
+              <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100/60">
+                <span>Read-only</span>
+                <span>Existing systems</span>
+                <span>No control path</span>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.12, duration: 0.6 }}
+              className="border border-blue-300/20 bg-white/[0.035] p-5 backdrop-blur"
+            >
+              <div className="mb-8 flex items-center justify-between border-b border-blue-200/15 pb-4">
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-blue-200/70">Live case</p>
+                <span className="h-2 w-2 bg-blue-300 shadow-[0_0_24px_rgba(147,197,253,0.8)]" />
+              </div>
+              {[
+                ["Changed", "Autonomy release 2.7"],
+                ["Scope", "3 affected · 9 healthy"],
+                ["Decision", "Remote recovery"],
+                ["Outcome", "Field dispatch avoided"],
+              ].map(([label, value]) => (
+                <div key={label} className="grid grid-cols-[95px_1fr] border-b border-blue-200/10 py-3 last:border-b-0">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-blue-200/45">{label}</span>
+                  <span className="text-sm font-medium text-blue-50">{value}</span>
+                </div>
+              ))}
+            </motion.div>
+          </div>
         </div>
       </section>
 
       {/* WORKFLOWS */}
-      <section id="workflows" className="border-t border-border">
+      <section id="workflows" className="border-t border-[#c8d5e8] bg-[#f8fbff]">
         <div className="container mx-auto px-6 py-28 max-w-6xl">
           <div className="mb-12 grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
             <div>
@@ -529,10 +555,10 @@ const Landing = () => {
                 Four questions decide what happens next.
               </h2>
             </div>
-            <div className="rounded-2xl border border-border bg-surface/45 p-5">
+            <div className="rounded-lg border border-[#c8d5e8] bg-background p-5 shadow-sm">
               <div className="grid gap-2 sm:grid-cols-2">
                 {["What changed?", "Where else?", "What should we do?", "Did it work?"].map((question, index) => (
-                  <div key={question} className="rounded-xl border border-border bg-background px-4 py-3">
+                  <div key={question} className="rounded-md border border-[#d8e2f1] bg-[#fbfdff] px-4 py-3">
                     <div className="font-mono text-[10px] text-muted-foreground">0{index + 1}</div>
                     <div className="mt-1 text-[15px] font-medium text-foreground">{question}</div>
                   </div>
@@ -554,7 +580,7 @@ const Landing = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08, duration: 0.5 }}
-                className="rounded-2xl border border-border bg-background p-6 hover:border-foreground/30 transition-colors"
+                className="rounded-lg border border-[#c8d5e8] bg-background p-6 transition-colors hover:border-[#2563eb]/50 hover:bg-[#fbfdff]"
               >
                 <div className="mb-8 flex items-center justify-between">
                   <div className="text-[11px] font-mono tracking-[0.15em] uppercase text-muted-foreground">
@@ -575,7 +601,7 @@ const Landing = () => {
       </section>
 
       {/* CONTINUOUS OPERATIONS */}
-      <section id="how" className="border-t border-border bg-surface/50">
+      <section id="how" className="border-t border-[#c8d5e8] bg-background">
         <div className="container mx-auto px-6 py-28 max-w-6xl">
           <div className="mb-16 max-w-2xl">
             <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-4">
@@ -583,14 +609,14 @@ const Landing = () => {
             </p>
           </div>
 
-          <div className="rounded-2xl border border-border bg-background p-6 md:p-10">
+          <div className="rounded-lg border border-[#c8d5e8] bg-background p-6 md:p-10">
             <FlowVisualization />
           </div>
         </div>
       </section>
 
       {/* PRODUCT */}
-      <section id="product" className="border-t border-border">
+      <section id="product" className="border-t border-[#c8d5e8] bg-[#f8fbff]">
         <div className="container mx-auto px-6 py-28 max-w-7xl">
           <div className="mb-12">
             <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-4">
@@ -621,7 +647,7 @@ const Landing = () => {
       </section>
 
       {/* PILOT CTA */}
-      <section className="border-t border-border">
+      <section className="border-t border-[#c8d5e8] bg-background">
         <div className="container mx-auto px-6 py-32 max-w-5xl">
           <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-4">
             Pilot
@@ -640,7 +666,7 @@ const Landing = () => {
             ].map((s) => (
               <li
                 key={s.n}
-                className="rounded-2xl border border-border bg-background p-6 hover:border-foreground/30 transition-colors"
+                className="rounded-lg border border-[#c8d5e8] bg-background p-6 transition-colors hover:border-[#2563eb]/45"
               >
                 <div className="font-mono text-[11px] tracking-[0.15em] text-muted-foreground mb-4">{s.n}</div>
                 <h3 className="text-[16px] font-semibold text-foreground mb-2 leading-snug">{s.t}</h3>
@@ -656,7 +682,7 @@ const Landing = () => {
 
           <Link
             to="/contact"
-            className="inline-flex items-center gap-1.5 rounded-full bg-foreground text-background px-6 py-3 text-[13px] font-medium hover:bg-foreground/90 transition-colors"
+            className="inline-flex items-center gap-1.5 rounded-md bg-[#0f172a] px-6 py-3 text-[13px] font-medium text-background transition-colors hover:bg-[#1e293b]"
           >
             Request a Design Partner Pilot <ArrowRight size={14} />
           </Link>
@@ -664,7 +690,7 @@ const Landing = () => {
       </section>
 
       {/* FOOTER */}
-      <footer className="border-t border-border">
+      <footer className="border-t border-[#c8d5e8] bg-[#f8fbff]">
         <div className="container mx-auto px-6 py-14 max-w-6xl">
           <div className="flex flex-wrap items-center justify-between gap-6">
             <div className="flex items-center gap-2">
