@@ -77,12 +77,12 @@ const LabHome = () => {
               Human-machine cognition, distributed intelligence, memory, adaptation and real-world systems.
             </h2>
           </Link>
-          <a href="#products" className="group rounded-2xl border border-border bg-background p-6 transition-colors hover:border-foreground/30">
+          <Link to="/veyra" className="group rounded-2xl border border-border bg-background p-6 transition-colors hover:border-foreground/30">
             <p className="mb-16 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Products</p>
             <h2 className="text-2xl font-semibold leading-tight tracking-tight text-foreground">
               What we build from the questions we pursue.
             </h2>
-          </a>
+          </Link>
           <Link to="/conversations" className="group rounded-2xl border border-border bg-background p-6 transition-colors hover:border-foreground/30">
             <p className="mb-16 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Conversations</p>
             <h2 className="text-2xl font-semibold leading-tight tracking-tight text-foreground">
