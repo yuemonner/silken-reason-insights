@@ -1,6 +1,4 @@
-import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
-import { ArrowRight } from "lucide-react";
 
 const directions = [
   ["01", "Human-Machine Decision Systems", "How human judgment and machine cognition combine into one decision."],
@@ -41,30 +39,6 @@ const Research = () => {
                 </div>
               </article>
             ))}
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <div className="container mx-auto max-w-6xl px-6 py-20">
-          <div className="rounded-3xl border border-border bg-surface/50 p-8 md:flex md:items-end md:justify-between md:gap-12">
-            <div>
-              <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-                Commercial experiment
-              </p>
-              <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-tight text-foreground md:text-5xl">
-                Veyra grows from Operational Intelligence.
-              </h2>
-              <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
-                It turns machine incidents into decision workflows that carry evidence, action and outcome forward.
-              </p>
-            </div>
-            <Link
-              to="/veyra"
-              className="mt-8 inline-flex items-center gap-1.5 rounded-full bg-foreground px-5 py-3 text-[13px] font-medium text-background transition-colors hover:bg-foreground/90 md:mt-0"
-            >
-              Explore Veyra <ArrowRight size={14} />
-            </Link>
           </div>
         </div>
       </section>

@@ -4,10 +4,10 @@ import Layout from "@/components/Layout";
 import { ArrowRight } from "lucide-react";
 
 const themes = [
-  ["Distributed Intelligence", "human + machine + organization"],
-  ["Decision Systems", "how action emerges under uncertainty"],
-  ["Physical Intelligence", "robots, embodied systems, fleet operations"],
-  ["Memory & Adaptation", "how systems learn from prior outcomes"],
+  ["Distributed Intelligence", "Human judgment, machine perception and organizational routines acting as one system.", "01"],
+  ["Decision Systems", "How action forms when evidence is incomplete and responsibility is shared.", "02"],
+  ["Physical Intelligence", "Robots, embodied systems and machine fleets meeting the real world.", "03"],
+  ["Memory & Adaptation", "How prior outcomes become usable context for the next decision.", "04"],
 ];
 
 const questions = [
@@ -45,7 +45,7 @@ const LabHome = () => {
             <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
               Independent Research Lab
             </p>
-            <h1 className="mb-7 text-6xl font-semibold tracking-tight text-foreground md:text-8xl lg:text-[118px] leading-[0.92]">
+            <h1 className="mb-7 bg-[linear-gradient(112deg,#053f31_0%,#0b6b55_42%,#14352f_100%)] bg-clip-text text-6xl font-semibold tracking-[-0.08em] text-transparent md:text-8xl lg:text-[124px] leading-[0.9] [font-variant-ligatures:common-ligatures]">
               Silken Reason
             </h1>
             <p className="max-w-2xl text-xl leading-relaxed text-muted-foreground md:text-2xl">
@@ -53,17 +53,23 @@ const LabHome = () => {
             </p>
           </motion.div>
 
-          <div className="mt-16 grid gap-3 md:grid-cols-4">
-            {themes.map(([title, detail], index) => (
+          <div className="mt-16 grid gap-3 md:grid-cols-12">
+            {themes.map(([title, detail, number], index) => (
               <motion.article
                 key={title}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.08 * index, duration: 0.4 }}
-                className="min-h-[145px] rounded-2xl border border-border bg-background/80 p-5 backdrop-blur"
+                className={`group relative overflow-hidden rounded-2xl border border-border bg-background/80 p-5 backdrop-blur transition-colors hover:border-[#0b6b55]/35 ${
+                  index === 0 || index === 3 ? "md:col-span-7" : "md:col-span-5"
+                }`}
               >
-                <h2 className="text-[17px] font-semibold leading-snug text-foreground">{title}</h2>
-                <p className="mt-8 text-[13px] leading-relaxed text-muted-foreground">{detail}</p>
+                <div className="pointer-events-none absolute -right-10 -top-12 h-28 w-28 rounded-full border border-[#0b6b55]/15 transition-transform duration-500 group-hover:scale-125" />
+                <div className="flex items-start justify-between gap-8">
+                  <h2 className="max-w-[280px] text-[22px] font-semibold leading-tight tracking-tight text-[#053f31]">{title}</h2>
+                  <span className="font-mono text-[11px] text-muted-foreground">{number}</span>
+                </div>
+                <p className="mt-10 max-w-xl text-[14px] leading-relaxed text-muted-foreground">{detail}</p>
               </motion.article>
             ))}
           </div>
