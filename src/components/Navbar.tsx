@@ -7,7 +7,7 @@ const labLinks = [
   { href: "/research", label: "Research" },
   { href: "/veyra", label: "Products" },
   { href: "/conversations", label: "Conversations" },
-  { href: "/#about", label: "About" },
+  { href: "/about", label: "About" },
 ];
 
 const productLinks = [

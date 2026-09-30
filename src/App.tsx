@@ -8,6 +8,7 @@ import LabHome from "./pages/LabHome";
 import Landing from "./pages/Landing";
 import Research from "./pages/Research";
 import Conversations from "./pages/Conversations";
+import About from "./pages/About";
 import Engineering from "./pages/Engineering";
 import Blog from "./pages/Blog";
 import BlogSection from "./pages/BlogSection";
@@ -37,6 +38,7 @@ const App = () => (
           <Route path="/veyra" element={<Landing />} />
           <Route path="/research" element={<Research />} />
           <Route path="/conversations" element={<Conversations />} />
+          <Route path="/about" element={<About />} />
           <Route path="/engineering" element={<Engineering />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/blog" element={<Blog />} />
