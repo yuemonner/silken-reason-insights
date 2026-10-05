@@ -390,110 +390,81 @@ const Landing = () => {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.12, duration: 0.6 }}
-              className="relative hidden h-[300px] overflow-hidden border border-blue-300/20 bg-white/[0.035] p-5 backdrop-blur lg:block"
+              className="relative hidden h-[300px] overflow-hidden border border-blue-300/20 bg-white/[0.035] backdrop-blur lg:block"
             >
               <div
                 className="absolute inset-0 opacity-60"
                 style={{
                   backgroundImage:
                     "linear-gradient(to right, rgba(147,197,253,0.14) 1px, transparent 1px), linear-gradient(to bottom, rgba(147,197,253,0.1) 1px, transparent 1px)",
-                  backgroundSize: "42px 42px",
+                  backgroundSize: "48px 48px",
                 }}
               />
-              <div className="relative z-10 flex h-full flex-col">
-                <div className="mb-4 flex items-start justify-between border-b border-blue-200/15 pb-3">
-                  <div>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-blue-200/65">
-                      Live robot case
-                    </p>
-                    <p className="mt-1 text-[15px] font-semibold text-blue-50">
-                      Safe-stop after autonomy 2.7
-                    </p>
-                  </div>
-                  <div className="grid grid-cols-3 gap-2 font-mono text-[10px] uppercase tracking-[0.1em]">
-                    <span className="border border-red-300/45 bg-red-300/12 px-2 py-1 text-red-100">3 affected</span>
-                    <span className="border border-[#84d7b0]/45 bg-[#84d7b0]/10 px-2 py-1 text-[#b9f2d3]">1 watch</span>
-                    <span className="border border-blue-200/20 bg-blue-100/[0.04] px-2 py-1 text-blue-100/70">8 healthy</span>
-                  </div>
-                </div>
-
-                <div className="grid flex-1 grid-cols-[1fr_1.05fr] gap-5">
-                  <div className="flex flex-col justify-between">
-                    <div>
-                      <div className="mb-3 flex items-center justify-between">
-                        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-blue-200/65">
-                          Fleet view
-                        </p>
-                        <span className="font-mono text-[10px] text-blue-100/45">12 robots</span>
-                      </div>
-                      <div className="grid grid-cols-4 gap-2">
-                        {[
-                          ["EX01", "healthy"],
-                          ["EX02", "healthy"],
-                          ["EX03", "affected"],
-                          ["EX04", "healthy"],
-                          ["EX05", "affected"],
-                          ["EX06", "healthy"],
-                          ["EX07", "healthy"],
-                          ["EX08", "affected"],
-                          ["EX09", "healthy"],
-                          ["EX10", "healthy"],
-                          ["EX11", "watch"],
-                          ["EX12", "healthy"],
-                        ].map(([id, state]) => (
-                          <div
-                            key={id}
-                            className={`flex h-9 items-center justify-center border font-mono text-[9px] ${
-                              state === "affected"
-                                ? "border-red-300/60 bg-red-300/18 text-red-100"
-                                : state === "watch"
-                                  ? "border-[#84d7b0]/75 bg-[#84d7b0]/18 text-[#c8f7dc]"
-                                  : "border-blue-200/16 bg-blue-100/[0.035] text-blue-100/42"
-                            }`}
-                          >
-                            {id}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    <p className="text-[12px] leading-snug text-blue-50/58">
-                      Veyra separates affected robots from healthy robots that received the same release.
-                    </p>
-                  </div>
-
-                  <div className="flex flex-col justify-between border-l border-blue-200/15 pl-5">
-                    <div>
-                      <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-blue-200/65">
-                        Explanation shortlist
-                      </p>
-                      <div className="mt-3 space-y-1.5">
-                        {[
-                          ["01", "Localization L4", "supported by cohort"],
-                          ["02", "LiDAR firmware 5.3", "still possible"],
-                          ["03", "Loading zone B", "most useful next check"],
-                        ].map(([label, text, state]) => (
-                          <div key={label} className="grid grid-cols-[26px_1fr] border-b border-blue-200/12 px-1 py-1.5 last:border-b-0">
-                            <span className="font-mono text-[10px] text-[#84d7b0]">{label}</span>
-                            <span>
-                              <span className="block text-[13px] font-medium leading-tight text-blue-50">{text}</span>
-                              <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-blue-100/38">{state}</span>
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="border border-[#84d7b0]/35 bg-[#84d7b0]/10 px-3 py-2.5">
-                      <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-[#84d7b0]">
-                        Next check
-                      </p>
-                      <p className="mt-1.5 text-[13px] font-semibold leading-snug text-blue-50">
-                        Test EX11 in zone B before sending a technician.
-                      </p>
-                    </div>
-                  </div>
-                </div>
+              <div className="absolute left-6 top-6 z-10">
+                <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-blue-200/65">
+                  Evidence to action
+                </p>
+                <p className="mt-1 text-[15px] font-semibold text-blue-50">
+                  Robot signals become the next useful check.
+                </p>
               </div>
+              <svg className="absolute inset-0 h-full w-full" viewBox="0 0 640 300" role="img" aria-label="Veyra turns robot signals into explanations, next checks and reusable memory">
+                <defs>
+                  <linearGradient id="traceLine" x1="0" x2="1" y1="0" y2="0">
+                    <stop offset="0%" stopColor="#ef9aa3" stopOpacity="0.45" />
+                    <stop offset="45%" stopColor="#84d7b0" stopOpacity="0.75" />
+                    <stop offset="100%" stopColor="#93c5fd" stopOpacity="0.45" />
+                  </linearGradient>
+                  <filter id="softGlow" x="-40%" y="-40%" width="180%" height="180%">
+                    <feGaussianBlur stdDeviation="5" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                </defs>
+
+                <path d="M88 190 C170 95 245 225 318 143 C377 77 434 92 510 68" fill="none" stroke="url(#traceLine)" strokeWidth="2" />
+                <path d="M110 104 C191 148 248 159 318 143 C392 126 448 169 542 214" fill="none" stroke="#93c5fd" strokeDasharray="7 10" strokeOpacity="0.28" strokeWidth="2" />
+                <path d="M318 143 C347 188 421 223 530 238" fill="none" stroke="#84d7b0" strokeOpacity="0.35" strokeWidth="1.5" />
+
+                {[
+                  [86, 190, 9, "#93c5fd"],
+                  [112, 104, 6, "#e8f1ff"],
+                  [190, 148, 14, "#ef9aa3"],
+                  [244, 160, 8, "#93c5fd"],
+                  [318, 143, 18, "#84d7b0"],
+                  [432, 96, 9, "#84d7b0"],
+                  [512, 68, 8, "#93c5fd"],
+                  [542, 214, 7, "#e8f1ff"],
+                ].map(([cx, cy, r, color], index) => (
+                  <g key={index} filter={index === 4 ? "url(#softGlow)" : undefined}>
+                    <circle cx={cx} cy={cy} r={Number(r) + 12} fill={String(color)} opacity="0.08" />
+                    <circle cx={cx} cy={cy} r={r} fill={String(color)} opacity={index === 4 ? "0.95" : "0.75"} />
+                  </g>
+                ))}
+
+                <g transform="translate(268 104)">
+                  <rect width="102" height="78" rx="0" fill="#07111f" fillOpacity="0.72" stroke="#84d7b0" strokeOpacity="0.35" />
+                  <text x="18" y="28" fill="#84d7b0" fontSize="10" letterSpacing="3" fontFamily="monospace">NARROW</text>
+                  <text x="18" y="52" fill="#f8fbff" fontSize="14" fontWeight="600">3 live</text>
+                  <text x="18" y="68" fill="#93c5fd" fontSize="10" letterSpacing="2" fontFamily="monospace">2 OPEN</text>
+                </g>
+
+                <g transform="translate(456 42)">
+                  <rect width="118" height="54" rx="0" fill="#84d7b0" fillOpacity="0.1" stroke="#84d7b0" strokeOpacity="0.45" />
+                  <text x="16" y="24" fill="#84d7b0" fontSize="10" letterSpacing="3" fontFamily="monospace">NEXT CHECK</text>
+                  <text x="16" y="42" fill="#f8fbff" fontSize="12" fontWeight="600">EX11 in zone B</text>
+                </g>
+
+                <g transform="translate(430 222)">
+                  <rect width="132" height="34" rx="17" fill="#93c5fd" fillOpacity="0.1" stroke="#93c5fd" strokeOpacity="0.35" />
+                  <text x="18" y="22" fill="#cfe3ff" fontSize="10" letterSpacing="2.5" fontFamily="monospace">OUTCOME MEMORY</text>
+                </g>
+
+                <text x="70" y="236" fill="#93c5fd" opacity="0.55" fontSize="10" letterSpacing="3" fontFamily="monospace">SIGNALS</text>
+                <text x="248" y="238" fill="#84d7b0" opacity="0.65" fontSize="10" letterSpacing="3" fontFamily="monospace">EXPLANATIONS</text>
+              </svg>
             </motion.div>
           </div>
         </div>
