@@ -390,7 +390,7 @@ const Landing = () => {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.12, duration: 0.6 }}
-              className="relative hidden h-[300px] overflow-hidden border border-blue-300/20 bg-white/[0.035] backdrop-blur lg:block"
+              className="relative hidden h-[300px] overflow-hidden border border-blue-300/20 bg-white/[0.035] p-5 backdrop-blur lg:block"
             >
               <div
                 className="absolute inset-0 opacity-60"
@@ -400,33 +400,85 @@ const Landing = () => {
                   backgroundSize: "42px 42px",
                 }}
               />
-              <svg viewBox="0 0 340 300" className="absolute inset-0 h-full w-full" role="img" aria-label="Machine evidence field">
-                <defs>
-                  <linearGradient id="heroLine" x1="0" x2="1" y1="0" y2="1">
-                    <stop offset="0%" stopColor="#93c5fd" stopOpacity="0.15" />
-                    <stop offset="55%" stopColor="#84d7b0" stopOpacity="0.55" />
-                    <stop offset="100%" stopColor="#93c5fd" stopOpacity="0.2" />
-                  </linearGradient>
-                </defs>
-                <path d="M48 226 C88 120, 130 210, 170 112 S252 64, 292 156" fill="none" stroke="url(#heroLine)" strokeWidth="1.2" />
-                <path d="M68 86 L142 132 L218 88 L286 210" fill="none" stroke="#93c5fd" strokeOpacity="0.22" strokeWidth="1" strokeDasharray="5 8" />
-                {[
-                  [48, 226, "#93c5fd"],
-                  [68, 86, "#e8f2ff"],
-                  [142, 132, "#84d7b0"],
-                  [170, 112, "#93c5fd"],
-                  [218, 88, "#84d7b0"],
-                  [286, 210, "#e8f2ff"],
-                  [292, 156, "#93c5fd"],
-                ].map(([cx, cy, fill], index) => (
-                  <g key={index}>
-                    <circle cx={cx} cy={cy} r={index === 2 || index === 4 ? 15 : 10} fill={String(fill)} fillOpacity={index === 1 || index === 5 ? 0.18 : 0.28} />
-                    <circle cx={cx} cy={cy} r={index === 2 || index === 4 ? 4 : 3} fill={String(fill)} />
-                  </g>
-                ))}
-                <rect x="36" y="38" width="82" height="28" fill="#07111f" stroke="#93c5fd" strokeOpacity="0.24" />
-                <rect x="196" y="230" width="102" height="28" fill="#07111f" stroke="#84d7b0" strokeOpacity="0.34" />
-              </svg>
+              <div className="relative z-10 grid h-full grid-cols-[132px_1fr] gap-5">
+                <div className="flex flex-col justify-between">
+                  <div>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-blue-200/65">
+                      Machine state
+                    </p>
+                    <div className="mt-4 grid grid-cols-3 gap-2">
+                      {[
+                        "affected",
+                        "healthy",
+                        "healthy",
+                        "healthy",
+                        "affected",
+                        "healthy",
+                        "affected",
+                        "watch",
+                        "healthy",
+                      ].map((state, index) => (
+                        <div
+                          key={`${state}-${index}`}
+                          className={`h-8 border ${
+                            state === "affected"
+                              ? "border-red-300/55 bg-red-300/18"
+                              : state === "watch"
+                                ? "border-[#84d7b0]/70 bg-[#84d7b0]/18"
+                                : "border-blue-200/18 bg-blue-100/[0.035]"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  <div className="space-y-2 border-t border-blue-200/15 pt-4 font-mono text-[10px] uppercase tracking-[0.12em] text-blue-100/50">
+                    <div className="flex items-center justify-between">
+                      <span>Affected</span>
+                      <span className="text-red-200">3</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span>Watch</span>
+                      <span className="text-[#84d7b0]">1</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span>Healthy</span>
+                      <span className="text-blue-100">8</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col justify-between border-l border-blue-200/15 pl-5">
+                  <div>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-blue-200/65">
+                      Competing explanations
+                    </p>
+                    <div className="mt-4 space-y-2">
+                      {[
+                        ["H1", "Localization profile L4", "supported"],
+                        ["H2", "LiDAR firmware 5.3", "still possible"],
+                        ["H3", "Loading zone B", "needs check"],
+                      ].map(([label, text, state]) => (
+                        <div key={label} className="grid grid-cols-[34px_1fr] border border-blue-200/12 bg-[#07111f]/55 px-3 py-2">
+                          <span className="font-mono text-[10px] text-[#84d7b0]">{label}</span>
+                          <span>
+                            <span className="block text-[13px] font-medium leading-snug text-blue-50">{text}</span>
+                            <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-blue-100/38">{state}</span>
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="border border-[#84d7b0]/35 bg-[#84d7b0]/10 px-4 py-3">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#84d7b0]">
+                      Next check
+                    </p>
+                    <p className="mt-2 text-[14px] font-semibold leading-snug text-blue-50">
+                      Run EX11 through zone B before dispatch.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </motion.div>
           </div>
         </div>
