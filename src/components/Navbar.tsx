@@ -13,7 +13,6 @@ const labLinks = [
 const productLinks = [
   { href: "/veyra#product", label: "Product" },
   { href: "/veyra#workflows", label: "Workflows" },
-  { href: "/veyra#how", label: "Memory" },
   { href: "/contact", label: "Contact" },
 ];
 

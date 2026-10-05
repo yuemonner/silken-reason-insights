@@ -400,82 +400,97 @@ const Landing = () => {
                   backgroundSize: "42px 42px",
                 }}
               />
-              <div className="relative z-10 grid h-full grid-cols-[132px_1fr] gap-5">
-                <div className="flex flex-col justify-between">
+              <div className="relative z-10 flex h-full flex-col">
+                <div className="mb-4 flex items-start justify-between border-b border-blue-200/15 pb-3">
                   <div>
                     <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-blue-200/65">
-                      Machine state
+                      Live robot case
                     </p>
-                    <div className="mt-4 grid grid-cols-3 gap-2">
-                      {[
-                        "affected",
-                        "healthy",
-                        "healthy",
-                        "healthy",
-                        "affected",
-                        "healthy",
-                        "affected",
-                        "watch",
-                        "healthy",
-                      ].map((state, index) => (
-                        <div
-                          key={`${state}-${index}`}
-                          className={`h-8 border ${
-                            state === "affected"
-                              ? "border-red-300/55 bg-red-300/18"
-                              : state === "watch"
-                                ? "border-[#84d7b0]/70 bg-[#84d7b0]/18"
-                                : "border-blue-200/18 bg-blue-100/[0.035]"
-                          }`}
-                        />
-                      ))}
-                    </div>
+                    <p className="mt-1 text-[15px] font-semibold text-blue-50">
+                      Safe-stop after autonomy 2.7
+                    </p>
                   </div>
-                  <div className="space-y-2 border-t border-blue-200/15 pt-4 font-mono text-[10px] uppercase tracking-[0.12em] text-blue-100/50">
-                    <div className="flex items-center justify-between">
-                      <span>Affected</span>
-                      <span className="text-red-200">3</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span>Watch</span>
-                      <span className="text-[#84d7b0]">1</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span>Healthy</span>
-                      <span className="text-blue-100">8</span>
-                    </div>
+                  <div className="grid grid-cols-3 gap-2 font-mono text-[10px] uppercase tracking-[0.1em]">
+                    <span className="border border-red-300/45 bg-red-300/12 px-2 py-1 text-red-100">3 affected</span>
+                    <span className="border border-[#84d7b0]/45 bg-[#84d7b0]/10 px-2 py-1 text-[#b9f2d3]">1 watch</span>
+                    <span className="border border-blue-200/20 bg-blue-100/[0.04] px-2 py-1 text-blue-100/70">8 healthy</span>
                   </div>
                 </div>
 
-                <div className="flex flex-col justify-between border-l border-blue-200/15 pl-5">
-                  <div>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-blue-200/65">
-                      Competing explanations
-                    </p>
-                    <div className="mt-4 space-y-2">
-                      {[
-                        ["H1", "Localization profile L4", "supported"],
-                        ["H2", "LiDAR firmware 5.3", "still possible"],
-                        ["H3", "Loading zone B", "needs check"],
-                      ].map(([label, text, state]) => (
-                        <div key={label} className="grid grid-cols-[34px_1fr] border border-blue-200/12 bg-[#07111f]/55 px-3 py-2">
-                          <span className="font-mono text-[10px] text-[#84d7b0]">{label}</span>
-                          <span>
-                            <span className="block text-[13px] font-medium leading-snug text-blue-50">{text}</span>
-                            <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-blue-100/38">{state}</span>
-                          </span>
-                        </div>
-                      ))}
+                <div className="grid flex-1 grid-cols-[1fr_1.05fr] gap-5">
+                  <div className="flex flex-col justify-between">
+                    <div>
+                      <div className="mb-3 flex items-center justify-between">
+                        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-blue-200/65">
+                          Fleet view
+                        </p>
+                        <span className="font-mono text-[10px] text-blue-100/45">12 robots</span>
+                      </div>
+                      <div className="grid grid-cols-4 gap-2">
+                        {[
+                          ["EX01", "healthy"],
+                          ["EX02", "healthy"],
+                          ["EX03", "affected"],
+                          ["EX04", "healthy"],
+                          ["EX05", "affected"],
+                          ["EX06", "healthy"],
+                          ["EX07", "healthy"],
+                          ["EX08", "affected"],
+                          ["EX09", "healthy"],
+                          ["EX10", "healthy"],
+                          ["EX11", "watch"],
+                          ["EX12", "healthy"],
+                        ].map(([id, state]) => (
+                          <div
+                            key={id}
+                            className={`flex h-9 items-center justify-center border font-mono text-[9px] ${
+                              state === "affected"
+                                ? "border-red-300/60 bg-red-300/18 text-red-100"
+                                : state === "watch"
+                                  ? "border-[#84d7b0]/75 bg-[#84d7b0]/18 text-[#c8f7dc]"
+                                  : "border-blue-200/16 bg-blue-100/[0.035] text-blue-100/42"
+                            }`}
+                          >
+                            {id}
+                          </div>
+                        ))}
+                      </div>
                     </div>
+                    <p className="text-[12px] leading-snug text-blue-50/58">
+                      Veyra separates affected robots from healthy robots that received the same release.
+                    </p>
                   </div>
 
-                  <div className="border border-[#84d7b0]/35 bg-[#84d7b0]/10 px-4 py-3">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#84d7b0]">
-                      Next check
-                    </p>
-                    <p className="mt-2 text-[14px] font-semibold leading-snug text-blue-50">
-                      Run EX11 through zone B before dispatch.
-                    </p>
+                  <div className="flex flex-col justify-between border-l border-blue-200/15 pl-5">
+                    <div>
+                      <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-blue-200/65">
+                        What could explain it?
+                      </p>
+                      <div className="mt-3 space-y-2">
+                        {[
+                          ["01", "Localization L4", "supported by cohort"],
+                          ["02", "LiDAR firmware 5.3", "still possible"],
+                          ["03", "Loading zone B", "most useful next check"],
+                        ].map(([label, text, state]) => (
+                          <div key={label} className="grid grid-cols-[28px_1fr] border border-blue-200/12 bg-[#07111f]/55 px-3 py-2">
+                            <span className="font-mono text-[10px] text-[#84d7b0]">{label}</span>
+                            <span>
+                              <span className="block text-[13px] font-medium leading-tight text-blue-50">{text}</span>
+                              <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-blue-100/38">{state}</span>
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="border border-[#84d7b0]/35 bg-[#84d7b0]/10 px-4 py-3">
+                      <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#84d7b0]">
+                        Next check
+                      </p>
+                      <p className="mt-2 text-[14px] font-semibold leading-snug text-blue-50">
+                        Test EX11 in zone B before sending a technician.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
