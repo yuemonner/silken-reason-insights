@@ -343,28 +343,28 @@ const Landing = () => {
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_78%_18%,rgba(37,99,235,0.32),transparent_38%),linear-gradient(180deg,rgba(7,17,31,0.08),#07111f_92%)]" />
         </div>
 
-        <div className="container mx-auto px-6 pt-32 pb-24 max-w-6xl">
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end">
+        <div className="container mx-auto px-6 pt-24 pb-16 max-w-6xl">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,0.95fr)_340px] lg:items-center">
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               className="max-w-4xl"
             >
-              <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.22em] text-blue-200/70">
+              <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.22em] text-blue-200/70">
                 Veyra by Silken Reason
               </p>
-              <h1 className="mb-6 text-5xl font-semibold leading-[1] tracking-tight text-white md:text-6xl lg:text-[74px]">
+              <h1 className="mb-5 text-4xl font-semibold leading-[1.02] tracking-tight text-white md:text-5xl lg:text-[58px]">
                 <span className="block">
                   When <span className="whitespace-nowrap text-blue-300">Physical AI</span>
                 </span>
                 <span className="block">
-                  meets the <span className="text-[#9dbdaf]">real world</span>,
+                  meets the <span className="text-[#84d7b0]">real world</span>,
                 </span>
                 <span className="block">things stop being predictable.</span>
               </h1>
 
-              <p className="mb-8 max-w-2xl text-lg leading-relaxed text-blue-50/68 md:text-xl">
+              <p className="mb-7 max-w-2xl text-base leading-relaxed text-blue-50/68 md:text-lg">
                 Veyra helps teams reconstruct what happened, narrow down why,
                 decide what to check next, and learn from what actually worked.
               </p>
@@ -379,7 +379,7 @@ const Landing = () => {
                 <ArrowRight size={14} />
               </a>
 
-              <div className="mt-7 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100/60">
+              <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100/60">
                 <span>Read-only</span>
                 <span>Existing systems</span>
                 <span>No control path</span>
@@ -390,23 +390,43 @@ const Landing = () => {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.12, duration: 0.6 }}
-              className="border border-blue-300/20 bg-white/[0.035] p-4 backdrop-blur"
+              className="relative hidden h-[300px] overflow-hidden border border-blue-300/20 bg-white/[0.035] backdrop-blur lg:block"
             >
-              <div className="mb-5 flex items-center justify-between border-b border-blue-200/15 pb-3">
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-blue-200/70">Live case</p>
-                <span className="h-2 w-2 bg-blue-300 shadow-[0_0_24px_rgba(147,197,253,0.8)]" />
-              </div>
-              {[
-                ["Changed", "Autonomy release 2.7"],
-                ["Scope", "3 affected · 9 healthy"],
-                ["Decision", "Remote recovery"],
-                ["Outcome", "Field dispatch avoided"],
-              ].map(([label, value]) => (
-                <div key={label} className="grid grid-cols-[95px_1fr] border-b border-blue-200/10 py-2.5 last:border-b-0">
-                  <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-blue-200/45">{label}</span>
-                  <span className="text-sm font-medium text-blue-50">{value}</span>
-                </div>
-              ))}
+              <div
+                className="absolute inset-0 opacity-60"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(to right, rgba(147,197,253,0.14) 1px, transparent 1px), linear-gradient(to bottom, rgba(147,197,253,0.1) 1px, transparent 1px)",
+                  backgroundSize: "42px 42px",
+                }}
+              />
+              <svg viewBox="0 0 340 300" className="absolute inset-0 h-full w-full" role="img" aria-label="Machine evidence field">
+                <defs>
+                  <linearGradient id="heroLine" x1="0" x2="1" y1="0" y2="1">
+                    <stop offset="0%" stopColor="#93c5fd" stopOpacity="0.15" />
+                    <stop offset="55%" stopColor="#84d7b0" stopOpacity="0.55" />
+                    <stop offset="100%" stopColor="#93c5fd" stopOpacity="0.2" />
+                  </linearGradient>
+                </defs>
+                <path d="M48 226 C88 120, 130 210, 170 112 S252 64, 292 156" fill="none" stroke="url(#heroLine)" strokeWidth="1.2" />
+                <path d="M68 86 L142 132 L218 88 L286 210" fill="none" stroke="#93c5fd" strokeOpacity="0.22" strokeWidth="1" strokeDasharray="5 8" />
+                {[
+                  [48, 226, "#93c5fd"],
+                  [68, 86, "#e8f2ff"],
+                  [142, 132, "#84d7b0"],
+                  [170, 112, "#93c5fd"],
+                  [218, 88, "#84d7b0"],
+                  [286, 210, "#e8f2ff"],
+                  [292, 156, "#93c5fd"],
+                ].map(([cx, cy, fill], index) => (
+                  <g key={index}>
+                    <circle cx={cx} cy={cy} r={index === 2 || index === 4 ? 15 : 10} fill={String(fill)} fillOpacity={index === 1 || index === 5 ? 0.18 : 0.28} />
+                    <circle cx={cx} cy={cy} r={index === 2 || index === 4 ? 4 : 3} fill={String(fill)} />
+                  </g>
+                ))}
+                <rect x="36" y="38" width="82" height="28" fill="#07111f" stroke="#93c5fd" strokeOpacity="0.24" />
+                <rect x="196" y="230" width="102" height="28" fill="#07111f" stroke="#84d7b0" strokeOpacity="0.34" />
+              </svg>
             </motion.div>
           </div>
         </div>
@@ -414,8 +434,8 @@ const Landing = () => {
 
       {/* WORKFLOWS */}
       <section id="workflows" className="border-t border-[#c8d5e8] bg-[#f8fbff]">
-        <div className="container mx-auto px-6 py-28 max-w-6xl">
-          <div className="mb-12 grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
+        <div className="container mx-auto px-6 py-20 max-w-6xl">
+          <div className="mb-10 grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
             <div>
               <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-4">
                 Workflows
@@ -455,9 +475,9 @@ const Landing = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08, duration: 0.5 }}
-                className="rounded-lg border border-[#c8d5e8] bg-background p-6 transition-colors hover:border-[#2563eb]/50 hover:bg-[#fbfdff]"
+                className="rounded-lg border border-[#c8d5e8] bg-background p-5 transition-colors hover:border-[#2563eb]/50 hover:bg-[#fbfdff]"
               >
-                <div className="mb-8 flex items-center justify-between">
+                <div className="mb-6 flex items-center justify-between">
                   <div className="text-[11px] font-mono tracking-[0.15em] uppercase text-muted-foreground">
                   {w.tag}
                   </div>
@@ -477,7 +497,7 @@ const Landing = () => {
 
       {/* CASE MEMORY */}
       <section id="how" className="border-t border-[#c8d5e8] bg-background">
-        <div className="container mx-auto px-6 py-24 max-w-5xl">
+        <div className="container mx-auto px-6 py-16 max-w-5xl">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -486,7 +506,7 @@ const Landing = () => {
             className="border-l border-[#2563eb]/40 pl-6 md:pl-10"
           >
             <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-5">
-              Case memory
+              Memory
             </p>
             <h2 className="max-w-3xl text-3xl font-semibold leading-[1.08] tracking-tight text-foreground md:text-5xl">
               Every case makes the next one easier to resolve.
@@ -501,7 +521,7 @@ const Landing = () => {
 
       {/* PRODUCT */}
       <section id="product" className="border-t border-[#c8d5e8] bg-[#f8fbff]">
-        <div className="container mx-auto px-6 py-28 max-w-7xl">
+        <div className="container mx-auto px-6 py-20 max-w-7xl">
           <div className="mb-12">
             <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-4">
               Product
