@@ -9,176 +9,29 @@ import Layout from "@/components/Layout";
 const workflows = [
   {
     tag: "RECONSTRUCT",
-    title: "Bring the case together",
+    title: "Bring the case together.",
     description:
       "Bring machine, software, environment and human context into one case.",
   },
   {
     tag: "NARROW",
-    title: "Compare what differs",
+    title: "Separate the explanations.",
     description:
       "Compare affected and healthy systems and keep competing explanations explicit.",
   },
   {
-    tag: "ACT",
-    title: "Check what matters next",
+    tag: "RESOLVE",
+    title: "Know what matters next.",
     description:
       "Know what evidence or check is worth getting next.",
   },
   {
     tag: "LEARN",
-    title: "Reuse what worked",
+    title: "Reuse what worked.",
     description:
       "Capture intervention and outcome so the next case starts ahead.",
   },
 ];
-
-const FlowVisualization = () => {
-  const flow = [
-    { label: "Issue", detail: "Machine behavior changes", metric: "signal" },
-    { label: "Understand", detail: "Reconstruct what changed", metric: "context" },
-    { label: "Scope", detail: "Find where else it appears", metric: "peers" },
-    { label: "Decide", detail: "Choose the next action", metric: "owner" },
-    { label: "Act", detail: "Record what was actually done", metric: "action" },
-    { label: "Outcome", detail: "Measure what happened", metric: "result" },
-    { label: "Reuse", detail: "Bring it back next time", metric: "memory" },
-  ];
-
-  return (
-    <div className="w-full">
-      <div className="relative overflow-hidden rounded-lg border border-[#c8d5e8] bg-[#f8fbff] px-5 py-6 md:px-8 md:py-8">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.55]"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, rgba(37,99,235,0.09) 1px, transparent 1px), linear-gradient(to bottom, rgba(37,99,235,0.075) 1px, transparent 1px)",
-            backgroundSize: "36px 36px",
-            maskImage: "radial-gradient(ellipse at center, black 25%, transparent 76%)",
-            WebkitMaskImage: "radial-gradient(ellipse at center, black 25%, transparent 76%)",
-          }}
-        />
-
-        <div className="relative hidden md:block">
-          <svg viewBox="0 0 1260 210" className="h-[210px] w-full" role="img" aria-label="Operational case loop">
-            <defs>
-              <linearGradient id="caseFlow" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="hsl(var(--muted-foreground))" stopOpacity="0.18" />
-                <stop offset="48%" stopColor="hsl(var(--primary))" stopOpacity="0.55" />
-                <stop offset="100%" stopColor="hsl(var(--muted-foreground))" stopOpacity="0.18" />
-              </linearGradient>
-              <filter id="flowGlow">
-                <feGaussianBlur stdDeviation="5" result="coloredBlur" />
-                <feMerge>
-                  <feMergeNode in="coloredBlur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-            </defs>
-            <path
-              d="M 70 92 C 205 25, 320 155, 455 92 S 690 25, 825 92 S 1030 155, 1190 92"
-              fill="none"
-              stroke="url(#caseFlow)"
-              strokeWidth="1.5"
-            />
-            <path
-              d="M 1190 92 C 1060 190, 220 190, 70 92"
-              fill="none"
-              stroke="hsl(var(--primary))"
-              strokeDasharray="8 12"
-              strokeOpacity="0.32"
-              strokeWidth="1.5"
-            />
-            <motion.circle
-              r="6"
-              fill="hsl(var(--primary))"
-              filter="url(#flowGlow)"
-              animate={{
-                cx: [70, 245, 410, 585, 760, 960, 1120, 1190],
-                cy: [92, 79, 104, 76, 99, 82, 107, 92],
-              }}
-              transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.circle
-              r="3"
-              fill="hsl(var(--primary))"
-              animate={{
-                cx: [1190, 980, 760, 540, 310, 150, 70],
-                cy: [92, 168, 182, 177, 172, 150, 92],
-              }}
-              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
-            />
-          </svg>
-
-          <div className="absolute inset-x-0 top-0 grid grid-cols-7 gap-2">
-            {flow.map((item, i) => (
-              <motion.div
-                key={item.label}
-                initial={{ opacity: 0, y: 8 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.06, duration: 0.35 }}
-                whileHover={{ y: -4 }}
-                className="group relative min-h-[118px] rounded-lg border border-[#c8d5e8] bg-white/85 p-3 shadow-sm backdrop-blur transition-colors hover:border-[#2563eb]/55 hover:bg-[#eef4ff]"
-              >
-                <div className="mb-5 flex items-center justify-between">
-                  <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground group-hover:text-primary">
-                    {item.label}
-                  </div>
-                  <div className="h-2 w-2 rounded-full bg-foreground/45 group-hover:bg-primary group-hover:shadow-[0_0_18px_hsl(var(--primary)/0.6)]" />
-                </div>
-                <div className="text-[14px] font-medium leading-snug text-foreground">
-                  {item.detail}
-                </div>
-                <div className="mt-4 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
-                  {item.metric}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        <div className="relative grid gap-3 md:hidden">
-          {flow.map((item, i) => (
-            <motion.div
-              key={item.label}
-              initial={{ opacity: 0, y: 8 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.04, duration: 0.3 }}
-              className="flex items-center gap-4 rounded-lg border border-[#c8d5e8] bg-background/85 p-4"
-            >
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary/[0.05] font-mono text-[10px] text-primary">
-                {String(i + 1).padStart(2, "0")}
-              </div>
-              <div>
-                <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
-                  {item.label}
-                </div>
-                <div className="mt-1 text-[15px] font-medium leading-snug text-foreground">
-                  {item.detail}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        <motion.div
-          className="relative mt-5 border border-[#2563eb]/25 bg-[#2563eb]/[0.045] px-4 py-2 text-center font-mono text-[10px] uppercase tracking-[0.16em] text-[#2563eb] md:mt-0"
-          initial={{ opacity: 0, y: 8 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3, duration: 0.35 }}
-        >
-          Every case makes the next one easier to handle
-        </motion.div>
-      </div>
-
-      <p className="mt-5 border-t border-border pt-4 text-[13px] leading-relaxed text-muted-foreground">
-        Veyra turns every operational incident into reusable evidence for the next one.
-      </p>
-    </div>
-  );
-};
 
 /* ---------- Product episode canvas mock ---------- */
 const ProductWorkspace = () => {
@@ -203,8 +56,8 @@ const ProductWorkspace = () => {
     },
     {
       n: "03",
-      label: "Compare",
-      title: "Understand what differs between affected and healthy machines.",
+      label: "Contrast",
+      title: "Compare affected and healthy machines.",
       detail: "The same software ran everywhere. Calibration C and gripper firmware 7.3 concentrate on the affected machines.",
       focus: ["2 affected", "4 healthy", "R06 exposed but healthy"],
       metric: "1 exposed healthy",
@@ -212,16 +65,25 @@ const ProductWorkspace = () => {
     },
     {
       n: "04",
-      label: "Decide",
-      title: "See what is known, uncertain and actionable.",
-      detail: "The team can act while preserving what was known and what remained unresolved.",
-      focus: ["known: R03/R05 affected", "unknown: R06 later behavior", "option: pause rollout"],
-      metric: "14:27",
-      memory: "The decision state records evidence, unknowns and options at that moment.",
+      label: "Explain",
+      title: "Keep competing explanations visible.",
+      detail: "Veyra separates what each explanation explains, what contradicts it and what evidence is still missing.",
+      focus: ["H1 calibration C", "H2 firmware 7.3", "H3 calibration and firmware"],
+      metric: "3 hypotheses",
+      memory: "The case preserves evidence for and against each remaining explanation.",
     },
     {
       n: "05",
-      label: "Act",
+      label: "Next Move",
+      title: "Know what to check next.",
+      detail: "Check R06 under the same condition first. It separates the two strongest remaining explanations with low cost and low risk.",
+      focus: ["check R06 under condition X", "cost: low", "time: about 15 min"],
+      metric: "1 next check",
+      memory: "The system suggests the next most informative check, not a forced answer.",
+    },
+    {
+      n: "06",
+      label: "Intervention",
       title: "Record what the team actually does.",
       detail: "Rollout paused. R03 and R05 rolled back. Field dispatch held until the team has stronger evidence.",
       focus: ["rollout paused", "R03/R05 rolled back", "field dispatch held"],
@@ -229,16 +91,16 @@ const ProductWorkspace = () => {
       memory: "The operational record captures the action scope and owner.",
     },
     {
-      n: "06",
-      label: "Measure",
-      title: "Track whether the action worked.",
+      n: "07",
+      label: "Outcome",
+      title: "Track what happened after the action.",
       detail: "R03 and R05 recovered. No field visit required. R06 later showed the same pattern.",
       focus: ["R03 recovered", "R05 recovered", "R06 later affected"],
       metric: "2 recovered",
       memory: "The outcome is linked back to the action that produced it.",
     },
     {
-      n: "07",
+      n: "08",
       label: "Reuse",
       title: "Bring back what worked before.",
       detail: "When a similar case appears again, Veyra surfaces the previous action, outcome and missing evidence.",
@@ -554,12 +416,18 @@ const Landing = () => {
                 Workflows
               </p>
               <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-foreground leading-[1.08]">
-                Four questions decide what happens next.
+                Five questions decide what happens next.
               </h2>
             </div>
             <div className="rounded-lg border border-[#c8d5e8] bg-background p-5 shadow-sm">
               <div className="grid gap-2 sm:grid-cols-2">
-                {["What changed?", "Where else?", "What should we do?", "Did it work?"].map((question, index) => (
+                {[
+                  "What changed?",
+                  "Where else is it happening?",
+                  "What could explain it?",
+                  "What should we check or change next?",
+                  "What happened after we acted?",
+                ].map((question, index) => (
                   <div key={question} className="rounded-md border border-[#d8e2f1] bg-[#fbfdff] px-4 py-3">
                     <div className="font-mono text-[10px] text-muted-foreground">0{index + 1}</div>
                     <div className="mt-1 text-[15px] font-medium text-foreground">{question}</div>
@@ -602,18 +470,27 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* CONTINUOUS OPERATIONS */}
+      {/* CASE MEMORY */}
       <section id="how" className="border-t border-[#c8d5e8] bg-background">
-        <div className="container mx-auto px-6 py-28 max-w-6xl">
-          <div className="mb-16 max-w-2xl">
-            <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-4">
-              Operational Context
+        <div className="container mx-auto px-6 py-24 max-w-5xl">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="border-l border-[#2563eb]/40 pl-6 md:pl-10"
+          >
+            <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-5">
+              Case memory
             </p>
-          </div>
-
-          <div className="rounded-lg border border-[#c8d5e8] bg-background p-6 md:p-10">
-            <FlowVisualization />
-          </div>
+            <h2 className="max-w-3xl text-3xl font-semibold leading-[1.08] tracking-tight text-foreground md:text-5xl">
+              Every case makes the next one easier to resolve.
+            </h2>
+            <p className="mt-6 max-w-2xl text-[16px] leading-relaxed text-muted-foreground">
+              Veyra preserves the evidence, intervention and outcome so the
+              next investigation does not start from zero.
+            </p>
+          </motion.div>
         </div>
       </section>
 
@@ -628,8 +505,8 @@ const Landing = () => {
               From machine issue to proven action.
             </h2>
             <p className="mt-5 max-w-2xl text-[16px] leading-relaxed text-muted-foreground">
-              Veyra follows the case from the first signal through
-              investigation, decision, action and outcome.
+              Veyra follows the case from the first signal through competing
+              explanations, the next useful check, intervention and outcome.
             </p>
           </div>
 
@@ -637,8 +514,7 @@ const Landing = () => {
 
           {/* Deployment & privacy note */}
           <p className="mt-6 max-w-3xl text-[13px] leading-relaxed text-muted-foreground">
-            Veyra runs alongside your existing operational systems. Raw operational
-            data stays in your environment.
+            Designed for read-only integration with existing operational systems.
             <span className="block mt-3">
               <Link to="/engineering" className="text-foreground underline decoration-border underline-offset-4 hover:text-primary transition-colors">
                 Read the engineering note
