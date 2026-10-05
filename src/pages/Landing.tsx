@@ -396,27 +396,24 @@ const Landing = () => {
                 className="absolute inset-0 opacity-60"
                 style={{
                   backgroundImage:
-                    "linear-gradient(to right, rgba(147,197,253,0.14) 1px, transparent 1px), linear-gradient(to bottom, rgba(147,197,253,0.1) 1px, transparent 1px)",
-                  backgroundSize: "48px 48px",
+                    "radial-gradient(circle at 30% 45%, rgba(132,215,176,0.16), transparent 28%), radial-gradient(circle at 76% 35%, rgba(147,197,253,0.14), transparent 26%), linear-gradient(to right, rgba(147,197,253,0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(147,197,253,0.07) 1px, transparent 1px)",
+                  backgroundSize: "100% 100%, 100% 100%, 54px 54px, 54px 54px",
                 }}
               />
-              <div className="absolute left-6 top-6 z-10">
-                <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-blue-200/65">
-                  Evidence to action
-                </p>
-                <p className="mt-1 text-[15px] font-semibold text-blue-50">
-                  Robot signals become the next useful check.
-                </p>
-              </div>
-              <svg className="absolute inset-0 h-full w-full" viewBox="0 0 640 300" role="img" aria-label="Veyra turns robot signals into explanations, next checks and reusable memory">
+              <svg className="absolute inset-0 h-full w-full" viewBox="0 0 640 300" role="img" aria-label="Abstract kinetic trace showing machine signals converging into a decision core, next check and memory loop">
                 <defs>
-                  <linearGradient id="traceLine" x1="0" x2="1" y1="0" y2="0">
-                    <stop offset="0%" stopColor="#ef9aa3" stopOpacity="0.45" />
-                    <stop offset="45%" stopColor="#84d7b0" stopOpacity="0.75" />
-                    <stop offset="100%" stopColor="#93c5fd" stopOpacity="0.45" />
+                  <linearGradient id="veyraFlow" x1="0" x2="1" y1="0" y2="0">
+                    <stop offset="0%" stopColor="#ef9aa3" stopOpacity="0.36" />
+                    <stop offset="45%" stopColor="#84d7b0" stopOpacity="0.9" />
+                    <stop offset="100%" stopColor="#93c5fd" stopOpacity="0.52" />
                   </linearGradient>
-                  <filter id="softGlow" x="-40%" y="-40%" width="180%" height="180%">
-                    <feGaussianBlur stdDeviation="5" result="blur" />
+                  <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stopColor="#84d7b0" stopOpacity="0.85" />
+                    <stop offset="58%" stopColor="#84d7b0" stopOpacity="0.16" />
+                    <stop offset="100%" stopColor="#84d7b0" stopOpacity="0" />
+                  </radialGradient>
+                  <filter id="kineticGlow" x="-60%" y="-60%" width="220%" height="220%">
+                    <feGaussianBlur stdDeviation="4" result="blur" />
                     <feMerge>
                       <feMergeNode in="blur" />
                       <feMergeNode in="SourceGraphic" />
@@ -424,46 +421,64 @@ const Landing = () => {
                   </filter>
                 </defs>
 
-                <path d="M88 190 C170 95 245 225 318 143 C377 77 434 92 510 68" fill="none" stroke="url(#traceLine)" strokeWidth="2" />
-                <path d="M110 104 C191 148 248 159 318 143 C392 126 448 169 542 214" fill="none" stroke="#93c5fd" strokeDasharray="7 10" strokeOpacity="0.28" strokeWidth="2" />
-                <path d="M318 143 C347 188 421 223 530 238" fill="none" stroke="#84d7b0" strokeOpacity="0.35" strokeWidth="1.5" />
+                <path id="flowA" d="M72 85 C164 62 230 112 315 143 C392 171 468 118 563 80" fill="none" />
+                <path id="flowB" d="M78 210 C156 166 216 215 315 143 C398 82 458 176 565 205" fill="none" />
+                <path id="memoryLoop" d="M315 143 C388 206 472 248 562 218 C468 260 368 245 315 143" fill="none" />
 
-                {[
-                  [86, 190, 9, "#93c5fd"],
-                  [112, 104, 6, "#e8f1ff"],
-                  [190, 148, 14, "#ef9aa3"],
-                  [244, 160, 8, "#93c5fd"],
-                  [318, 143, 18, "#84d7b0"],
-                  [432, 96, 9, "#84d7b0"],
-                  [512, 68, 8, "#93c5fd"],
-                  [542, 214, 7, "#e8f1ff"],
-                ].map(([cx, cy, r, color], index) => (
-                  <g key={index} filter={index === 4 ? "url(#softGlow)" : undefined}>
-                    <circle cx={cx} cy={cy} r={Number(r) + 12} fill={String(color)} opacity="0.08" />
-                    <circle cx={cx} cy={cy} r={r} fill={String(color)} opacity={index === 4 ? "0.95" : "0.75"} />
-                  </g>
-                ))}
+                <path d="M72 85 C164 62 230 112 315 143 C392 171 468 118 563 80" fill="none" stroke="url(#veyraFlow)" strokeOpacity="0.34" strokeWidth="1.5" />
+                <path d="M78 210 C156 166 216 215 315 143 C398 82 458 176 565 205" fill="none" stroke="url(#veyraFlow)" strokeOpacity="0.38" strokeWidth="1.5" />
+                <path d="M315 143 C388 206 472 248 562 218 C468 260 368 245 315 143" fill="none" stroke="#93c5fd" strokeDasharray="4 8" strokeOpacity="0.24" strokeWidth="1.3" />
 
-                <g transform="translate(268 104)">
-                  <rect width="102" height="78" rx="0" fill="#07111f" fillOpacity="0.72" stroke="#84d7b0" strokeOpacity="0.35" />
-                  <text x="18" y="28" fill="#84d7b0" fontSize="10" letterSpacing="3" fontFamily="monospace">NARROW</text>
-                  <text x="18" y="52" fill="#f8fbff" fontSize="14" fontWeight="600">3 live</text>
-                  <text x="18" y="68" fill="#93c5fd" fontSize="10" letterSpacing="2" fontFamily="monospace">2 OPEN</text>
+                <g opacity="0.75">
+                  {[0, 1, 2, 3, 4].map((index) => (
+                    <circle
+                      key={`signal-${index}`}
+                      cx={82 + index * 34}
+                      cy={86 + (index % 2) * 63}
+                      r={index === 2 ? 7 : 4.5}
+                      fill={index === 2 ? "#ef9aa3" : "#93c5fd"}
+                      opacity={index === 2 ? "0.78" : "0.48"}
+                    />
+                  ))}
                 </g>
 
-                <g transform="translate(456 42)">
-                  <rect width="118" height="54" rx="0" fill="#84d7b0" fillOpacity="0.1" stroke="#84d7b0" strokeOpacity="0.45" />
-                  <text x="16" y="24" fill="#84d7b0" fontSize="10" letterSpacing="3" fontFamily="monospace">NEXT CHECK</text>
-                  <text x="16" y="42" fill="#f8fbff" fontSize="12" fontWeight="600">EX11 in zone B</text>
+                <g filter="url(#kineticGlow)">
+                  <circle r="4.5" fill="#ef9aa3">
+                    <animateMotion dur="6.8s" repeatCount="indefinite" path="M72 85 C164 62 230 112 315 143 C392 171 468 118 563 80" />
+                    <animate attributeName="opacity" values="0;0.95;0.35;0" dur="6.8s" repeatCount="indefinite" />
+                  </circle>
+                  <circle r="4.5" fill="#93c5fd">
+                    <animateMotion dur="7.8s" begin="1.2s" repeatCount="indefinite" path="M78 210 C156 166 216 215 315 143 C398 82 458 176 565 205" />
+                    <animate attributeName="opacity" values="0;0.85;0.4;0" dur="7.8s" begin="1.2s" repeatCount="indefinite" />
+                  </circle>
+                  <circle r="3.5" fill="#84d7b0">
+                    <animateMotion dur="9s" begin="2s" repeatCount="indefinite" path="M315 143 C388 206 472 248 562 218 C468 260 368 245 315 143" />
+                    <animate attributeName="opacity" values="0;0.75;0.2;0" dur="9s" begin="2s" repeatCount="indefinite" />
+                  </circle>
                 </g>
 
-                <g transform="translate(430 222)">
-                  <rect width="132" height="34" rx="17" fill="#93c5fd" fillOpacity="0.1" stroke="#93c5fd" strokeOpacity="0.35" />
-                  <text x="18" y="22" fill="#cfe3ff" fontSize="10" letterSpacing="2.5" fontFamily="monospace">OUTCOME MEMORY</text>
+                <g transform="translate(315 143)" filter="url(#kineticGlow)">
+                  <circle r="62" fill="url(#coreGlow)" opacity="0.55">
+                    <animate attributeName="r" values="54;66;54" dur="5s" repeatCount="indefinite" />
+                    <animate attributeName="opacity" values="0.36;0.62;0.36" dur="5s" repeatCount="indefinite" />
+                  </circle>
+                  <path d="M0 -48 L42 -24 L42 24 L0 48 L-42 24 L-42 -24 Z" fill="#07111f" fillOpacity="0.58" stroke="#84d7b0" strokeOpacity="0.46" />
+                  <path d="M0 -26 L23 -13 L23 13 L0 26 L-23 13 L-23 -13 Z" fill="#84d7b0" fillOpacity="0.16" stroke="#84d7b0" strokeOpacity="0.58">
+                    <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="18s" repeatCount="indefinite" />
+                  </path>
+                  <circle r="5" fill="#84d7b0" />
                 </g>
 
-                <text x="70" y="236" fill="#93c5fd" opacity="0.55" fontSize="10" letterSpacing="3" fontFamily="monospace">SIGNALS</text>
-                <text x="248" y="238" fill="#84d7b0" opacity="0.65" fontSize="10" letterSpacing="3" fontFamily="monospace">EXPLANATIONS</text>
+                <g transform="translate(526 76)">
+                  <path d="M0 0 L54 16 L12 38 Z" fill="#84d7b0" fillOpacity="0.12" stroke="#84d7b0" strokeOpacity="0.5" />
+                  <circle cx="12" cy="12" r="3.5" fill="#84d7b0" />
+                </g>
+
+                <g transform="translate(522 214)" opacity="0.9">
+                  <circle cx="0" cy="0" r="25" fill="#93c5fd" fillOpacity="0.08" stroke="#93c5fd" strokeOpacity="0.22" />
+                  <circle cx="0" cy="0" r="8" fill="#93c5fd" fillOpacity="0.56" />
+                  <path d="M-28 0 C-52 -26 -83 -35 -116 -28" fill="none" stroke="#93c5fd" strokeOpacity="0.22" strokeWidth="1.2" />
+                </g>
               </svg>
             </motion.div>
           </div>
