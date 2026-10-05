@@ -8,28 +8,28 @@ import Layout from "@/components/Layout";
 
 const workflows = [
   {
-    tag: "UNDERSTAND",
-    title: "See what changed",
+    tag: "RECONSTRUCT",
+    title: "Bring the case together",
     description:
-      "Bring together machine state, software, configuration, service history and recent changes around the incident.",
+      "Bring machine, software, environment and human context into one case.",
   },
   {
-    tag: "SCOPE",
-    title: "Find where else",
+    tag: "NARROW",
+    title: "Compare what differs",
     description:
-      "Compare affected and healthy machines. See which other deployed systems share the same conditions.",
+      "Compare affected and healthy systems and keep competing explanations explicit.",
   },
   {
     tag: "ACT",
-    title: "Decide what to do",
+    title: "Check what matters next",
     description:
-      "Use the evidence available now to choose the next action, assign ownership and record what was actually done.",
+      "Know what evidence or check is worth getting next.",
   },
   {
     tag: "LEARN",
-    title: "Know what worked",
+    title: "Reuse what worked",
     description:
-      "Record what the team actually did, what happened afterwards, and reuse that history when a similar case appears again.",
+      "Capture intervention and outcome so the next case starts ahead.",
   },
 ];
 
@@ -493,23 +493,24 @@ const Landing = () => {
                 Veyra by Silken Reason
               </p>
               <h1 className="mb-6 text-5xl font-semibold leading-[1] tracking-tight text-white md:text-6xl lg:text-[74px]">
-                Operational Intelligence for{" "}
-                <span className="text-blue-300">Physical AI</span>.
+                When <span className="text-blue-300">Physical AI</span> meets
+                the real world, things stop being predictable.
               </h1>
 
               <p className="mb-8 max-w-2xl text-lg leading-relaxed text-blue-50/68 md:text-xl">
-                Veyra helps teams understand what changed, see what else is
-                affected, decide what to do next, and learn from what worked
-                across deployed physical systems.
+                Veyra helps teams reconstruct what happened, narrow down why,
+                decide what to check next, and learn from what actually worked.
               </p>
 
-              <Link
-                to="/contact"
+              <a
+                href="https://veyra-demo.onrender.com/cinematic"
+                target="_blank"
+                rel="noreferrer"
                 className="inline-flex items-center gap-1.5 rounded-md bg-blue-400 px-5 py-3 text-[13px] font-semibold text-[#06101f] transition-colors hover:bg-blue-300"
               >
-                Request a Design Partner Pilot
+                Replay a field case
                 <ArrowRight size={14} />
-              </Link>
+              </a>
 
               <div className="mt-7 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100/60">
                 <span>Read-only</span>
