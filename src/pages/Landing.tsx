@@ -355,11 +355,13 @@ const Landing = () => {
                 Veyra by Silken Reason
               </p>
               <h1 className="mb-6 text-5xl font-semibold leading-[1] tracking-tight text-white md:text-6xl lg:text-[74px]">
-                When <span className="text-blue-300">Physical AI</span>
-                <br />
-                meets the <span className="text-blue-50">real world</span>,
-                <br />
-                things stop being predictable.
+                <span className="block">
+                  When <span className="whitespace-nowrap text-blue-300">Physical AI</span>
+                </span>
+                <span className="block">
+                  meets the <span className="text-[#9dbdaf]">real world</span>,
+                </span>
+                <span className="block">things stop being predictable.</span>
               </h1>
 
               <p className="mb-8 max-w-2xl text-lg leading-relaxed text-blue-50/68 md:text-xl">
