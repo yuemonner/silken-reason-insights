@@ -464,15 +464,15 @@ const Landing = () => {
                   <div className="flex flex-col justify-between border-l border-blue-200/15 pl-5">
                     <div>
                       <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-blue-200/65">
-                        What could explain it?
+                        Explanation shortlist
                       </p>
-                      <div className="mt-3 space-y-2">
+                      <div className="mt-3 space-y-1.5">
                         {[
                           ["01", "Localization L4", "supported by cohort"],
                           ["02", "LiDAR firmware 5.3", "still possible"],
                           ["03", "Loading zone B", "most useful next check"],
                         ].map(([label, text, state]) => (
-                          <div key={label} className="grid grid-cols-[28px_1fr] border border-blue-200/12 bg-[#07111f]/55 px-3 py-2">
+                          <div key={label} className="grid grid-cols-[26px_1fr] border-b border-blue-200/12 px-1 py-1.5 last:border-b-0">
                             <span className="font-mono text-[10px] text-[#84d7b0]">{label}</span>
                             <span>
                               <span className="block text-[13px] font-medium leading-tight text-blue-50">{text}</span>
@@ -483,11 +483,11 @@ const Landing = () => {
                       </div>
                     </div>
 
-                    <div className="border border-[#84d7b0]/35 bg-[#84d7b0]/10 px-4 py-3">
-                      <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#84d7b0]">
+                    <div className="border border-[#84d7b0]/35 bg-[#84d7b0]/10 px-3 py-2.5">
+                      <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-[#84d7b0]">
                         Next check
                       </p>
-                      <p className="mt-2 text-[14px] font-semibold leading-snug text-blue-50">
+                      <p className="mt-1.5 text-[13px] font-semibold leading-snug text-blue-50">
                         Test EX11 in zone B before sending a technician.
                       </p>
                     </div>
