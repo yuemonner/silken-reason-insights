@@ -365,8 +365,8 @@ const Landing = () => {
               </h1>
 
               <p className="mb-7 max-w-2xl text-base leading-relaxed text-blue-50/68 md:text-lg">
-                Veyra helps teams reconstruct what happened, narrow down why,
-                decide what to check next, and learn from what actually worked.
+                Veyra helps teams reconstruct what happened, narrow the possible causes,
+                decide what to check next, and learn from what worked.
               </p>
 
               <a
