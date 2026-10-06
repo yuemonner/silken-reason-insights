@@ -291,13 +291,13 @@ const ProductWorkspace = () => {
 
             <div className="rounded-lg border border-[#2563eb]/25 bg-[#2563eb]/[0.045] p-4">
               <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-primary/80">
-                Relevant history
+                Case memory
               </div>
               <p className="mt-3 text-[13px] leading-relaxed text-foreground">
-                Similar case found. Last time, remote recovery returned the affected machines to service and avoided a field visit.
+                FC 021 is being built into a reusable record. Outcome has to be linked before a future case can inherit it.
               </p>
               <div className="mt-4 rounded-md border border-[#2563eb]/20 bg-background/70 p-3 text-[12px] leading-relaxed text-muted-foreground">
-                Use previous outcome
+                Waiting for outcome
               </div>
             </div>
 
@@ -580,7 +580,7 @@ const Landing = () => {
               Product
             </p>
             <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-foreground leading-[1.1] max-w-3xl">
-              From machine issue to proven action.
+              From machine issue to a better next action.
             </h2>
             <p className="mt-5 max-w-2xl text-[16px] leading-relaxed text-muted-foreground">
               Veyra follows the case from the first signal through competing
