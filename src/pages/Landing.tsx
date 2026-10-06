@@ -40,9 +40,9 @@ const ProductWorkspace = () => {
       n: "01",
       label: "Detect",
       title: "Something changes on a deployed machine.",
-      detail: "R03 and R05 are affected after a software update. The case opens from machine evidence and engineer context.",
-      focus: ["2 affected machines", "first signal 14:11", "engineer note 14:26"],
-      metric: "2 affected",
+      detail: "EX03, EX05 and EX08 enter safe-stop after autonomy release 2.7. The case opens from machine evidence and operator context.",
+      focus: ["3 affected machines", "first safe-stop 14:11", "operator review 14:31"],
+      metric: "3 affected",
       memory: "A new case opens automatically from machine state and engineer context.",
     },
     {
@@ -50,16 +50,16 @@ const ProductWorkspace = () => {
       label: "Reconstruct",
       title: "See the relevant machine context.",
       detail: "Veyra brings software, configuration, machine state and service history into one case.",
-      focus: ["policy v0.8 to v0.9", "camera calibration B to C", "gripper firmware 7.2 to 7.3"],
-      metric: "3 changes",
+      focus: ["autonomy 2.6 to 2.7", "localization L3 to L4", "map M18 to M19"],
+      metric: "4 changes",
       memory: "The case stores the change set beside the machine state that followed it.",
     },
     {
       n: "03",
       label: "Contrast",
       title: "Compare affected and healthy machines.",
-      detail: "The same software ran everywhere. Calibration C and gripper firmware 7.3 concentrate on the affected machines.",
-      focus: ["2 affected", "4 healthy", "R06 exposed but healthy"],
+      detail: "The same autonomy release ran everywhere. Localization L4 and Zone B still separate affected from healthy machines.",
+      focus: ["3 affected", "9 healthy", "EX11 useful comparison"],
       metric: "1 exposed healthy",
       memory: "Affected and healthy machines are compared in the same operational context.",
     },
@@ -68,7 +68,7 @@ const ProductWorkspace = () => {
       label: "Explain",
       title: "Keep competing explanations visible.",
       detail: "Veyra separates what each explanation explains, what contradicts it and what evidence is still missing.",
-      focus: ["H1 calibration C", "H2 firmware 7.3", "H3 calibration and firmware"],
+      focus: ["H1 localization L4", "H2 loading zone B", "H3 L4 and Zone B"],
       metric: "3 hypotheses",
       memory: "The case preserves evidence for and against each remaining explanation.",
     },
@@ -76,8 +76,8 @@ const ProductWorkspace = () => {
       n: "05",
       label: "Next Move",
       title: "Know what to check next.",
-      detail: "Check R06 under the same condition first. It separates the two strongest remaining explanations with low cost and low risk.",
-      focus: ["check R06 under condition X", "cost: low", "time: about 15 min"],
+      detail: "Check EX11 in Zone B first. It separates the two strongest remaining explanations with low cost and low risk.",
+      focus: ["check EX11 in Zone B", "cost: low", "time: about 15 min"],
       metric: "1 next check",
       memory: "The system suggests the next most informative check, not a forced answer.",
     },
@@ -85,8 +85,8 @@ const ProductWorkspace = () => {
       n: "06",
       label: "Intervention",
       title: "Record what the team actually does.",
-      detail: "Rollout paused. R03 and R05 rolled back. Field dispatch held until the team has stronger evidence.",
-      focus: ["rollout paused", "R03/R05 rolled back", "field dispatch held"],
+      detail: "Rollout paused. EX03, EX05 and EX08 are recovered remotely. Field dispatch is held until the team has stronger evidence.",
+      focus: ["rollout paused", "remote recovery", "field dispatch held"],
       metric: "3 actions",
       memory: "The operational record captures the action scope and owner.",
     },
@@ -94,9 +94,9 @@ const ProductWorkspace = () => {
       n: "07",
       label: "Outcome",
       title: "Track what happened after the action.",
-      detail: "R03 and R05 recovered. No field visit required. R06 later showed the same pattern.",
-      focus: ["R03 recovered", "R05 recovered", "R06 later affected"],
-      metric: "2 recovered",
+      detail: "EX03, EX05 and EX08 returned to service. No field visit was required. EX11 later showed the same pattern.",
+      focus: ["3 returned to service", "field visit avoided", "EX11 later affected"],
+      metric: "3 recovered",
       memory: "The outcome is linked back to the action that produced it.",
     },
     {
@@ -104,7 +104,7 @@ const ProductWorkspace = () => {
       label: "Reuse",
       title: "Bring back what worked before.",
       detail: "When a similar case appears again, Veyra surfaces the previous action, outcome and missing evidence.",
-      focus: ["similar case found", "rollback worked", "check config before dispatch"],
+      focus: ["similar case found", "remote recovery observed", "check Zone B before dispatch"],
       metric: "12 days later",
       memory: "The next case starts with prior action and outcome context.",
     },
@@ -121,15 +121,15 @@ const ProductWorkspace = () => {
               Case workspace
             </div>
             <div className="mt-1 text-[15px] font-semibold text-foreground">
-              R03 / R05 post update anomaly
+              FC 021 · Unexpected safe stop after autonomy 2.7
             </div>
           </div>
           <div className="flex flex-wrap gap-2 text-[11px]">
             <span className="rounded-full border border-destructive/30 bg-destructive/10 px-3 py-1 text-destructive">
-              2 affected
+              3 affected
             </span>
             <span className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-primary">
-              1 exposed healthy
+              1 useful healthy comparison
             </span>
             <span className="rounded-full border border-border bg-background px-3 py-1 text-muted-foreground">
               action pending
@@ -144,13 +144,13 @@ const ProductWorkspace = () => {
             <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
               Machines
             </span>
-            <span className="font-mono text-[10px] text-muted-foreground">18</span>
+            <span className="font-mono text-[10px] text-muted-foreground">12</span>
           </div>
 
           <div className="grid grid-cols-3 gap-2">
-            {Array.from({ length: 18 }).map((_, index) => {
-              const affected = index === 2 || index === 4;
-              const exposed = index === 5 || index === 11 || index === 15;
+            {Array.from({ length: 12 }).map((_, index) => {
+              const affected = index === 2 || index === 4 || index === 7;
+              const exposed = index === 10;
               return (
                 <span
                   key={index}
@@ -168,10 +168,10 @@ const ProductWorkspace = () => {
 
           <div className="mt-5 space-y-2 text-[12px]">
             {[
-              ["affected", "R03, R05"],
-              ["watch", "R06"],
-              ["release", "v0.9"],
-              ["profile", "C + fw 7.3"],
+              ["affected", "EX03, EX05, EX08"],
+              ["useful comparison", "EX11"],
+              ["release", "autonomy 2.7"],
+              ["profile", "localization L4"],
             ].map(([label, value]) => (
               <div key={label} className="flex items-center justify-between gap-3 border-b border-border pb-2 last:border-b-0">
                 <span className="text-muted-foreground">{label}</span>
@@ -185,7 +185,7 @@ const ProductWorkspace = () => {
               Current question
             </div>
             <p className="mt-2 text-[12px] leading-relaxed text-foreground">
-              Which machines share the conditions behind the behavior change?
+              What separates the affected machines from the healthy ones?
             </p>
           </div>
         </aside>
@@ -256,10 +256,10 @@ const ProductWorkspace = () => {
                 <span>Profile</span>
               </div>
               {[
-                ["R03", "affected", "v0.9", "C + fw 7.3"],
-                ["R05", "affected", "v0.9", "C + fw 7.3"],
-                ["R06", "healthy exposed", "v0.9", "C + fw 7.3"],
-                ["R01", "healthy", "v0.9", "B + fw 7.2"],
+                ["EX03", "affected", "2.7", "L4 · Zone B"],
+                ["EX05", "affected", "2.7", "L4 · Zone B"],
+                ["EX08", "affected", "2.7", "L4 · Zone B"],
+                ["EX11", "healthy comparison", "2.7", "L4 · Zone C"],
               ].map((row) => (
                 <div key={row[0]} className="grid grid-cols-[0.7fr_1fr_0.8fr_1fr] border-b border-[#e1e8f4] px-4 py-3 text-[12px] last:border-b-0">
                   <span className="font-mono text-foreground">{row[0]}</span>
@@ -294,7 +294,7 @@ const ProductWorkspace = () => {
                 Relevant history
               </div>
               <p className="mt-3 text-[13px] leading-relaxed text-foreground">
-                Similar case found. Last time, rollback recovered 2 of 2 affected machines. One additional machine was affected later.
+                Similar case found. Last time, remote recovery returned the affected machines to service and avoided a field visit.
               </p>
               <div className="mt-4 rounded-md border border-[#2563eb]/20 bg-background/70 p-3 text-[12px] leading-relaxed text-muted-foreground">
                 Use previous outcome
@@ -307,8 +307,8 @@ const ProductWorkspace = () => {
               </div>
               <div className="mt-4 space-y-2 text-[12px]">
                 {[
-                  ["known", "2 affected"],
-                  ["watch", "R06 exposed"],
+                  ["known", "3 affected"],
+                  ["comparison", "EX11"],
                   ["action", active >= 4 ? "recorded" : "pending"],
                   ["outcome", active >= 5 ? "linked" : "pending"],
                 ].map(([k, v]) => (
