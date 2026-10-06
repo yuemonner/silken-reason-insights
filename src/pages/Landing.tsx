@@ -370,7 +370,7 @@ const Landing = () => {
               </p>
 
               <a
-                href="https://veyra-demo.onrender.com/cinematic"
+                href="https://frontend-livid-seven-41.vercel.app/cinematic"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-1.5 rounded-md bg-blue-400 px-5 py-3 text-[13px] font-semibold text-[#06101f] transition-colors hover:bg-blue-300"
