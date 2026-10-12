@@ -602,6 +602,27 @@ const Landing = () => {
         </div>
       </section>
 
+      {/* CREDIBILITY */}
+      <section className="border-t border-[#c8d5e8] bg-background">
+        <div className="container mx-auto max-w-6xl px-6 py-10">
+          <div className="flex flex-col gap-5 rounded-lg border border-[#c8d5e8] bg-[#fbfdff] px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+                Ecosystem
+              </p>
+              <p className="text-[17px] font-semibold tracking-tight text-foreground">
+                Member of NVIDIA Inception
+              </p>
+            </div>
+            <img
+              src="/badges/nvidia-inception-program-badge-rgb-for-screen.svg"
+              alt="NVIDIA Inception Program"
+              className="h-auto w-[150px] shrink-0"
+            />
+          </div>
+        </div>
+      </section>
+
       {/* PILOT CTA */}
       <section className="border-t border-[#c8d5e8] bg-background">
         <div className="container mx-auto px-6 py-32 max-w-5xl">
