@@ -594,9 +594,14 @@ const Landing = () => {
           <p className="mt-6 max-w-3xl text-[13px] leading-relaxed text-muted-foreground">
             Designed for read-only integration with existing operational systems.
             <span className="block mt-3">
-              <Link to="/engineering" className="text-foreground underline decoration-border underline-offset-4 hover:text-primary transition-colors">
-                Read the engineering note
-              </Link>
+              <a
+                href="https://frontend-livid-seven-41.vercel.app/product-demo"
+                target="_blank"
+                rel="noreferrer"
+                className="text-foreground underline decoration-border underline-offset-4 hover:text-primary transition-colors"
+              >
+                Open the product demo
+              </a>
             </span>
           </p>
         </div>
