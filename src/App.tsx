@@ -6,7 +6,6 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import LabHome from "./pages/LabHome";
 import Landing from "./pages/Landing";
-import TryFieldCase from "./pages/TryFieldCase";
 import Research from "./pages/Research";
 import Conversations from "./pages/Conversations";
 import About from "./pages/About";
@@ -37,7 +36,6 @@ const App = () => (
         <Routes>
           <Route path="/" element={<LabHome />} />
           <Route path="/veyra" element={<Landing />} />
-          <Route path="/veyra/try" element={<TryFieldCase />} />
           <Route path="/research" element={<Research />} />
           <Route path="/conversations" element={<Conversations />} />
           <Route path="/about" element={<About />} />

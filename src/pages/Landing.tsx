@@ -369,24 +369,15 @@ const Landing = () => {
                 decide what to check next, and learn from what worked.
               </p>
 
-              <div className="flex flex-wrap gap-3">
-                <Link
-                  to="/veyra/try"
-                  className="inline-flex items-center gap-1.5 rounded-md bg-blue-400 px-5 py-3 text-[13px] font-semibold text-[#06101f] transition-colors hover:bg-blue-300"
-                >
-                  Try one field case
-                  <ArrowRight size={14} />
-                </Link>
-                <a
-                  href="https://frontend-livid-seven-41.vercel.app/cinematic"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-md border border-blue-200/25 px-5 py-3 text-[13px] font-semibold text-blue-50/86 transition-colors hover:border-blue-200/50 hover:bg-white/[0.04]"
-                >
-                  Replay a field case
-                  <ArrowRight size={14} />
-                </a>
-              </div>
+              <a
+                href="https://frontend-livid-seven-41.vercel.app/cinematic"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-md bg-blue-400 px-5 py-3 text-[13px] font-semibold text-[#06101f] transition-colors hover:bg-blue-300"
+              >
+                Replay a field case
+                <ArrowRight size={14} />
+              </a>
 
               <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100/60">
                 <span>Read-only</span>
@@ -611,13 +602,6 @@ const Landing = () => {
               >
                 Open the product demo
               </a>
-              <span className="mx-2 text-border">/</span>
-              <Link
-                to="/veyra/try"
-                className="text-foreground underline decoration-border underline-offset-4 hover:text-primary transition-colors"
-              >
-                Try one field case
-              </Link>
             </span>
           </p>
         </div>
