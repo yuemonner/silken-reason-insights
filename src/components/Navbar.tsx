@@ -19,7 +19,7 @@ const productLinks = [
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
-  const isVeyra = location.pathname === "/veyra" || location.pathname === "/engineering" || location.pathname === "/contact";
+  const isVeyra = location.pathname.startsWith("/veyra") || location.pathname === "/engineering" || location.pathname === "/contact";
   const navLinks = isVeyra ? productLinks : labLinks;
   const cta = isVeyra
     ? { href: "/contact", label: "Request Pilot" }
