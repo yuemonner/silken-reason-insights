@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 const labLinks = [
   { href: "/research", label: "Research" },
-  { href: "/veyra", label: "Products" },
+  { href: "/veyra", label: "Veyra" },
   { href: "/conversations", label: "Conversations" },
   { href: "/about", label: "About" },
 ];
