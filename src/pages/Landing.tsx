@@ -1,692 +1,538 @@
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  ArrowRight,
-} from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Layout from "@/components/Layout";
 
-const workflows = [
+const DEMO_URL = "https://frontend-livid-seven-41.vercel.app/field-case";
+const CASE_SOURCE = "https://github.com/micro-ROS/micro_ros_stm32cubemx_utils/issues/139";
+
+/* ------------------------------------------------------------------ */
+/* Real data: Veyra's recorded investigation of a public micro-ROS     */
+/* failure log (recording v3). Nothing below is invented.              */
+/* ------------------------------------------------------------------ */
+
+type Status = "leading" | "open" | "weakened" | "ruled out";
+
+const rounds: {
+  label: string;
+  headline: string;
+  areas: { area: string; status: Status }[];
+  next: string;
+  branches: string[];
+}[] = [
   {
-    tag: "RECONSTRUCT",
-    title: "Bring the case together.",
-    description:
-      "Bring machine, software, environment and human context into one case.",
+    label: "Round 1 · from the log",
+    headline:
+      "Session opened correctly, then the board sent a 36-byte all-zero packet and the agent closed the session.",
+    areas: [
+      { area: "Board firmware / client buffers", status: "leading" },
+      { area: "Board Ethernet / lwIP DMA", status: "open" },
+      { area: "Network path", status: "weakened" },
+      { area: "Host / agent side", status: "weakened" },
+      { area: "Agent port configuration", status: "ruled out" },
+    ],
+    next: "Dump the board's transport write buffer at the 36-byte send",
+    branches: [
+      "Buffer is zeros at the write call",
+      "Buffer is valid at write, zeros on wire",
+      "No 36-byte write happens at all",
+    ],
   },
   {
-    tag: "NARROW",
-    title: "Separate the explanations.",
-    description:
-      "Compare affected and healthy systems and keep competing explanations explicit.",
-  },
-  {
-    tag: "RESOLVE",
-    title: "Know what matters next.",
-    description:
-      "Know what evidence or check is worth getting next.",
-  },
-  {
-    tag: "LEARN",
-    title: "Reuse what worked.",
-    description:
-      "Capture intervention and outcome so the next case starts ahead.",
+    label: "Round 2 · after the engineer's result",
+    headline:
+      "The packet reaches the wire as zeros after a good create. Likely H7 D-cache and DMA coherency.",
+    areas: [
+      { area: "Board Ethernet / lwIP DMA", status: "leading" },
+      { area: "Board firmware / client buffers", status: "weakened" },
+      { area: "Network path", status: "weakened" },
+      { area: "Host / agent side", status: "weakened" },
+      { area: "Agent port configuration", status: "ruled out" },
+    ],
+    next: "Make the Tx buffer and lwIP pools non-cacheable, then retest",
+    branches: ["Payload valid on wire, session stays up", "Still zeros with D-cache off"],
   },
 ];
 
-/* ---------- Product episode canvas mock ---------- */
-const ProductWorkspace = () => {
-  const steps = [
-    {
-      n: "01",
-      label: "Detect",
-      title: "Something changes on a deployed machine.",
-      detail: "EX03, EX05 and EX08 enter safe-stop after autonomy release 2.7. The case opens from machine evidence and operator context.",
-      focus: ["3 affected machines", "first safe-stop 14:11", "operator review 14:31"],
-      metric: "3 affected",
-      memory: "A new case opens automatically from machine state and engineer context.",
-    },
-    {
-      n: "02",
-      label: "Reconstruct",
-      title: "See the relevant machine context.",
-      detail: "Veyra brings software, configuration, machine state and service history into one case.",
-      focus: ["autonomy 2.6 to 2.7", "localization L3 to L4", "map M18 to M19"],
-      metric: "4 changes",
-      memory: "The case stores the change set beside the machine state that followed it.",
-    },
-    {
-      n: "03",
-      label: "Contrast",
-      title: "Compare affected and healthy machines.",
-      detail: "The same autonomy release ran everywhere. Localization L4 and Zone B still separate affected from healthy machines.",
-      focus: ["3 affected", "9 healthy", "EX11 useful comparison"],
-      metric: "1 exposed healthy",
-      memory: "Affected and healthy machines are compared in the same operational context.",
-    },
-    {
-      n: "04",
-      label: "Explain",
-      title: "Keep competing explanations visible.",
-      detail: "Veyra separates what each explanation explains, what contradicts it and what evidence is still missing.",
-      focus: ["H1 localization L4", "H2 loading zone B", "H3 L4 and Zone B"],
-      metric: "3 hypotheses",
-      memory: "The case preserves evidence for and against each remaining explanation.",
-    },
-    {
-      n: "05",
-      label: "Next Move",
-      title: "Know what to check next.",
-      detail: "Check EX11 in Zone B first. It separates the two strongest remaining explanations with low cost and low risk.",
-      focus: ["check EX11 in Zone B", "cost: low", "time: about 15 min"],
-      metric: "1 next check",
-      memory: "The system suggests the next most informative check, not a forced answer.",
-    },
-    {
-      n: "06",
-      label: "Intervention",
-      title: "Record what the team actually does.",
-      detail: "Rollout paused. EX03, EX05 and EX08 are recovered remotely. Field dispatch is held until the team has stronger evidence.",
-      focus: ["rollout paused", "remote recovery", "field dispatch held"],
-      metric: "3 actions",
-      memory: "The operational record captures the action scope and owner.",
-    },
-    {
-      n: "07",
-      label: "Outcome",
-      title: "Track what happened after the action.",
-      detail: "EX03, EX05 and EX08 returned to service. No field visit was required. EX11 later showed the same pattern.",
-      focus: ["3 returned to service", "field visit avoided", "EX11 later affected"],
-      metric: "3 recovered",
-      memory: "The outcome is linked back to the action that produced it.",
-    },
-    {
-      n: "08",
-      label: "Reuse",
-      title: "Bring back what worked before.",
-      detail: "When a similar case appears again, Veyra surfaces the previous action, outcome and missing evidence.",
-      focus: ["similar case found", "remote recovery observed", "check Zone B before dispatch"],
-      metric: "12 days later",
-      memory: "The next case starts with prior action and outcome context.",
-    },
-  ];
-  const [active, setActive] = useState(0);
-  const current = steps[active];
+const statusStyle: Record<Status, string> = {
+  leading: "bg-[#84d7b0] text-[#062016]",
+  open: "bg-[#93c5fd]/20 text-[#bcdcff] ring-1 ring-inset ring-[#93c5fd]/40",
+  weakened: "bg-white/[0.06] text-white/55 ring-1 ring-inset ring-white/15",
+  "ruled out": "bg-transparent text-white/35 ring-1 ring-inset ring-white/10 line-through",
+};
+
+const CaseCard = () => {
+  const reduce = useReducedMotion();
+  const [round, setRound] = useState(0);
+
+  useEffect(() => {
+    if (reduce) return;
+    const t = setTimeout(() => setRound(1), 5200);
+    return () => clearTimeout(t);
+  }, [reduce]);
+
+  const r = rounds[round];
 
   return (
-    <div className="overflow-hidden rounded-lg border border-[#c8d5e8] bg-background shadow-[0_1px_0_rgba(15,23,42,0.08),0_30px_80px_-45px_rgba(37,99,235,0.32)]">
-      <div className="border-b border-[#c8d5e8] bg-[#f7faff] px-4 py-3 sm:px-5">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-              Case workspace
-            </div>
-            <div className="mt-1 text-[15px] font-semibold text-foreground">
-              FC 021 · Unexpected safe stop after autonomy 2.7
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-2 text-[11px]">
-            <span className="rounded-full border border-destructive/30 bg-destructive/10 px-3 py-1 text-destructive">
-              3 affected
-            </span>
-            <span className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-primary">
-              1 useful healthy comparison
-            </span>
-            <span className="rounded-full border border-border bg-background px-3 py-1 text-muted-foreground">
-              action pending
-            </span>
-          </div>
+    <div className="relative rounded-xl border border-white/12 bg-[#0d1a2e]/90 shadow-[0_40px_120px_-40px_rgba(0,0,0,0.8)] backdrop-blur">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-5 py-3.5">
+        <div className="min-w-0">
+          <p className="text-[12px] text-white/50">Real case · micro-ROS on STM32H7</p>
+          <p className="text-[14px] font-medium text-white">Session drops right after it opens</p>
+        </div>
+        <div className="flex shrink-0 rounded-full bg-white/[0.06] p-0.5 text-[11px]" role="tablist" aria-label="Investigation round">
+          {["Round 1", "Round 2"].map((l, i) => (
+            <button
+              key={l}
+              role="tab"
+              aria-selected={round === i}
+              onClick={() => setRound(i)}
+              className={`rounded-full px-3 py-1 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#84d7b0] ${
+                round === i ? "bg-white text-[#0a1424]" : "text-white/60 hover:text-white"
+              }`}
+            >
+              {l}
+            </button>
+          ))}
         </div>
       </div>
 
-      <div className="grid min-h-[620px] lg:grid-cols-[210px_minmax(0,1fr)_260px]">
-        <aside className="border-b border-[#c8d5e8] bg-[#f8fbff] p-4 lg:border-b-0 lg:border-r">
-          <div className="mb-4 flex items-center justify-between">
-            <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-              Machines
-            </span>
-            <span className="font-mono text-[10px] text-muted-foreground">12</span>
-          </div>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={round}
+          initial={reduce ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={reduce ? undefined : { opacity: 0 }}
+          transition={{ duration: 0.25 }}
+          className="px-5 pb-5 pt-4"
+        >
+          <p className="text-[11.5px] text-[#84d7b0]">{r.label}</p>
+          <p className="mt-1.5 text-[13.5px] leading-snug text-white/85">{r.headline}</p>
 
-          <div className="grid grid-cols-3 gap-2">
-            {Array.from({ length: 12 }).map((_, index) => {
-              const affected = index === 2 || index === 4 || index === 7;
-              const exposed = index === 10;
-              return (
-                <span
-                  key={index}
-                  className={`h-8 rounded-md border transition-colors ${
-                    affected
-                      ? "border-destructive/45 bg-destructive/15"
-                      : exposed
-                        ? "border-primary/40 bg-primary/10"
-                        : "border-border bg-background"
-                  }`}
-                />
-              );
-            })}
-          </div>
-
-          <div className="mt-5 space-y-2 text-[12px]">
-            {[
-              ["affected", "EX03, EX05, EX08"],
-              ["useful comparison", "EX11"],
-              ["release", "autonomy 2.7"],
-              ["profile", "localization L4"],
-            ].map(([label, value]) => (
-              <div key={label} className="flex items-center justify-between gap-3 border-b border-border pb-2 last:border-b-0">
-                <span className="text-muted-foreground">{label}</span>
-                <span className="truncate text-right font-mono text-[11px] text-foreground">{value}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-5 rounded-lg border border-[#c8d5e8] bg-background p-3">
-            <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
-              Current question
-            </div>
-            <p className="mt-2 text-[12px] leading-relaxed text-foreground">
-              What separates the affected machines from the healthy ones?
-            </p>
-          </div>
-        </aside>
-
-        <main className="min-w-0 p-4 sm:p-5">
-          <nav className="mb-5 flex gap-1.5 overflow-x-auto rounded-lg border border-[#c8d5e8] bg-[#f7faff] p-1">
-            {steps.map((step, index) => (
-              <button
-                key={step.label}
-                onClick={() => setActive(index)}
-                className={`shrink-0 rounded-full px-3.5 py-2 text-left transition-all ${
-                  active === index
-                    ? "bg-[#0f172a] text-background shadow-sm"
-                    : "text-muted-foreground hover:bg-background hover:text-foreground"
-                }`}
+          <p className="mt-5 text-[11.5px] text-white/45">Fault space</p>
+          <ul className="mt-2 space-y-1.5">
+            {r.areas.map((a) => (
+              <motion.li
+                layout={!reduce}
+                key={a.area}
+                className="flex items-center justify-between gap-3 rounded-md bg-white/[0.03] px-3 py-2"
               >
-                <span className="font-mono text-[10px] uppercase tracking-[0.12em]">
-                  {step.n}
+                <span className={`truncate text-[12.5px] ${a.status === "ruled out" ? "text-white/40" : "text-white/85"}`}>
+                  {a.area}
                 </span>
-                <span className="ml-2 text-[12px] font-medium">{step.label}</span>
-              </button>
+                <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10.5px] font-medium ${statusStyle[a.status]}`}>
+                  {a.status}
+                </span>
+              </motion.li>
             ))}
-          </nav>
+          </ul>
 
-          <motion.section
-            key={active}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.22 }}
-            className="rounded-lg border border-[#c8d5e8] bg-background p-5 sm:p-6"
-          >
-            <div className="flex flex-wrap items-start justify-between gap-4">
-              <div className="min-w-0">
-                <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-                  {current.n} {current.label}
-                </div>
-                <h4 className="mt-2 max-w-xl text-[24px] font-semibold leading-tight tracking-tight text-foreground md:text-[30px]">
-                  {current.title}
-                </h4>
-              </div>
-              <div className="rounded-md border border-[#c8d5e8] bg-[#f7faff] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-foreground">
-                {current.metric}
-              </div>
-            </div>
+          <p className="mt-5 text-[11.5px] text-white/45">Next experiment</p>
+          <p className="mt-1.5 text-[13.5px] font-medium leading-snug text-white">{r.next}</p>
+          <ul className="mt-2.5 space-y-1">
+            {r.branches.map((b) => (
+              <li key={b} className="flex gap-2 text-[12px] leading-snug text-white/60">
+                <span className="mt-[7px] h-px w-3 shrink-0 bg-white/30" aria-hidden />
+                {b}
+              </li>
+            ))}
+          </ul>
+        </motion.div>
+      </AnimatePresence>
 
-            <p className="mt-4 max-w-2xl text-[13px] leading-relaxed text-muted-foreground md:text-[14px]">
-              {current.detail}
-            </p>
-
-            <div className="mt-6 grid gap-3 sm:grid-cols-3">
-              {current.focus.map((item) => (
-                <div key={item} className="min-h-[86px] rounded-lg border border-[#c8d5e8] bg-[#f8fbff] p-4">
-                  <div className="font-mono text-[9px] uppercase tracking-[0.14em] text-muted-foreground">
-                    Evidence
-                  </div>
-                  <div className="mt-3 text-[13px] font-medium leading-snug text-foreground">
-                    {item}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-6 overflow-hidden rounded-lg border border-[#c8d5e8]">
-              <div className="grid grid-cols-[0.7fr_1fr_0.8fr_1fr] border-b border-[#c8d5e8] bg-[#f7faff] px-4 py-2.5 font-mono text-[9px] uppercase tracking-[0.12em] text-muted-foreground">
-                <span>Machine</span>
-                <span>Status</span>
-                <span>Release</span>
-                <span>Profile</span>
-              </div>
-              {[
-                ["EX03", "affected", "2.7", "L4 · Zone B"],
-                ["EX05", "affected", "2.7", "L4 · Zone B"],
-                ["EX08", "affected", "2.7", "L4 · Zone B"],
-                ["EX11", "healthy comparison", "2.7", "L4 · Zone C"],
-              ].map((row) => (
-                <div key={row[0]} className="grid grid-cols-[0.7fr_1fr_0.8fr_1fr] border-b border-[#e1e8f4] px-4 py-3 text-[12px] last:border-b-0">
-                  <span className="font-mono text-foreground">{row[0]}</span>
-                  <span className={row[1].includes("affected") ? "text-destructive" : "text-muted-foreground"}>{row[1]}</span>
-                  <span className="text-muted-foreground">{row[2]}</span>
-                  <span className="truncate text-foreground">{row[3]}</span>
-                </div>
-              ))}
-            </div>
-          </motion.section>
-        </main>
-
-        <aside className="border-t border-[#c8d5e8] bg-[#f8fbff] p-4 lg:border-l lg:border-t-0">
-          <motion.div
-            key={`memory-${active}`}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.22 }}
-            className="space-y-3"
-          >
-            <div className="rounded-lg border border-[#c8d5e8] bg-background p-4">
-              <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-                Case role
-              </div>
-              <p className="mt-3 text-[13px] leading-relaxed text-foreground">
-                {current.memory}
-              </p>
-            </div>
-
-            <div className="rounded-lg border border-[#2563eb]/25 bg-[#2563eb]/[0.045] p-4">
-              <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-primary/80">
-                Case memory
-              </div>
-              <p className="mt-3 text-[13px] leading-relaxed text-foreground">
-                FC 021 is being built into a reusable record. Outcome has to be linked before a future case can inherit it.
-              </p>
-              <div className="mt-4 rounded-md border border-[#2563eb]/20 bg-background/70 p-3 text-[12px] leading-relaxed text-muted-foreground">
-                Waiting for outcome
-              </div>
-            </div>
-
-            <div className="rounded-lg border border-[#c8d5e8] bg-background p-4">
-              <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-                Case state
-              </div>
-              <div className="mt-4 space-y-2 text-[12px]">
-                {[
-                  ["known", "3 affected"],
-                  ["comparison", "EX11"],
-                  ["action", active >= 4 ? "recorded" : "pending"],
-                  ["outcome", active >= 5 ? "linked" : "pending"],
-                ].map(([k, v]) => (
-                  <div key={k} className="flex items-center justify-between gap-3 border-b border-border pb-2 last:border-b-0">
-                    <span className="text-muted-foreground">{k}</span>
-                    <span className="font-mono text-[11px] text-foreground">{v}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        </aside>
+      <div className="flex items-center justify-between gap-3 border-t border-white/10 px-5 py-3 text-[11.5px] text-white/45">
+        <span>Recorded output of Veyra's investigator on a public failure log</span>
+        <a href={CASE_SOURCE} target="_blank" rel="noreferrer" className="shrink-0 text-white/70 underline decoration-white/25 underline-offset-2 hover:text-white">
+          Source
+        </a>
       </div>
     </div>
   );
 };
 
+/* ------------------------------------------------------------------ */
+
+const loop = [
+  {
+    verb: "Read",
+    title: "Start from what the machine actually did.",
+    body: "Upload a log or connect read-only. Veyra finds the events that matter and separates cause, consequence and coincidence.",
+    real: "“Session opened correctly, then the board sent a 36-byte all-zero packet.”",
+  },
+  {
+    verb: "Map",
+    title: "Lay out every place the fault could live.",
+    body: "Each area is leading, open, weakened or ruled out, and only data can rule one out. An engineer's report can only weaken it.",
+    real: "Ruled out: agent port configuration, because the log shows the session was established.",
+  },
+  {
+    verb: "Test",
+    title: "Choose the experiment that settles the most.",
+    body: "Not ten guesses. One check, with what each possible result would keep, weaken or rule out.",
+    real: "Dump the transport write buffer at the 36-byte send: zeros before, or only on the wire?",
+  },
+  {
+    verb: "Learn",
+    title: "Update from the result, then close honestly.",
+    body: "What the engineer observed stays separate from Veyra's interpretation. A closed case becomes a candidate lesson until the fix is shown to hold.",
+    real: "Board Ethernet / lwIP DMA moves to leading. Next: make the buffers non-cacheable, then retest.",
+  },
+];
+
+const stacks = [
+  "ROS 2 and ros2_control",
+  "MoveIt 2",
+  "Autoware",
+  "PX4",
+  "ArduPilot",
+  "micro-ROS",
+  "Zephyr RTOS",
+  "Crazyflie",
+  "Lidar drivers",
+];
+
+const audiences = [
+  {
+    who: "Robot makers' field and support engineering",
+    moment: "A machine at a customer site behaves in a way nobody can reproduce in the lab.",
+  },
+  {
+    who: "Teams deploying robot foundation models and world models",
+    moment: "A model that worked in the demo stalls on a new machine, task or site.",
+  },
+  {
+    who: "System integrators commissioning robots",
+    moment: "Commissioning runs long because every fault becomes days of trial and error.",
+  },
+  {
+    who: "Drone and autonomy teams",
+    moment: "A flight or a run fails, and the only witness is the log.",
+  },
+];
+
+const horizons = [
+  {
+    when: "Today",
+    state: "Live",
+    title: "Suggests the decisive next experiment",
+    body: "From real logs, across robotics, drone and embedded stacks, with every claim tied to evidence.",
+  },
+  {
+    when: "Next",
+    state: "Planned",
+    title: "Chooses and runs experiments",
+    body: "Ranks experiments by how much each one settles, and runs safe tests in simulation and through robot software.",
+  },
+  {
+    when: "Then",
+    state: "Research",
+    title: "Carries experience between machines",
+    body: "What one deployment learned shortens the next, so new models and new machines need fewer tries to work.",
+  },
+];
+
+const fade = {
+  initial: { opacity: 0, y: 10 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-60px" },
+  transition: { duration: 0.5 },
+};
+
 const Landing = () => {
+  const reduce = useReducedMotion();
+  const enter = reduce ? {} : fade;
+
   return (
     <Layout>
       {/* HERO */}
-      <section className="relative overflow-hidden bg-[#07111f] text-white">
-        <div className="absolute inset-0 -z-10">
-          <div
-            className="absolute inset-0 opacity-[0.4]"
-            style={{
-              backgroundImage:
-                "linear-gradient(to right, rgba(96,165,250,0.16) 1px, transparent 1px), linear-gradient(to bottom, rgba(96,165,250,0.12) 1px, transparent 1px)",
-              backgroundSize: "64px 64px",
-            }}
-          />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_78%_18%,rgba(37,99,235,0.32),transparent_38%),linear-gradient(180deg,rgba(7,17,31,0.08),#07111f_92%)]" />
-        </div>
-
-        <div className="container mx-auto px-6 pt-24 pb-16 max-w-6xl">
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,0.95fr)_340px] lg:items-center">
+      <section className="relative isolate overflow-hidden bg-[#0a1424] text-white">
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-10 opacity-60"
+          style={{
+            backgroundImage:
+              "radial-gradient(ellipse 60% 50% at 80% 20%, rgba(132,215,176,0.12), transparent 70%), radial-gradient(ellipse 50% 60% at 10% 90%, rgba(147,197,253,0.10), transparent 70%)",
+          }}
+        />
+        <div className="container mx-auto max-w-6xl px-6 pb-20 pt-20 md:pt-24">
+          <div className="grid grid-cols-[minmax(0,1fr)] items-center gap-12 lg:grid-cols-[minmax(0,1fr)_440px]">
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={reduce ? false : { opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="max-w-4xl"
+              className="min-w-0"
             >
-              <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.22em] text-blue-200/70">
-                Veyra by Silken Reason
-              </p>
-              <h1 className="mb-5 text-4xl font-semibold leading-[1.02] tracking-tight text-white md:text-5xl lg:text-[58px]">
-                <span className="block">
-                  When <span className="whitespace-nowrap text-blue-300">Physical AI</span>
-                </span>
-                <span className="block">
-                  meets the <span className="text-[#84d7b0]">real world</span>,
-                </span>
-                <span className="block">things stop being predictable.</span>
+              <p className="mb-5 text-[13px] text-white/55">Veyra, by Silken Reason</p>
+              <h1 className="text-[40px] font-semibold leading-[1.02] tracking-[-0.03em] md:text-[56px] lg:text-[64px]">
+                The AI field engineer for physical AI.
               </h1>
-
-              <p className="mb-7 max-w-2xl text-base leading-relaxed text-blue-50/68 md:text-lg">
-                Veyra helps teams reconstruct what happened, narrow the possible causes,
-                decide what to check next, and learn from what worked.
+              <p className="mt-6 max-w-xl text-[17px] leading-relaxed text-white/70">
+                Veyra reads what a machine actually did, maps every place the fault could live, and picks the next
+                experiment that settles it. Today it gets failing machines working again. Next, it gets new AI models
+                working on real machines in fewer tries.
               </p>
-
-              <a
-                href="https://frontend-livid-seven-41.vercel.app/cinematic"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-md bg-blue-400 px-5 py-3 text-[13px] font-semibold text-[#06101f] transition-colors hover:bg-blue-300"
-              >
-                Replay a field case
-                <ArrowRight size={14} />
-              </a>
-
-              <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-[0.12em] text-blue-100/60">
-                <span>Read-only</span>
-                <span>Existing systems</span>
-                <span>No control path</span>
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <a
+                  href={DEMO_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-md bg-[#84d7b0] px-5 py-3 text-[14px] font-semibold text-[#062016] transition-colors hover:bg-[#a3e4c5] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                >
+                  Watch a real investigation <ArrowUpRight size={15} />
+                </a>
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-1.5 rounded-md px-5 py-3 text-[14px] font-medium text-white ring-1 ring-inset ring-white/25 transition-colors hover:bg-white/[0.06] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                >
+                  Request a pilot
+                </Link>
               </div>
+              <dl className="mt-10 grid max-w-xl grid-cols-3 gap-6 border-t border-white/10 pt-6">
+                <div>
+                  <dt className="text-[12px] text-white/45">Product</dt>
+                  <dd className="mt-1 text-[14px] text-white/85">Live on real failure logs</dd>
+                </div>
+                <div>
+                  <dt className="text-[12px] text-white/45">Evaluation</dt>
+                  <dd className="mt-1 text-[14px] text-white/85">14 sealed real-world cases</dd>
+                </div>
+                <div>
+                  <dt className="text-[12px] text-white/45">Ecosystem</dt>
+                  <dd className="mt-1 text-[14px] text-white/85">NVIDIA Inception member</dd>
+                </div>
+              </dl>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={reduce ? false : { opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.12, duration: 0.6 }}
-              className="relative hidden h-[300px] overflow-hidden border border-blue-300/20 bg-white/[0.035] backdrop-blur lg:block"
+              transition={{ delay: 0.15, duration: 0.6 }}
+              className="min-w-0"
             >
-              <div
-                className="absolute inset-0 opacity-60"
-                style={{
-                  backgroundImage:
-                    "radial-gradient(circle at 30% 45%, rgba(132,215,176,0.16), transparent 28%), radial-gradient(circle at 76% 35%, rgba(147,197,253,0.14), transparent 26%), linear-gradient(to right, rgba(147,197,253,0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(147,197,253,0.07) 1px, transparent 1px)",
-                  backgroundSize: "100% 100%, 100% 100%, 54px 54px, 54px 54px",
-                }}
-              />
-              <svg className="absolute inset-0 h-full w-full" viewBox="0 0 640 300" role="img" aria-label="Abstract kinetic trace showing machine signals converging into a decision core, next check and memory loop">
-                <defs>
-                  <linearGradient id="veyraFlow" x1="0" x2="1" y1="0" y2="0">
-                    <stop offset="0%" stopColor="#ef9aa3" stopOpacity="0.36" />
-                    <stop offset="45%" stopColor="#84d7b0" stopOpacity="0.9" />
-                    <stop offset="100%" stopColor="#93c5fd" stopOpacity="0.52" />
-                  </linearGradient>
-                  <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="#84d7b0" stopOpacity="0.85" />
-                    <stop offset="58%" stopColor="#84d7b0" stopOpacity="0.16" />
-                    <stop offset="100%" stopColor="#84d7b0" stopOpacity="0" />
-                  </radialGradient>
-                  <filter id="kineticGlow" x="-60%" y="-60%" width="220%" height="220%">
-                    <feGaussianBlur stdDeviation="4" result="blur" />
-                    <feMerge>
-                      <feMergeNode in="blur" />
-                      <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                  </filter>
-                </defs>
-
-                <path id="flowA" d="M72 85 C164 62 230 112 315 143 C392 171 468 118 563 80" fill="none" />
-                <path id="flowB" d="M78 210 C156 166 216 215 315 143 C398 82 458 176 565 205" fill="none" />
-                <path id="memoryLoop" d="M315 143 C388 206 472 248 562 218 C468 260 368 245 315 143" fill="none" />
-
-                <path d="M72 85 C164 62 230 112 315 143 C392 171 468 118 563 80" fill="none" stroke="url(#veyraFlow)" strokeOpacity="0.34" strokeWidth="1.5" />
-                <path d="M78 210 C156 166 216 215 315 143 C398 82 458 176 565 205" fill="none" stroke="url(#veyraFlow)" strokeOpacity="0.38" strokeWidth="1.5" />
-                <path d="M315 143 C388 206 472 248 562 218 C468 260 368 245 315 143" fill="none" stroke="#93c5fd" strokeDasharray="4 8" strokeOpacity="0.24" strokeWidth="1.3" />
-
-                <g opacity="0.75">
-                  {[0, 1, 2, 3, 4].map((index) => (
-                    <circle
-                      key={`signal-${index}`}
-                      cx={82 + index * 34}
-                      cy={86 + (index % 2) * 63}
-                      r={index === 2 ? 7 : 4.5}
-                      fill={index === 2 ? "#ef9aa3" : "#93c5fd"}
-                      opacity={index === 2 ? "0.78" : "0.48"}
-                    />
-                  ))}
-                </g>
-
-                <g filter="url(#kineticGlow)">
-                  <circle r="4.5" fill="#ef9aa3">
-                    <animateMotion dur="6.8s" repeatCount="indefinite" path="M72 85 C164 62 230 112 315 143 C392 171 468 118 563 80" />
-                    <animate attributeName="opacity" values="0;0.95;0.35;0" dur="6.8s" repeatCount="indefinite" />
-                  </circle>
-                  <circle r="4.5" fill="#93c5fd">
-                    <animateMotion dur="7.8s" begin="1.2s" repeatCount="indefinite" path="M78 210 C156 166 216 215 315 143 C398 82 458 176 565 205" />
-                    <animate attributeName="opacity" values="0;0.85;0.4;0" dur="7.8s" begin="1.2s" repeatCount="indefinite" />
-                  </circle>
-                  <circle r="3.5" fill="#84d7b0">
-                    <animateMotion dur="9s" begin="2s" repeatCount="indefinite" path="M315 143 C388 206 472 248 562 218 C468 260 368 245 315 143" />
-                    <animate attributeName="opacity" values="0;0.75;0.2;0" dur="9s" begin="2s" repeatCount="indefinite" />
-                  </circle>
-                </g>
-
-                <g transform="translate(315 143)" filter="url(#kineticGlow)">
-                  <circle r="62" fill="url(#coreGlow)" opacity="0.55">
-                    <animate attributeName="r" values="54;66;54" dur="5s" repeatCount="indefinite" />
-                    <animate attributeName="opacity" values="0.36;0.62;0.36" dur="5s" repeatCount="indefinite" />
-                  </circle>
-                  <path d="M0 -48 L42 -24 L42 24 L0 48 L-42 24 L-42 -24 Z" fill="#07111f" fillOpacity="0.58" stroke="#84d7b0" strokeOpacity="0.46" />
-                  <path d="M0 -26 L23 -13 L23 13 L0 26 L-23 13 L-23 -13 Z" fill="#84d7b0" fillOpacity="0.16" stroke="#84d7b0" strokeOpacity="0.58">
-                    <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="18s" repeatCount="indefinite" />
-                  </path>
-                  <circle r="5" fill="#84d7b0" />
-                </g>
-
-                <g transform="translate(526 76)">
-                  <path d="M0 0 L54 16 L12 38 Z" fill="#84d7b0" fillOpacity="0.12" stroke="#84d7b0" strokeOpacity="0.5" />
-                  <circle cx="12" cy="12" r="3.5" fill="#84d7b0" />
-                </g>
-
-                <g transform="translate(522 214)" opacity="0.9">
-                  <circle cx="0" cy="0" r="25" fill="#93c5fd" fillOpacity="0.08" stroke="#93c5fd" strokeOpacity="0.22" />
-                  <circle cx="0" cy="0" r="8" fill="#93c5fd" fillOpacity="0.56" />
-                  <path d="M-28 0 C-52 -26 -83 -35 -116 -28" fill="none" stroke="#93c5fd" strokeOpacity="0.22" strokeWidth="1.2" />
-                </g>
-              </svg>
+              <CaseCard />
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* WORKFLOWS */}
-      <section id="workflows" className="border-t border-[#c8d5e8] bg-[#f8fbff]">
-        <div className="container mx-auto px-6 py-20 max-w-6xl">
-          <div className="mb-10 grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
-            <div>
-              <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-4">
-                Workflows
-              </p>
-              <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-foreground leading-[1.08]">
-                Five questions decide what happens next.
-              </h2>
-            </div>
-            <div className="rounded-lg border border-[#c8d5e8] bg-background p-5 shadow-sm">
-              <div className="grid gap-2 sm:grid-cols-2">
-                {[
-                  "What changed?",
-                  "Where else is it happening?",
-                  "What could explain it?",
-                  "What should we check or change next?",
-                  "What happened after we acted?",
-                ].map((question, index) => (
-                  <div key={question} className="rounded-md border border-[#d8e2f1] bg-[#fbfdff] px-4 py-3">
-                    <div className="font-mono text-[10px] text-muted-foreground">0{index + 1}</div>
-                    <div className="mt-1 text-[15px] font-medium text-foreground">{question}</div>
-                  </div>
-                ))}
-              </div>
-              <p className="mt-4 text-[13px] leading-relaxed text-muted-foreground">
-                The answers usually live across telemetry, deployments, configuration,
-                service systems, tickets and people. Veyra brings them into one
-                operational case.
-              </p>
-            </div>
-          </div>
+      {/* TODAY */}
+      <section id="today" className="scroll-mt-16 bg-background">
+        <div className="container mx-auto max-w-6xl px-6 py-24">
+          <motion.div {...enter} className="max-w-3xl">
+            <p className="text-[13px] text-primary">Working today</p>
+            <h2 className="mt-3 text-[32px] font-semibold leading-[1.08] tracking-[-0.02em] text-foreground md:text-[44px]">
+              One loop, from the first log line to a lesson the team can trust.
+            </h2>
+            <p className="mt-5 max-w-2xl text-[16px] leading-relaxed text-muted-foreground">
+              Each step below comes from the same real investigation shown above: a public micro-ROS failure where an
+              STM32H7 board's session dropped seconds after it opened.
+            </p>
+          </motion.div>
 
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {workflows.map((w, i) => (
-              <motion.div
-                key={w.tag}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08, duration: 0.5 }}
-                className="rounded-lg border border-[#c8d5e8] bg-background p-5 transition-colors hover:border-[#2563eb]/50 hover:bg-[#fbfdff]"
+          <ol className="mt-14 grid gap-px overflow-hidden rounded-xl border border-border bg-border md:grid-cols-2 lg:grid-cols-4">
+            {loop.map((s, i) => (
+              <motion.li
+                key={s.verb}
+                {...enter}
+                transition={{ duration: 0.5, delay: reduce ? 0 : i * 0.06 }}
+                className="flex flex-col bg-background p-6"
               >
-                <div className="mb-6 flex items-center justify-between">
-                  <div className="text-[11px] font-mono tracking-[0.15em] uppercase text-muted-foreground">
-                  {w.tag}
-                  </div>
-                  <span className="h-2 w-2 rounded-full bg-foreground/70" />
-                </div>
-                <h3 className="text-[22px] font-semibold text-foreground leading-snug">
-                  {w.title}
-                </h3>
-                <p className="mt-4 text-[13px] leading-relaxed text-muted-foreground">
-                  {w.description}
+                <span className="text-[13px] font-medium text-muted-foreground">
+                  {i + 1}. {s.verb}
+                </span>
+                <h3 className="mt-3 text-[19px] font-semibold leading-snug text-foreground">{s.title}</h3>
+                <p className="mt-3 flex-1 text-[14px] leading-relaxed text-muted-foreground">{s.body}</p>
+                <p className="mt-6 border-l-2 border-[#84d7b0] pl-3 text-[13px] leading-snug text-foreground/80">
+                  {s.real}
                 </p>
-              </motion.div>
+              </motion.li>
             ))}
+          </ol>
+
+          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-[14px]">
+            <a href={DEMO_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 font-medium text-foreground underline decoration-border underline-offset-4 hover:text-primary">
+              Step through it yourself in the live demo <ArrowUpRight size={14} />
+            </a>
+            <span className="text-muted-foreground">Read-only. No control path into your machines.</span>
           </div>
         </div>
       </section>
 
-      {/* CASE MEMORY */}
-      <section id="how" className="border-t border-[#c8d5e8] bg-background">
-        <div className="container mx-auto px-6 py-16 max-w-5xl">
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="border-l border-[#2563eb]/40 pl-6 md:pl-10"
-          >
-            <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-5">
-              Memory
-            </p>
-            <h2 className="max-w-3xl text-3xl font-semibold leading-[1.08] tracking-tight text-foreground md:text-5xl">
-              Every case makes the next one easier to resolve.
-            </h2>
-            <p className="mt-6 max-w-2xl text-[16px] leading-relaxed text-muted-foreground">
-              Veyra preserves the evidence, intervention and outcome so the
-              next investigation does not start from zero.
-            </p>
+      {/* EVIDENCE */}
+      <section id="evidence" className="scroll-mt-16 border-t border-border bg-[#f6f8fb]">
+        <div className="container mx-auto max-w-6xl px-6 py-24">
+          <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
+            <motion.div {...enter}>
+              <p className="text-[13px] text-primary">Evidence</p>
+              <h2 className="mt-3 text-[32px] font-semibold leading-[1.08] tracking-[-0.02em] text-foreground md:text-[44px]">
+                Measured on real failures, not staged demos.
+              </h2>
+              <p className="mt-5 text-[16px] leading-relaxed text-muted-foreground">
+                We ran Veyra blind on 14 failure logs that engineers posted in public issue threads. The answer keys,
+                taken from the fixes and maintainer conclusions in those threads, were sealed before anything ran.
+                Three of the cases are still unresolved upstream, to test whether Veyra admits what a log cannot show.
+              </p>
+            </motion.div>
+
+            <motion.div {...enter} className="grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2">
+              <div className="bg-background p-6">
+                <p className="text-[44px] font-semibold leading-none tracking-[-0.03em] text-foreground">16/16</p>
+                <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground">
+                  Full marks for concrete, actionable next steps across the latest 8 cases. The same AI model working
+                  alone scored 8 of 16.
+                </p>
+              </div>
+              <div className="bg-background p-6">
+                <p className="text-[44px] font-semibold leading-none tracking-[-0.03em] text-foreground">14</p>
+                <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground">
+                  real logs from public robotics, drone and embedded projects. No synthetic cases.
+                </p>
+              </div>
+              <div className="bg-background p-6">
+                <p className="text-[19px] font-semibold leading-snug text-foreground">Every claim points to a log line</p>
+                <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground">
+                  Quotes and line numbers are checked mechanically. A claim that cites the wrong line is rejected.
+                </p>
+              </div>
+              <div className="bg-background p-6">
+                <p className="text-[19px] font-semibold leading-snug text-foreground">Observed is kept apart from inferred</p>
+                <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground">
+                  The record shows what an engineer saw separately from what Veyra concluded, on a tamper-evident case history.
+                </p>
+              </div>
+            </motion.div>
+          </div>
+
+          <motion.div {...enter} className="mt-14">
+            <p className="text-[13px] text-muted-foreground">Stacks covered in the evaluation</p>
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {stacks.map((s) => (
+                <li key={s} className="rounded-full border border-border bg-background px-3.5 py-1.5 text-[13px] text-foreground">
+                  {s}
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          <motion.div {...enter} className="mt-14 flex flex-col gap-5 rounded-xl border border-border bg-background px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-[16px] font-medium text-foreground">Member of NVIDIA Inception</p>
+            <img
+              src="/badges/nvidia-inception-program-badge-rgb-for-screen.svg"
+              alt="NVIDIA Inception Program"
+              className="h-auto w-[140px] shrink-0"
+            />
           </motion.div>
         </div>
       </section>
 
-      {/* PRODUCT */}
-      <section id="product" className="border-t border-[#c8d5e8] bg-[#f8fbff]">
-        <div className="container mx-auto px-6 py-20 max-w-7xl">
-          <div className="mb-12">
-            <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-4">
-              Product
-            </p>
-            <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-foreground leading-[1.1] max-w-3xl">
-              From machine issue to a better next action.
+      {/* WHO */}
+      <section id="who" className="scroll-mt-16 border-t border-border bg-background">
+        <div className="container mx-auto max-w-6xl px-6 py-24">
+          <motion.div {...enter} className="max-w-3xl">
+            <p className="text-[13px] text-primary">Built for</p>
+            <h2 className="mt-3 text-[32px] font-semibold leading-[1.08] tracking-[-0.02em] text-foreground md:text-[44px]">
+              Teams who own the moment a machine meets the real world.
             </h2>
-            <p className="mt-5 max-w-2xl text-[16px] leading-relaxed text-muted-foreground">
-              Veyra follows the case from the first signal through competing
-              explanations, the next useful check, intervention and outcome.
+          </motion.div>
+          <ul className="mt-12 divide-y divide-border border-y border-border">
+            {audiences.map((a) => (
+              <motion.li {...enter} key={a.who} className="grid gap-2 py-6 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-10">
+                <span className="text-[18px] font-semibold leading-snug text-foreground">{a.who}</span>
+                <span className="text-[15px] leading-relaxed text-muted-foreground">{a.moment}</span>
+              </motion.li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* NEXT */}
+      <section id="next" className="scroll-mt-16 bg-[#0a1424] text-white">
+        <div className="container mx-auto max-w-6xl px-6 py-24">
+          <motion.div {...enter} className="max-w-3xl">
+            <p className="text-[13px] text-[#84d7b0]">Where Veyra is going</p>
+            <h2 className="mt-3 text-[32px] font-semibold leading-[1.08] tracking-[-0.02em] md:text-[44px]">
+              Every physical AI model has to meet reality. We make that take fewer tries.
+            </h2>
+            <p className="mt-6 max-w-2xl text-[16px] leading-relaxed text-white/70">
+              World models and robot foundation models are getting better at predicting the physical world. Getting one
+              to work on a specific machine, task and site still takes rounds of physical experiments, chosen by hand by
+              senior engineers. That is the gap Veyra is built for: the fewest experiments between an intelligent model
+              and a machine that works.
             </p>
-          </div>
+          </motion.div>
 
-          <ProductWorkspace />
-
-          {/* Deployment & privacy note */}
-          <p className="mt-6 max-w-3xl text-[13px] leading-relaxed text-muted-foreground">
-            Designed for read-only integration with existing operational systems.
-            <span className="block mt-3">
-              <a
-                href="https://frontend-livid-seven-41.vercel.app/product-demo"
-                target="_blank"
-                rel="noreferrer"
-                className="text-foreground underline decoration-border underline-offset-4 hover:text-primary transition-colors"
+          <ol className="mt-14 grid gap-4 md:grid-cols-3">
+            {horizons.map((h, i) => (
+              <motion.li
+                key={h.when}
+                {...enter}
+                transition={{ duration: 0.5, delay: reduce ? 0 : i * 0.08 }}
+                className={`rounded-xl p-6 ${i === 0 ? "bg-[#84d7b0]/[0.09] ring-1 ring-inset ring-[#84d7b0]/50" : "bg-white/[0.04] ring-1 ring-inset ring-white/10"}`}
               >
-                Open the product demo
-              </a>
-            </span>
-          </p>
-        </div>
-      </section>
-
-      {/* CREDIBILITY */}
-      <section className="border-t border-[#c8d5e8] bg-background">
-        <div className="container mx-auto max-w-6xl px-6 py-10">
-          <div className="flex flex-col gap-5 rounded-lg border border-[#c8d5e8] bg-[#fbfdff] px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-                Ecosystem
-              </p>
-              <p className="text-[17px] font-semibold tracking-tight text-foreground">
-                Member of NVIDIA Inception
-              </p>
-            </div>
-            <img
-              src="/badges/nvidia-inception-program-badge-rgb-for-screen.svg"
-              alt="NVIDIA Inception Program"
-              className="h-auto w-[150px] shrink-0"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* PILOT CTA */}
-      <section className="border-t border-[#c8d5e8] bg-background">
-        <div className="container mx-auto px-6 py-32 max-w-5xl">
-          <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-4">
-            Pilot
-          </p>
-          <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-foreground leading-[1.1] mb-12 max-w-3xl">
-            6 to 8 week design partner deployment
-          </h2>
-
-          <ol className="grid gap-4 md:grid-cols-5 mb-12">
-            {[
-              { n: "01", t: "Choose one recurring operational problem", d: "Pick one class of machine issue your team already investigates repeatedly." },
-              { n: "02", t: "Connect the minimum data", d: "Read-only access to the few sources needed to understand the case, including deployment, configuration, machine state and service data." },
-              { n: "03", t: "Use Veyra on real incidents", d: "When that issue occurs, use Veyra to reconstruct what changed, compare machines and decide what to check next." },
-              { n: "04", t: "Track the action and outcome", d: "Record what the team actually did and whether it worked." },
-              { n: "05", t: "Measure the value", d: "Compare investigation time, field visits, time to decision and repeat-case reuse against the current workflow." },
-            ].map((s) => (
-              <li
-                key={s.n}
-                className="rounded-lg border border-[#c8d5e8] bg-background p-6 transition-colors hover:border-[#2563eb]/45"
-              >
-                <div className="font-mono text-[11px] tracking-[0.15em] text-muted-foreground mb-4">{s.n}</div>
-                <h3 className="text-[16px] font-semibold text-foreground mb-2 leading-snug">{s.t}</h3>
-                <p className="text-[13px] leading-relaxed text-muted-foreground">{s.d}</p>
-              </li>
+                <div className="flex items-center justify-between">
+                  <span className="text-[15px] font-semibold">{h.when}</span>
+                  <span className={`text-[12px] ${i === 0 ? "text-[#84d7b0]" : "text-white/50"}`}>{h.state}</span>
+                </div>
+                <h3 className="mt-6 text-[19px] font-semibold leading-snug">{h.title}</h3>
+                <p className="mt-3 text-[14px] leading-relaxed text-white/65">{h.body}</p>
+              </motion.li>
             ))}
           </ol>
+        </div>
+      </section>
 
-          <p className="mb-8 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
-            If the deployment proves repeatable value in a live workflow, we
-            move into production.
-          </p>
-
-          <Link
-            to="/contact"
-            className="inline-flex items-center gap-1.5 rounded-md bg-[#0f172a] px-6 py-3 text-[13px] font-medium text-background transition-colors hover:bg-[#1e293b]"
-          >
-            Request a Design Partner Pilot <ArrowRight size={14} />
-          </Link>
+      {/* PILOT */}
+      <section id="pilot" className="scroll-mt-16 bg-background">
+        <div className="container mx-auto max-w-6xl px-6 py-24">
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-end">
+            <motion.div {...enter}>
+              <p className="text-[13px] text-primary">Design partner pilot</p>
+              <h2 className="mt-3 text-[32px] font-semibold leading-[1.08] tracking-[-0.02em] text-foreground md:text-[44px]">
+                Six to eight weeks on your own failures.
+              </h2>
+              <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-muted-foreground">
+                Pick one class of issue your engineers already chase. Connect read-only. Use Veyra on real incidents as
+                they happen, and measure it against how your team works today.
+              </p>
+              <Link
+                to="/contact"
+                className="mt-8 inline-flex items-center gap-1.5 rounded-md bg-[#0a1424] px-6 py-3 text-[14px] font-medium text-white transition-colors hover:bg-[#16243b] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              >
+                Request a pilot <ArrowRight size={15} />
+              </Link>
+            </motion.div>
+            <motion.dl {...enter} className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border">
+              {[
+                ["Time to cause", "from first report to a supported explanation"],
+                ["Experiments run", "how many checks it took to settle it"],
+                ["Engineer hours", "senior time spent per case"],
+                ["Repeat cases", "how often a past lesson shortened a new one"],
+              ].map(([k, v]) => (
+                <div key={k} className="bg-background p-5">
+                  <dt className="text-[15px] font-semibold text-foreground">{k}</dt>
+                  <dd className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">{v}</dd>
+                </div>
+              ))}
+            </motion.dl>
+          </div>
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer className="border-t border-[#c8d5e8] bg-[#f8fbff]">
-        <div className="container mx-auto px-6 py-14 max-w-6xl">
+      <footer className="border-t border-border bg-[#f6f8fb]">
+        <div className="container mx-auto max-w-6xl px-6 py-12">
           <div className="flex flex-wrap items-center justify-between gap-6">
             <div className="flex items-center gap-2">
               <span className="inline-block h-2.5 w-2.5 rounded-sm bg-foreground" />
               <span className="text-[15px] font-semibold tracking-tight text-foreground">Veyra</span>
-              <span className="ml-2 text-[11px] text-muted-foreground">by Silken Reason</span>
+              <span className="ml-2 text-[12px] text-muted-foreground">by Silken Reason</span>
             </div>
             <ul className="flex items-center gap-6 text-[13px]">
-              <li><Link to="/blog" className="text-muted-foreground hover:text-foreground transition-colors">Blog</Link></li>
-              <li><Link to="/contact" className="text-muted-foreground hover:text-foreground transition-colors">Contact</Link></li>
+              <li><Link to="/blog" className="text-muted-foreground transition-colors hover:text-foreground">Blog</Link></li>
+              <li><Link to="/contact" className="text-muted-foreground transition-colors hover:text-foreground">Contact</Link></li>
             </ul>
-            <span className="font-mono text-[11px] tracking-[0.15em] uppercase text-muted-foreground">
-              © 2026 Silken Reason
-            </span>
+            <span className="text-[12px] text-muted-foreground">© 2026 Silken Reason</span>
           </div>
         </div>
       </footer>
