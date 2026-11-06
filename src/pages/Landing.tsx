@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Layout from "@/components/Layout";
 
-const DEMO_URL = "https://frontend-livid-seven-41.vercel.app/field-case";
+const DEMO_URL = "https://demo.silkenreason.com/field-case";
 const CASE_SOURCE = "https://github.com/micro-ROS/micro_ros_stm32cubemx_utils/issues/139";
 
 /* ------------------------------------------------------------------ */
@@ -195,6 +195,129 @@ const Console = () => {
 };
 
 /* ------------------------------------------------------------------ */
+/* Expected vs observed: Veyra's engine output on the demo shuttle      */
+/* case (SYNTHETIC data, labelled as such on the page).                 */
+/* ------------------------------------------------------------------ */
+
+type Beat = { t: string; kind: "first" | "divergence" | "protection" | "symptom"; layer: string; text: string; line: number };
+const shuttleChain: Beat[] = [
+  { t: "+0.25 s", kind: "first", layer: "Controller", text: "Torque command 93 N·m, above the battery's limit of 80.2", line: 1385 },
+  { t: "+0.25 s", kind: "divergence", layer: "Power", text: "Pack current 174 A, above its 150 A discharge limit", line: 1386 },
+  { t: "+0.35 s", kind: "divergence", layer: "Power", text: "Front-right inverter voltage falls below 55 V", line: 1410 },
+  { t: "+0.40 s", kind: "protection", layer: "Protection", text: "Inverter cuts torque on under-voltage, as designed", line: 1424 },
+  { t: "+0.50 s", kind: "symptom", layer: "Symptom", text: "Emergency stop on the ramp, remote code 7", line: 1438 },
+];
+const beatStyle: Record<Beat["kind"], { dot: string; tag: string; label: string }> = {
+  first: { dot: "bg-[#84d7b0]", tag: "bg-[#84d7b0] text-[#062016]", label: "First divergence" },
+  divergence: { dot: "bg-[#f2c46d]", tag: "text-[#f2c46d] ring-1 ring-inset ring-[#f2c46d]/40", label: "Divergence" },
+  protection: { dot: "bg-[#93c5fd]", tag: "text-[#bcdcff] ring-1 ring-inset ring-[#93c5fd]/45", label: "Worked as designed" },
+  symptom: { dot: "bg-white/60", tag: "text-white/70 ring-1 ring-inset ring-white/25", label: "What was reported" },
+};
+
+const ShuttleConsole = () => {
+  const reduce = useReducedMotion();
+  const [n, setN] = useState(reduce ? shuttleChain.length + 1 : 0);
+  useEffect(() => {
+    if (reduce) return;
+    const ids = Array.from({ length: shuttleChain.length + 1 }).map((_, i) => setTimeout(() => setN(i + 1), 500 + i * 700));
+    return () => ids.forEach(clearTimeout);
+  }, [reduce]);
+  return (
+    <div className="grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
+      <div className="min-w-0 border-b border-white/[0.07] p-4 sm:p-5 lg:border-b-0 lg:border-r">
+        <p className="mb-3 text-[11.5px] text-white/40">What should have happened, against what did · cold morning launch on an 8 % ramp</p>
+        <ol className="relative space-y-2.5 border-l border-white/15 pl-4">
+          {shuttleChain.map((b, i) => (
+            <motion.li
+              key={b.line}
+              initial={reduce ? false : { opacity: 0, x: -6 }}
+              animate={n > i ? { opacity: 1, x: 0 } : { opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="relative"
+            >
+              <span className={`absolute -left-[21px] top-[6px] h-2.5 w-2.5 rounded-full ${beatStyle[b.kind].dot}`} />
+              <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
+                <span className="font-mono text-[11.5px] text-white/40">{b.t}</span>
+                <span className={`rounded-full px-2 py-[1px] text-[10.5px] font-medium ${beatStyle[b.kind].tag}`}>{beatStyle[b.kind].label}</span>
+                <span className="text-[11px] text-white/35">{b.layer} · line {b.line}</span>
+              </div>
+              <p className={`mt-0.5 text-[13px] leading-snug ${b.kind === "first" ? "text-white" : "text-white/75"}`}>{b.text}</p>
+            </motion.li>
+          ))}
+        </ol>
+      </div>
+      <motion.div
+        initial={reduce ? false : { opacity: 0 }}
+        animate={n > shuttleChain.length ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 0.4 }}
+        className="min-w-0 space-y-4 p-4 sm:p-5"
+      >
+        <div>
+          <p className="text-[11.5px] text-white/40">Same vehicle, same software, warm afternoon</p>
+          <p className="mt-1 text-[13px] leading-snug text-white/85">Every expectation held. The command only crossed the battery's limit on the cold launch.</p>
+        </div>
+        <div>
+          <p className="text-[11.5px] text-white/40">What the data cannot tell</p>
+          <p className="mt-1 text-[13px] leading-snug text-white/85">Whether the parking-brake calipers physically opened. No signal records it, so Veyra says so instead of assuming it.</p>
+        </div>
+        <div>
+          <p className="text-[11.5px] text-white/40">Next decisive check</p>
+          <p className="mt-1 text-[14px] font-medium leading-snug text-white">Measure the resistance of each front-right cable segment at the depot</p>
+          <p className="mt-1 text-[12px] leading-snug text-white/50">Instead of swapping the inverter, which did not fix it.</p>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
+const cases = [
+  { id: "real", label: "Real public log", sub: "micro-ROS on STM32H7 · session drops right after it opens" },
+  { id: "shuttle", label: "Expected vs observed", sub: "Autonomous shuttle stops on a ramp · synthetic demo data" },
+] as const;
+
+const HeroConsole = () => {
+  const [tab, setTab] = useState<(typeof cases)[number]["id"]>("real");
+  return (
+    <div>
+      <div role="tablist" aria-label="Example investigations" className="mb-3 flex flex-wrap justify-center gap-2">
+        {cases.map((c) => (
+          <button
+            key={c.id}
+            role="tab"
+            aria-selected={tab === c.id}
+            onClick={() => setTab(c.id)}
+            className={`rounded-full px-4 py-1.5 text-[12.5px] transition-colors focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#84d7b0] ${
+              tab === c.id ? "bg-white/[0.1] text-white ring-1 ring-inset ring-white/20" : "text-white/50 hover:text-white"
+            }`}
+          >
+            {c.label}
+          </button>
+        ))}
+      </div>
+      {tab === "real" ? (
+        <Console />
+      ) : (
+        <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#08111f] shadow-[0_0_0_1px_rgba(132,215,176,0.04),0_60px_140px_-50px_rgba(0,0,0,0.9)]">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-white/[0.07] px-4 py-3 sm:px-5">
+            <span className="flex items-center gap-2 text-[12px] text-white/70">
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#84d7b0]" />
+              Expected vs observed
+            </span>
+            <span className="text-[12px] text-white/35">{cases[1].sub}</span>
+          </div>
+          <ShuttleConsole />
+        </div>
+      )}
+      <p className="mt-3 text-center text-[12px] text-white/35">
+        {tab === "real"
+          ? "A real public failure log and Veyra's recorded investigation of it, replayed. Nothing staged."
+          : "Veyra's engine output on a synthetic demo case: the vehicle and its log are generated, the analysis is real."}
+      </p>
+    </div>
+  );
+};
+
+/* ------------------------------------------------------------------ */
 /* Working today: the loop, each step showing the real artifact        */
 /* ------------------------------------------------------------------ */
 
@@ -205,19 +328,24 @@ const steps = [
     body: "Upload a log or connect read-only. Veyra finds the events that matter and separates cause, consequence and coincidence, citing the exact lines.",
   },
   {
-    verb: "Map",
-    title: "Lay out every place the fault could live.",
-    body: "Each area is leading, open, weakened or ruled out. Only data can rule one out. An engineer's report can only weaken it.",
+    verb: "Expect",
+    title: "Compare it with what it should have done.",
+    body: "From the command, through the controller, to motors, power and brakes. Veyra finds the first moment behaviour left the expected path, and keeps protections that fired as designed apart from the fault.",
+  },
+  {
+    verb: "Separate",
+    title: "Measured, inferred, and what no signal shows.",
+    body: "Every claim points to a line or a computed relation. An inferred number carries its assumptions. What the data cannot tell apart stays open, and is named.",
   },
   {
     verb: "Test",
-    title: "Choose the check that settles the most.",
-    body: "Not ten guesses. One check, with what each possible result would keep, weaken or rule out.",
+    title: "Choose the cheapest check that settles it.",
+    body: "Each check shows what every remaining explanation predicts, what it costs, and where it can mislead. The data is asked first; only what it cannot answer goes to the field.",
   },
   {
     verb: "Learn",
-    title: "Update from the result, and close honestly.",
-    body: "What the engineer observed stays separate from Veyra's interpretation. A closed case is a candidate lesson until the fix is shown to hold.",
+    title: "Replay how it was solved, and keep what holds.",
+    body: "Each step your engineers took is replayed against the data: which ones the data could have saved, and whether the fix held. A lesson stays a candidate until it does.",
   },
 ];
 
@@ -236,51 +364,80 @@ const StepArtifact = ({ i }: { i: number }) => {
     );
   if (i === 1)
     return (
-      <ul className="space-y-1.5">
-        {round1.map((a) => (
-          <li key={a.area} className="flex items-center justify-between gap-3 rounded-md bg-white/[0.03] px-3 py-2">
-            <span className={`truncate text-[13px] ${a.status === "ruled out" ? "text-white/35" : "text-white/85"}`}>{a.area}</span>
-            <span className={`shrink-0 rounded-full px-2 py-[1px] text-[11px] font-medium ${chip[a.status]}`}>{a.status}</span>
-          </li>
-        ))}
-        <li className="pt-2 text-[12.5px] leading-snug text-white/50">
-          Ruled out on data: the log shows the session was established, so the port was not the problem.
-        </li>
-      </ul>
+      <div>
+        <p className="text-[11.5px] text-white/40">Cold morning launch, synthetic demo case</p>
+        <ol className="mt-3 space-y-2 border-l border-white/15 pl-4">
+          {shuttleChain.map((b) => (
+            <li key={b.line} className="relative">
+              <span className={`absolute -left-[21px] top-[6px] h-2.5 w-2.5 rounded-full ${beatStyle[b.kind].dot}`} />
+              <span className="font-mono text-[11.5px] text-white/40">{b.t}</span>
+              <span className={`ml-2 text-[13px] ${b.kind === "first" ? "text-white" : "text-white/70"}`}>{b.text}</span>
+            </li>
+          ))}
+        </ol>
+        <p className="mt-4 text-[12.5px] leading-snug text-white/50">The code said "front-right motor fault". The first thing to go wrong was the torque command.</p>
+      </div>
     );
   if (i === 2)
     return (
-      <svg viewBox="0 0 440 210" className="h-auto w-full" role="img" aria-label="One check with three possible results, each pointing to a different part of the system">
-        <rect x="1" y="80" width="150" height="50" rx="8" fill="rgba(132,215,176,0.1)" stroke="#84d7b0" />
-        <text x="76" y="101" textAnchor="middle" fill="#fff" fontSize="12" fontWeight="600">Dump write buffer</text>
-        <text x="76" y="118" textAnchor="middle" fill="rgba(255,255,255,0.55)" fontSize="11">at the 36-byte send</text>
+      <div className="space-y-2.5">
         {[
-          { y: 28, a: "Zeros at the write call", b: "→ client buffers" },
-          { y: 105, a: "Valid at write, zeros on wire", b: "→ Ethernet / DMA" },
-          { y: 182, a: "No 36-byte write at all", b: "→ another sender" },
-        ].map((o) => (
-          <g key={o.a}>
-            <path d={`M151 105 C 190 105, 190 ${o.y}, 228 ${o.y}`} fill="none" stroke="rgba(255,255,255,0.25)" />
-            <circle cx="230" cy={o.y} r="3" fill="#84d7b0" />
-            <text x="242" y={o.y - 3} fill="rgba(255,255,255,0.85)" fontSize="12">{o.a}</text>
-            <text x="242" y={o.y + 13} fill="rgba(255,255,255,0.45)" fontSize="11">{o.b}</text>
-          </g>
+          { tag: "Measured", c: "text-[#84d7b0] ring-[#84d7b0]/40", text: "Front-right voltage drop grows 3.2× faster with current than the other wheels', in 3 of 3 launches" },
+          { tag: "Inferred", c: "text-[#bcdcff] ring-[#93c5fd]/45", text: "22–32 mΩ of branch resistance, if it carries 21–29 % of the current as the torques suggest" },
+          { tag: "Not recorded", c: "text-white/60 ring-white/20", text: "Each branch's current. So a bad connector, a bad cable and an inverter drawing too much current stay open" },
+        ].map((r) => (
+          <div key={r.tag} className="flex gap-3 rounded-lg bg-white/[0.03] p-3">
+            <span className={`h-fit shrink-0 rounded-full px-2 py-[1px] text-[11px] font-medium ring-1 ring-inset ${r.c}`}>{r.tag}</span>
+            <span className="text-[13px] leading-snug text-white/85">{r.text}</span>
+          </div>
         ))}
-      </svg>
+      </div>
+    );
+  if (i === 3)
+    return (
+      <div>
+        <svg viewBox="0 0 440 210" className="h-auto w-full" role="img" aria-label="One depot check with three possible results, each pointing to a different cause">
+          <rect x="1" y="74" width="150" height="62" rx="8" fill="rgba(132,215,176,0.1)" stroke="#84d7b0" />
+          <text x="76" y="97" textAnchor="middle" fill="#fff" fontSize="12" fontWeight="600">Resistance of each</text>
+          <text x="76" y="113" textAnchor="middle" fill="#fff" fontSize="12" fontWeight="600">cable segment</text>
+          <text x="76" y="128" textAnchor="middle" fill="rgba(255,255,255,0.55)" fontSize="11">parked, at the depot</text>
+          {[
+            { y: 28, a: "Connector segment high", b: "→ contact" },
+            { y: 105, a: "Cable or fuse high", b: "→ conductor" },
+            { y: 182, a: "All normal", b: "→ inverter draw, or a contact that fails only under load" },
+          ].map((o) => (
+            <g key={o.a}>
+              <path d={`M151 105 C 190 105, 190 ${o.y}, 228 ${o.y}`} fill="none" stroke="rgba(255,255,255,0.25)" />
+              <circle cx="230" cy={o.y} r="3" fill="#84d7b0" />
+              <text x="242" y={o.y - 3} fill="rgba(255,255,255,0.85)" fontSize="12">{o.a}</text>
+              <text x="242" y={o.y + 13} fill="rgba(255,255,255,0.45)" fontSize="11">{o.b}</text>
+            </g>
+          ))}
+        </svg>
+        <p className="mt-2 text-[12.5px] leading-snug text-white/50">About an hour with a meter, instead of a €1,800 inverter swap that did not fix it.</p>
+      </div>
     );
   return (
     <div className="space-y-3">
-      <div className="rounded-lg border border-white/10 p-3">
-        <p className="text-[11.5px] text-white/40">Engineer observed</p>
-        <p className="mt-1 text-[13px] leading-snug text-white/85">Correct bytes in the Tx buffer at sendto. All zeros on the wire. D-cache enabled.</p>
+      <div className="grid grid-cols-3 gap-2">
+        {[
+          ["5", "steps engineers took"],
+          ["2", "were not the issue"],
+          ["2", "the data could have saved"],
+        ].map(([v, k]) => (
+          <div key={k} className="rounded-lg border border-white/10 p-3">
+            <p className="text-[22px] font-semibold text-white">{v}</p>
+            <p className="text-[11.5px] leading-snug text-white/50">{k}</p>
+          </div>
+        ))}
       </div>
       <div className="rounded-lg border border-[#84d7b0]/30 bg-[#84d7b0]/[0.05] p-3">
-        <p className="text-[11.5px] text-[#84d7b0]">Veyra's interpretation</p>
-        <p className="mt-1 text-[13px] leading-snug text-white/85">Board Ethernet / lwIP DMA now leading. Likely H7 D-cache and DMA coherency.</p>
+        <p className="text-[11.5px] text-[#84d7b0]">Replayed against the data</p>
+        <p className="mt-1 text-[13px] leading-snug text-white/85">After the inverter swap, the front-right drop was unchanged: the swap never touched the cause. 4.8 hours and €1,800 the data could have saved.</p>
       </div>
       <div className="flex items-center justify-between rounded-lg border border-white/10 p-3">
         <p className="text-[13px] text-white/85">Lesson saved</p>
-        <span className="rounded-full px-2 py-[1px] text-[11px] text-[#f2c46d] ring-1 ring-inset ring-[#f2c46d]/40">candidate</span>
+        <span className="rounded-full px-2 py-[1px] text-[11px] text-[#f2c46d] ring-1 ring-inset ring-[#f2c46d]/40">candidate until the fix holds</span>
       </div>
     </div>
   );
@@ -334,10 +491,10 @@ const audiences = [
 ];
 
 const horizons = [
-  { when: "Today", state: "Live", title: "Finds the next decisive check", body: "From real logs across robotics, drone and embedded stacks, with every claim tied to evidence." },
-  { when: "Next", state: "Planned", title: "Chooses and runs experiments", body: "Ranks checks by how much each one settles, and runs safe tests in simulation and through robot software." },
-  { when: "Then", state: "Research", title: "Carries experience between machines", body: "What one deployment learned shortens the next, so new models and machines need fewer tries to work." },
-];
+  { when: "Today", state: "Live", title: "Finds where it first went wrong, and the next decisive check", body: "From real logs across robotics, drone, embedded and vehicle stacks. Every claim is tied to evidence and every blind spot is named." },
+  { when: "Next", state: "Building", title: "Learns how each machine should behave", body: "From your specs, DBC files and healthy runs, and from how your engineers actually debug, so every check is ranked by what it settles and what it costs." },
+  { when: "Then", state: "Research", title: "Carries experience between machines", body: "The same failure recognised on machines with different error codes, so new models and machines need fewer tries to work." },
+]
 
 /* A narrowing fault space: 5 open areas collapse as experiments land. Illustrative of the goal, labelled as such. */
 const Narrowing = () => {
@@ -424,8 +581,8 @@ const Landing = () => {
                 The AI field engineer for physical AI.
               </h1>
               <p className="mx-auto mt-7 max-w-2xl text-[17px] leading-relaxed text-white/65 md:text-[18px]">
-                Today, it helps engineers investigate failures and find the next decisive check. Next, we're building
-                toward fewer experiments to get new models working on real machines.
+                Veyra knows what your machine should have done, finds the moment it stopped doing it, and picks the
+                cheapest check that settles why. When the data cannot tell, it says so.
               </p>
               <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
                 <a
@@ -451,10 +608,7 @@ const Landing = () => {
               transition={{ delay: 0.2, duration: 0.7 }}
               className="mt-12 md:mt-14"
             >
-              <Console />
-              <p className="mt-3 text-center text-[12px] text-white/35">
-                A real public failure log and Veyra's recorded investigation of it, replayed. Nothing staged.
-              </p>
+              <HeroConsole />
             </motion.div>
           </div>
         </section>
@@ -463,9 +617,9 @@ const Landing = () => {
         <section className="border-t border-white/[0.07]">
           <div className="container mx-auto max-w-6xl px-6 py-24 md:py-32">
             <motion.p {...enter} className="max-w-5xl text-[28px] font-medium leading-[1.2] tracking-[-0.02em] text-white/45 md:text-[44px]">
-              <span className="text-white">When robots fail in the field, senior engineers spend days</span> reconstructing logs,
-              testing hypotheses, and deciding what to check next.{" "}
-              <span className="text-white">Veyra makes that loop faster and repeatable.</span>
+              <span className="text-white">When a machine fails in the field, engineers swap parts, call the site and wait for it
+              to happen again.</span> Many of those checks turn out not to be the issue.{" "}
+              <span className="text-white">Veyra starts from the data, so the first check is the one that settles the most.</span>
             </motion.p>
           </div>
         </section>
@@ -477,7 +631,7 @@ const Landing = () => {
               <div className="max-w-2xl">
                 <p className="text-[13px] text-[#84d7b0]">Working today</p>
                 <h2 className="mt-3 text-[34px] font-semibold leading-[1.05] tracking-[-0.03em] md:text-[48px]">
-                  One loop, from the first log line to a lesson you can trust.
+                  From the first log line to the check that settles it.
                 </h2>
               </div>
               <a href={DEMO_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[14px] text-white/70 underline decoration-white/20 underline-offset-4 hover:text-white">
@@ -487,7 +641,9 @@ const Landing = () => {
             <motion.div {...enter}>
               <Loop />
             </motion.div>
-            <p className="mt-4 text-[13px] text-white/40">Read-only. No control path into your machines.</p>
+            <p className="mt-4 text-[13px] text-white/40">
+              Read-only. No control path into your machines. Examples: a real public micro-ROS log, and a synthetic demo vehicle.
+            </p>
           </div>
         </section>
       </div>
@@ -546,6 +702,32 @@ const Landing = () => {
               </div>
             </motion.div>
           </div>
+
+          <motion.div {...enter} className="mt-16 grid gap-10 border-t border-border pt-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:items-start">
+            <div>
+              <h3 className="text-[24px] font-semibold leading-[1.15] tracking-[-0.02em] text-foreground md:text-[30px]">
+                Physics checks are tested blind before they ship.
+              </h3>
+              <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">
+                Veyra's electrical checks were run once on 450 held-out vehicles from an independent simulator, with the
+                pass criteria written down first. They are synthetic vehicles; validation on real fleets is next. We publish
+                the misses too.
+              </p>
+            </div>
+            <dl className="divide-y divide-border border-y border-border">
+              {[
+                ["0 of 120", "healthy vehicles wrongly flagged"],
+                ["178 of 178", "flagged faults where the true cause stayed among the open explanations"],
+                ["97 %", "of recommended checks would have ruled out a wrong explanation"],
+                ["31 of 45", "inverters drawing too much current missed: voltage alone cannot show it, and Veyra says so"],
+              ].map(([k, v]) => (
+                <div key={k} className="grid grid-cols-[minmax(0,0.55fr)_minmax(0,1.45fr)] gap-4 py-3.5">
+                  <dt className="font-mono text-[15px] font-semibold text-foreground">{k}</dt>
+                  <dd className="text-[14px] leading-relaxed text-muted-foreground">{v}</dd>
+                </div>
+              ))}
+            </dl>
+          </motion.div>
 
           <motion.div {...enter} className="mt-16 flex flex-col gap-6 border-t border-border pt-8 md:flex-row md:items-center md:justify-between">
             <div>
@@ -645,6 +827,7 @@ const Landing = () => {
                 ["Time to cause", "From first report to a supported explanation"],
                 ["Checks run", "How many it took to settle the question"],
                 ["Senior engineer hours", "Time spent per case by the people who know the system"],
+                ["Avoidable work", "Checks that were not the issue, and how many the data could have answered first"],
                 ["Repeat cases", "How often a past lesson shortened a new one"],
               ].map(([k, v]) => (
                 <div key={k} className="grid grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] gap-4 py-4">
