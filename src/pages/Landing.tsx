@@ -345,7 +345,7 @@ const steps = [
   {
     verb: "Learn",
     title: "Replay how it was solved, and keep what holds.",
-    body: "Each step your engineers took is replayed against the data: which ones the data could have saved, and whether the fix held. A lesson stays a candidate until it does.",
+    body: "Each step your engineers took is replayed against only the data recorded before it: which checks that data shows were avoidable, which are only estimates, and where the evidence cannot say. A lesson stays a candidate until the fix holds.",
   },
 ];
 
@@ -414,7 +414,7 @@ const StepArtifact = ({ i }: { i: number }) => {
             </g>
           ))}
         </svg>
-        <p className="mt-2 text-[12.5px] leading-snug text-white/50">About an hour with a meter, instead of a €1,800 inverter swap that did not fix it.</p>
+        <p className="mt-2 text-[12.5px] leading-snug text-white/50">About an hour with a meter at the depot separates the three, before anyone commits to a €1,800 inverter swap.</p>
       </div>
     );
   return (
@@ -423,7 +423,7 @@ const StepArtifact = ({ i }: { i: number }) => {
         {[
           ["5", "steps engineers took"],
           ["2", "were not the issue"],
-          ["2", "the data could have saved"],
+          ["0", "verified avoidable"],
         ].map(([v, k]) => (
           <div key={k} className="rounded-lg border border-white/10 p-3">
             <p className="text-[22px] font-semibold text-white">{v}</p>
@@ -433,7 +433,7 @@ const StepArtifact = ({ i }: { i: number }) => {
       </div>
       <div className="rounded-lg border border-[#84d7b0]/30 bg-[#84d7b0]/[0.05] p-3">
         <p className="text-[11.5px] text-[#84d7b0]">Replayed against the data</p>
-        <p className="mt-1 text-[13px] leading-snug text-white/85">After the inverter swap, the front-right drop was unchanged: the swap never touched the cause. 4.8 hours and €1,800 the data could have saved.</p>
+        <p className="mt-1 text-[13px] leading-snug text-white/85">After the inverter swap, the front-right drop was unchanged: the swap never touched the cause. A cheaper meter check could have come first, but the data before it was 12 days old: an estimate, not a saving.</p>
       </div>
       <div className="flex items-center justify-between rounded-lg border border-white/10 p-3">
         <p className="text-[13px] text-white/85">Lesson saved</p>
@@ -856,7 +856,7 @@ const Landing = () => {
               </p>
               <ol className="mt-7 max-w-xl space-y-4">
                 {[
-                  ["Weeks 1–2", "Your closed cases", "Exported logs from five to eight solved incidents, and how your engineers debugged them. Veyra replays each one: what the data already showed, and which checks it could have saved."],
+                  ["Weeks 1–2", "Your closed cases", "Exported logs from five to eight solved incidents, and how your engineers debugged them. Veyra replays each one against the data recorded before each step: what it already showed, which checks it shows were avoidable, and where it cannot say."],
                   ["Weeks 2–4", "Your rules, reviewed", "Your engineers review and correct the machine expectations Veyra checks against. Nothing it uses is hidden."],
                   ["Weeks 4–8", "Live, read-only", "New incidents as they happen, on one class of issue your team already chases."],
                 ].map(([when, what, body], k) => (
@@ -883,7 +883,7 @@ const Landing = () => {
                 ["Time to cause", "From first report to a supported explanation"],
                 ["Checks run", "How many it took to settle the question"],
                 ["Senior engineer hours", "Time spent per case by the people who know the system"],
-                ["Avoidable work", "Checks that were not the issue, and how many the data could have answered first"],
+                ["Avoidable work", "Checks that were not the issue, split into verified from the data recorded before them, estimated, and undecidable. Only verified ones count hours and cost."],
                 ["Repeat cases", "How often a past lesson shortened a new one"],
               ].map(([k, v]) => (
                 <div key={k} className="grid grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] gap-4 py-4">
