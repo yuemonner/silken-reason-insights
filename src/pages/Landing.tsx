@@ -404,7 +404,7 @@ const StepArtifact = ({ i }: { i: number }) => {
           {[
             { y: 28, a: "Connector segment high", b: "→ contact" },
             { y: 105, a: "Cable or fuse high", b: "→ conductor" },
-            { y: 182, a: "All normal", b: "→ inverter draw, or a contact that fails only under load" },
+            { y: 182, a: "All normal", b: "→ inverter, or a load-only contact" },
           ].map((o) => (
             <g key={o.a}>
               <path d={`M151 105 C 190 105, 190 ${o.y}, 228 ${o.y}`} fill="none" stroke="rgba(255,255,255,0.25)" />
@@ -491,10 +491,10 @@ const audiences = [
 ];
 
 const horizons = [
-  { when: "Today", state: "Live", title: "Finds where it first went wrong, and the next decisive check", body: "From real logs across robotics, drone, embedded and vehicle stacks. Every claim is tied to evidence and every blind spot is named." },
-  { when: "Next", state: "Building", title: "Learns how each machine should behave", body: "From your specs, DBC files and healthy runs, and from how your engineers actually debug, so every check is ranked by what it settles and what it costs." },
-  { when: "Then", state: "Research", title: "Carries experience between machines", body: "The same failure recognised on machines with different error codes, so new models and machines need fewer tries to work." },
-]
+  { when: "Today", state: "Live", title: "Checks behaviour against explicit, reviewable expectations", body: "Engineering rules your team can read and correct, applied to every log. Every claim is tied to evidence, and every blind spot is named." },
+  { when: "Next", state: "Building", title: "Builds verified machine knowledge", body: "Learns from specifications, healthy operations and engineers' confirmed findings, so investigations become more machine-specific over time." },
+  { when: "Then", state: "Research", title: "Carries verified knowledge between machines", body: "A failure confirmed on one machine, recognised on another with different error codes, so new machines and new models need fewer tries to work." },
+];
 
 /* A narrowing fault space: 5 open areas collapse as experiments land. Illustrative of the goal, labelled as such. */
 const Narrowing = () => {
@@ -542,6 +542,27 @@ const Narrowing = () => {
   );
 };
 
+/* One field issue pulls in five teams, each rebuilding the same evidence. */
+const teams = ["Controls", "Software", "Hardware", "Suppliers", "Site operations"];
+const FanOut = () => (
+  <svg viewBox="0 0 460 256" className="h-auto w-full" role="img" aria-label="One field issue pulls in controls, software, hardware, suppliers and site operations">
+    <rect x="1" y="100" width="140" height="50" rx="10" fill="#0a1424" />
+    <text x="71" y="122" textAnchor="middle" fill="#fff" fontSize="13" fontWeight="600">One field issue</text>
+    <text x="71" y="139" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="11">emergency stop, code 7</text>
+    {teams.map((t, i) => {
+      const y = 14 + i * 50;
+      return (
+        <g key={t}>
+          <path d={`M141 125 C 200 125, 210 ${y + 14}, 262 ${y + 14}`} fill="none" stroke="#b9c3d1" strokeWidth="1.2" />
+          <rect x="264" y={y} width="180" height="28" rx="14" fill="#f4f6f9" stroke="#d7dde6" />
+          <text x="280" y={y + 18} fill="#0a1424" fontSize="12.5" fontWeight="500">{t}</text>
+          <text x="432" y={y + 18} textAnchor="end" fill="#8a94a3" fontSize="11">same logs</text>
+        </g>
+      );
+    })}
+  </svg>
+);
+
 const enterProps = (reduce: boolean | null) =>
   reduce
     ? {}
@@ -550,6 +571,9 @@ const enterProps = (reduce: boolean | null) =>
 const Landing = () => {
   const reduce = useReducedMotion();
   const enter = enterProps(reduce);
+  useEffect(() => {
+    document.title = "Veyra | The AI field engineer for physical AI";
+  }, []);
 
   return (
     <Layout>
@@ -648,6 +672,38 @@ const Landing = () => {
         </section>
       </div>
 
+      {/* BOTTLENECK */}
+      <section id="bottleneck" className="scroll-mt-16 bg-background">
+        <div className="container mx-auto max-w-6xl px-6 py-24">
+          <div className="grid gap-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center">
+            <motion.div {...enter}>
+              <p className="text-[13px] text-primary">The operational bottleneck</p>
+              <h2 className="mt-3 text-[34px] font-semibold leading-[1.05] tracking-[-0.03em] text-foreground md:text-[48px]">
+                Finding the cause often costs more than fixing it.
+              </h2>
+              <p className="mt-6 text-[16px] leading-relaxed text-muted-foreground">
+                A single field issue can pull engineers across controls, software, hardware, suppliers and on-site
+                operations. Each team reconstructs the same evidence, checks are repeated, and parts get replaced before
+                anyone understands the cause.
+              </p>
+              <p className="mt-5 text-[17px] font-medium leading-relaxed text-foreground">
+                Veyra is built to cut the work between the first report and a defensible next decision.
+              </p>
+            </motion.div>
+            <motion.div {...enter}>
+              <FanOut />
+              <div className="mt-8 flex items-baseline gap-4 border-t border-border pt-6">
+                <span className="shrink-0 font-mono text-[36px] font-semibold leading-none tracking-[-0.02em] text-foreground">2–3</span>
+                <span className="text-[14px] leading-relaxed text-muted-foreground">
+                  complex cross-team investigations every week, reported by one autonomous-vehicle maker we
+                  interviewed.
+                </span>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* EVIDENCE */}
       <section id="evidence" className="scroll-mt-16 bg-[#f4f6f9]">
         <div className="container mx-auto max-w-6xl px-6 py-24">
@@ -655,18 +711,24 @@ const Landing = () => {
             <motion.div {...enter}>
               <p className="text-[13px] text-primary">Evidence</p>
               <h2 className="mt-3 text-[34px] font-semibold leading-[1.05] tracking-[-0.03em] text-foreground md:text-[48px]">
-                Measured on real failures, not staged demos.
+                Tested blind. Misses published.
               </h2>
               <p className="mt-6 text-[16px] leading-relaxed text-muted-foreground">
-                We ran Veyra blind on 14 failure logs that engineers posted in public issue threads. The answer keys,
-                taken from the fixes and maintainer conclusions, were sealed before anything ran. Three cases are still
-                unresolved upstream, to test whether Veyra admits what a log cannot show.
+                On real failure logs from public issue threads, answer keys were sealed before anything ran. Veyra's
+                physics checks were run once on held-out simulated vehicles, with the pass criteria written down first.
+                The full design, the results it did not win, and the limits are published.
               </p>
+              <Link
+                to="/veyra/evaluation"
+                className="mt-6 inline-flex items-center gap-1.5 text-[14px] font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground"
+              >
+                Evaluation and methodology <ArrowRight size={14} />
+              </Link>
             </motion.div>
 
             <motion.div {...enter} className="rounded-2xl bg-background p-6 shadow-[0_1px_0_rgba(15,23,42,0.06),0_20px_60px_-30px_rgba(15,23,42,0.25)] sm:p-8">
-              <p className="text-[14px] font-medium text-foreground">Concrete, actionable next step</p>
-              <p className="mt-1 text-[13px] text-muted-foreground">Graded blind, latest batch of 8 real cases, out of 16 points</p>
+              <p className="text-[14px] font-medium text-foreground">A next step an engineer can act on right away</p>
+              <p className="mt-1 text-[13px] text-muted-foreground">8 held-out real failure logs, graded blind, out of 16 points</p>
               <div className="mt-6 space-y-4">
                 {[
                   { label: "Veyra", v: 16, strong: true },
@@ -692,42 +754,16 @@ const Landing = () => {
               </div>
               <div className="mt-8 grid gap-6 border-t border-border pt-6 sm:grid-cols-2">
                 <div>
-                  <p className="text-[14px] font-medium text-foreground">Every claim points to a log line</p>
-                  <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">Quotes and line numbers are checked mechanically. A wrong citation is rejected.</p>
+                  <p className="font-mono text-[22px] font-semibold text-foreground">0 of 120</p>
+                  <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">healthy simulated vehicles wrongly flagged by the physics checks</p>
                 </div>
                 <div>
-                  <p className="text-[14px] font-medium text-foreground">Observed is kept apart from inferred</p>
-                  <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">On a tamper-evident case history, so the record holds up later.</p>
+                  <p className="text-[14px] font-medium text-foreground">Every claim points to a log line</p>
+                  <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">Quotes and line numbers are checked mechanically. A wrong citation is rejected.</p>
                 </div>
               </div>
             </motion.div>
           </div>
-
-          <motion.div {...enter} className="mt-16 grid gap-10 border-t border-border pt-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:items-start">
-            <div>
-              <h3 className="text-[24px] font-semibold leading-[1.15] tracking-[-0.02em] text-foreground md:text-[30px]">
-                Physics checks are tested blind before they ship.
-              </h3>
-              <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">
-                Veyra's electrical checks were run once on 450 held-out vehicles from an independent simulator, with the
-                pass criteria written down first. They are synthetic vehicles; validation on real fleets is next. We publish
-                the misses too.
-              </p>
-            </div>
-            <dl className="divide-y divide-border border-y border-border">
-              {[
-                ["0 of 120", "healthy vehicles wrongly flagged"],
-                ["178 of 178", "flagged faults where the true cause stayed among the open explanations"],
-                ["97 %", "of recommended checks would have ruled out a wrong explanation"],
-                ["31 of 45", "inverters drawing too much current missed: voltage alone cannot show it, and Veyra says so"],
-              ].map(([k, v]) => (
-                <div key={k} className="grid grid-cols-[minmax(0,0.55fr)_minmax(0,1.45fr)] gap-4 py-3.5">
-                  <dt className="font-mono text-[15px] font-semibold text-foreground">{k}</dt>
-                  <dd className="text-[14px] leading-relaxed text-muted-foreground">{v}</dd>
-                </div>
-              ))}
-            </dl>
-          </motion.div>
 
           <motion.div {...enter} className="mt-16 flex flex-col gap-6 border-t border-border pt-8 md:flex-row md:items-center md:justify-between">
             <div>
@@ -773,10 +809,10 @@ const Landing = () => {
                 Every physical AI model has to meet reality. We want that to take fewer tries.
               </h2>
               <p className="mt-6 text-[16px] leading-relaxed text-white/65">
-                World models and robot foundation models are getting better at predicting the physical world. Getting one
-                to work on a specific machine, task and site still takes rounds of physical experiments, chosen by hand by
-                senior engineers. Veyra is built for that gap: the fewest experiments between an intelligent model and a
-                machine that works.
+                Today, Veyra investigates field failures. The same discipline, explicit expectations, measured evidence and
+                the fewest checks that settle a question, is what it takes to get world models and robot foundation models
+                working on a specific machine, task and site. That is where we are headed: the fewest experiments between an
+                intelligent model and a machine that works.
               </p>
             </motion.div>
             <motion.div {...enter}>
@@ -805,16 +841,30 @@ const Landing = () => {
       {/* PILOT */}
       <section id="pilot" className="scroll-mt-16 bg-background">
         <div className="container mx-auto max-w-6xl px-6 py-24">
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-end">
+          <div className="grid gap-12 lg:grid-cols-2 lg:items-start">
             <motion.div {...enter}>
               <p className="text-[13px] text-primary">Design partner pilot</p>
               <h2 className="mt-3 text-[34px] font-semibold leading-[1.05] tracking-[-0.03em] text-foreground md:text-[48px]">
-                Six to eight weeks on your own failures.
+                Six to eight weeks, starting with failures you have already solved.
               </h2>
               <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-muted-foreground">
-                Pick one class of issue your engineers already chase. Connect read-only. Use Veyra on real incidents as
-                they happen, and measure it against how your team works today.
+                No production access to begin. We earn it in three steps, and measure each one against how your team works today.
               </p>
+              <ol className="mt-7 max-w-xl space-y-4">
+                {[
+                  ["Weeks 1–2", "Your closed cases", "Exported logs from five to eight solved incidents, and how your engineers debugged them. Veyra replays each one: what the data already showed, and which checks it could have saved."],
+                  ["Weeks 2–4", "Your rules, reviewed", "Your engineers review and correct the machine expectations Veyra checks against. Nothing it uses is hidden."],
+                  ["Weeks 4–8", "Live, read-only", "New incidents as they happen, on one class of issue your team already chases."],
+                ].map(([when, what, body], k) => (
+                  <li key={when} className="grid grid-cols-[28px_minmax(0,1fr)] gap-3">
+                    <span className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-[#0a1424] font-mono text-[12px] text-white">{k + 1}</span>
+                    <div>
+                      <p className="text-[15px] font-semibold text-foreground">{what} <span className="ml-1 text-[12.5px] font-normal text-muted-foreground">{when}</span></p>
+                      <p className="mt-1 text-[14px] leading-relaxed text-muted-foreground">{body}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
               <Link
                 to="/contact"
                 className="mt-8 inline-flex items-center gap-1.5 rounded-full bg-[#0a1424] px-6 py-3 text-[14px] font-medium text-white transition-colors hover:bg-[#16243b] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
@@ -822,7 +872,9 @@ const Landing = () => {
                 Request a pilot <ArrowRight size={15} />
               </Link>
             </motion.div>
-            <motion.dl {...enter} className="divide-y divide-border border-y border-border">
+            <motion.div {...enter}>
+            <p className="mb-3 text-[13px] text-muted-foreground">What the pilot measures</p>
+            <dl className="divide-y divide-border border-y border-border">
               {[
                 ["Time to cause", "From first report to a supported explanation"],
                 ["Checks run", "How many it took to settle the question"],
@@ -835,7 +887,8 @@ const Landing = () => {
                   <dd className="text-[14px] leading-relaxed text-muted-foreground">{v}</dd>
                 </div>
               ))}
-            </motion.dl>
+            </dl>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -850,6 +903,7 @@ const Landing = () => {
               <span className="ml-2 text-[12px] text-muted-foreground">by Silken Reason</span>
             </div>
             <ul className="flex items-center gap-6 text-[13px]">
+              <li><Link to="/veyra/evaluation" className="text-muted-foreground transition-colors hover:text-foreground">Evaluation</Link></li>
               <li><Link to="/blog" className="text-muted-foreground transition-colors hover:text-foreground">Blog</Link></li>
               <li><Link to="/contact" className="text-muted-foreground transition-colors hover:text-foreground">Contact</Link></li>
             </ul>

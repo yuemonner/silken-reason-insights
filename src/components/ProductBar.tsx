@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 // Shown on the lab's pages (not on Veyra's own), so the product is the first thing visitors see.
 const ProductBar = () => {
   const { pathname } = useLocation();
-  if (["/veyra", "/engineering", "/contact"].includes(pathname)) return null;
+  if (["/veyra", "/veyra/evaluation", "/engineering", "/contact"].includes(pathname)) return null;
   return (
     <Link to="/veyra" className="group block bg-[#0a1424] text-white transition-colors hover:bg-[#101d33]">
       <div className="container mx-auto flex max-w-6xl items-center justify-center gap-3 px-6 py-2.5 text-center text-[13px]">
