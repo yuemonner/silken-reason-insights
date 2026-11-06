@@ -814,6 +814,10 @@ const Landing = () => {
                 working on a specific machine, task and site. That is where we are headed: the fewest experiments between an
                 intelligent model and a machine that works.
               </p>
+              <p className="mt-5 text-[17px] font-medium leading-relaxed text-white">
+                To get there, AI must understand how machines work, what they are expected to do, what actually happens,
+                and what the available evidence cannot yet explain.
+              </p>
             </motion.div>
             <motion.div {...enter}>
               <Narrowing />
