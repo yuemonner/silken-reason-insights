@@ -42,7 +42,7 @@ const Bullets = ({ items }: { items: ReactNode[] }) => (
 
 const VeyraEvaluation = () => {
   useEffect(() => {
-    document.title = "Veyra evaluation and methodology | Silken Reason";
+    document.title = "Veyra evaluation: what works, what doesn't, and the evidence | Silken Reason";
   }, []);
   return (
     <Layout>
@@ -52,40 +52,74 @@ const VeyraEvaluation = () => {
             <Link to="/veyra" className="inline-flex items-center gap-1.5 text-[13px] text-white/55 hover:text-white">
               <ArrowLeft size={14} /> Veyra
             </Link>
-            <h1 className="mt-6 text-[38px] font-semibold leading-[1.02] tracking-[-0.035em] md:text-[56px]">
-              How we test Veyra, and where it falls short.
+            <h1 className="mt-6 text-[38px] font-semibold leading-[1.05] tracking-[-0.035em] md:text-[56px]">
+              We know what works.
+              <br />
+              We know what doesn&apos;t.
+              <br />
+              <span className="text-[#84d7b0]">And we can show you the evidence.</span>
             </h1>
             <p className="mt-6 max-w-2xl text-[17px] leading-relaxed text-white/65">
-              Two tests answer two different questions. Each was designed and sealed before it ran. The results it did not
-              win and the limits are published with the ones it did.
+              Veyra is the layer field teams rely on to understand why a machine failed. That only works if it can be
+              trusted, so every capability is tested on cases it has never seen, against criteria fixed before the run,
+              and the misses ship with the wins.
             </p>
-            <p className="mt-6 text-[12.5px] text-white/40">Updated 6 November 2026</p>
+            <p className="mt-6 text-[12.5px] text-white/40">Updated 7 November 2026</p>
           </div>
         </header>
 
         <div className="container mx-auto max-w-4xl px-6 py-16">
           <section>
-            <H2 id="summary">At a glance</H2>
-            <Table
-              mono={false}
-              head={["", "Real public failure logs", "Electrical physics checks"]}
-              rows={[
-                ["Question", "Does Veyra get an engineer to a useful next action, compared with the same AI model alone?", "Are the computed numbers right, and does it avoid false alarms?"],
-                ["Data", "14 real logs from public issue threads (8 held out)", "450 held-out vehicles from an independent simulator"],
-                ["Main result", "Actionable first step on 16 of 16 points, against 8 of 16", "0 of 120 healthy vehicles flagged; true cause kept open in 178 of 178 flags"],
-                ["Did not win", "Diagnosis: 72 of 80, against 76 for the model alone", "Missed 31 of 45 inverters drawing too much current"],
-                ["Biggest limit", "Short logs and a small set", "Simulated vehicles, not a real fleet"],
-              ]}
-            />
+            <H2 id="summary">The short version</H2>
+            <div className="mt-8 grid gap-4 md:grid-cols-3">
+              {[
+                {
+                  title: "What works",
+                  tone: "border-[#84d7b0] bg-[#84d7b0]/[0.08]",
+                  items: [
+                    "A directly actionable first step on all 8 real failure logs in the final test (16 of 16 points), against 8 of 16 for the same AI model alone.",
+                    "No false alarms on 120 healthy simulated vehicles.",
+                    "The true cause kept on the table in 178 of 178 flagged faults.",
+                  ],
+                },
+                {
+                  title: "What doesn't, yet",
+                  tone: "border-border bg-[#f4f6f9]",
+                  items: [
+                    "Diagnosis on short logs: 72 of 80, against 76 for the model alone. Veyra does not beat a strong model there.",
+                    "31 of 45 inverters drawing too much current go unseen: voltage alone cannot show them.",
+                    "Physics checks are proven on simulated vehicles, not yet on a real fleet.",
+                  ],
+                },
+                {
+                  title: "The evidence",
+                  tone: "border-border bg-white",
+                  items: [
+                    "Each test was designed and sealed before it ran, with the answer keys hashed.",
+                    "Results we did not win are published next to the ones we did.",
+                    "Raw outputs, keys and grades are open to pilot partners.",
+                  ],
+                },
+              ].map((c) => (
+                <div key={c.title} className={`rounded-2xl border p-6 ${c.tone}`}>
+                  <h3 className="text-[16px] font-semibold text-foreground">{c.title}</h3>
+                  <ul className="mt-4 space-y-3">
+                    {c.items.map((x) => (
+                      <li key={x} className="text-[14.5px] leading-relaxed text-muted-foreground">{x}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
           </section>
 
           <section className="mt-20">
-            <H2 id="real-logs">1. Real public failure logs</H2>
+            <H2 id="real-logs">Real failure logs: does Veyra get an engineer to the next action?</H2>
             <P>
-              On robot failures nobody building Veyra had seen, does Veyra investigate better than a general AI agent, and
-              does it save the engineer work? No synthetic data.
+              Robot failures from public issue threads that nobody building Veyra had seen, compared against the same AI
+              model working on its own. No synthetic data.
             </P>
-            <h3 className="mt-8 text-[17px] font-semibold text-foreground">Design</h3>
+            <h3 className="mt-8 text-[17px] font-semibold text-foreground">How we tested it</h3>
             <Bullets
               items={[
                 "A separate agent collected real logs pasted in public GitHub and forum threads and sealed the answer keys (the cause established later in the thread, or unresolved). The keys were hashed before any system ran. Every case the team had touched was excluded.",
@@ -94,7 +128,7 @@ const VeyraEvaluation = () => {
                 "Three of the eight held-out cases are unresolved upstream, to test whether Veyra admits what a log cannot show.",
               ]}
             />
-            <h3 className="mt-10 text-[17px] font-semibold text-foreground">Results on the 8 held-out cases</h3>
+            <h3 className="mt-10 text-[17px] font-semibold text-foreground">The result, on the 8 cases kept back for the final test</h3>
             <Table
               head={["", "Events", "Cause vs effect", "Next check", "Evidence", "Uncertainty", "Total /80", "Actionable step /16"]}
               rows={[
@@ -112,7 +146,7 @@ const VeyraEvaluation = () => {
                 "An earlier batch of 6 cases, run before a rebuild, showed Veyra adding nothing over the model alone (55 against 57 of 60). That result is why the investigator was rebuilt.",
               ]}
             />
-            <h3 className="mt-10 text-[17px] font-semibold text-foreground">Limits</h3>
+            <h3 className="mt-10 text-[17px] font-semibold text-foreground">What this does not prove yet</h3>
             <Bullets
               items={[
                 "14 cases, and short logs (8 to 152 lines) that a general model can read at once. Long and multi-file logs, where Veyra's approach should matter more, are not yet tested.",
@@ -124,13 +158,13 @@ const VeyraEvaluation = () => {
           </section>
 
           <section className="mt-20">
-            <H2 id="physics">2. Electrical physics checks</H2>
+            <H2 id="physics">Electrical physics: are the numbers right, without false alarms?</H2>
             <P>
               Veyra computes electrical relations from a vehicle's voltages and currents. It keeps what is measured apart
               from what a model infers and from what no signal shows. This test asks whether those numbers and flags hold up
               against physics the checks do not assume.
             </P>
-            <h3 className="mt-8 text-[17px] font-semibold text-foreground">Design</h3>
+            <h3 className="mt-8 text-[17px] font-semibold text-foreground">How we tested it</h3>
             <Bullets
               items={[
                 "An independent simulator generates battery-electric vehicles with richer physics than the checks assume: power-driven motor loads, a battery with temperature- and charge-dependent behaviour, sensor offsets and noise, and timing skew between controllers.",
@@ -138,7 +172,7 @@ const VeyraEvaluation = () => {
                 "Pass criteria were written down before the run. Thresholds were set on a separate development set and frozen. The 450 held-out vehicles were run once, and the true parameters were kept from the checks.",
               ]}
             />
-            <h3 className="mt-10 text-[17px] font-semibold text-foreground">Results against the criteria set in advance</h3>
+            <h3 className="mt-10 text-[17px] font-semibold text-foreground">The result, against the bar we set before the run</h3>
             <Table
               mono={false}
               head={["Criterion", "Required", "Result"]}
@@ -154,7 +188,7 @@ const VeyraEvaluation = () => {
                 ["Faults missed", "≤ 10 %", "28 %: failed"],
               ]}
             />
-            <h3 className="mt-10 text-[17px] font-semibold text-foreground">Where it misses</h3>
+            <h3 className="mt-10 text-[17px] font-semibold text-foreground">What it misses</h3>
             <Bullets
               items={[
                 "Inverters drawing 1.5 to 2.2 times their share of current: 31 of 45 missed. A normal cable carrying double current adds only 2 to 5 mΩ of apparent resistance, inside the spread between healthy cables. Voltage alone cannot show it; per-wheel current or a vehicle's own history can.",
@@ -162,7 +196,7 @@ const VeyraEvaluation = () => {
                 "8.5 % of cases had a healthy wheel wrongly flagged with a sensor offset.",
               ]}
             />
-            <h3 className="mt-10 text-[17px] font-semibold text-foreground">Limits</h3>
+            <h3 className="mt-10 text-[17px] font-semibold text-foreground">What this does not prove yet</h3>
             <Bullets
               items={[
                 "The vehicles are simulated. The checks and the simulator share an author, so this shows the checks hold up against physics they do not assume, not that they work on a real fleet.",
@@ -172,20 +206,20 @@ const VeyraEvaluation = () => {
           </section>
 
           <section className="mt-20 rounded-2xl bg-[#f4f6f9] p-8">
-            <H2 id="claims">What we do not claim</H2>
+            <H2 id="claims">What we don&apos;t claim</H2>
             <Bullets
               items={[
                 "That Veyra diagnoses better than a strong general model on short logs. On our test it did not.",
                 "Any time or cost saving at a customer. The pilot measures that against how your team works today.",
-                "A confirmed cause. Veyra's conclusions stay probable until an engineer's reproduction or a fix that holds moves them up.",
+                "A confirmed cause. Veyra's conclusions stay probable until a record with data moves them up: a reproduction recorded with its data, or the fix shown working in data recorded after it. An engineer's word alone is shown as reported.",
               ]}
             />
-            <h3 className="mt-8 text-[17px] font-semibold text-foreground">Next tests</h3>
+            <h3 className="mt-8 text-[17px] font-semibold text-foreground">What we are proving next</h3>
             <Bullets
               items={[
-                "A fresh held-out set with long and multi-file logs, measuring time to the next action and whether the first action resolved the failure.",
-                "Real fleet data from a design partner, including engineers' accounts of how they debugged closed cases.",
-                "Investigations with and without the expected-vs-observed engine on cases with known causes, with success criteria set in advance.",
+                "Better decisions with the same information: closed cases replayed exactly as the engineers saw them at each step, with later logs and the answer sealed, comparing Veyra's next check with theirs. The harness is built; the first real fleet cases come from a design partner.",
+                "Long and multi-file logs, measuring time to the next action and whether the first action resolved the failure.",
+                "The physics checks on real vehicle data, with success criteria set in advance.",
               ]}
             />
           </section>

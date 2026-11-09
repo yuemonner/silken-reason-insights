@@ -20,8 +20,8 @@ const staticRoutes = (): Plugin => ({
     const routes: { path: string; title: string; description?: string }[] = [
       { path: "/veyra", title: "Veyra | The AI field engineer for physical AI",
         description: "Veyra finds where a machine first left its expected behaviour, says what the data cannot show, and picks the cheapest check that settles the cause." },
-      { path: "/veyra/evaluation", title: "Veyra evaluation and methodology | Silken Reason",
-        description: "How Veyra is tested: sealed evaluations on real public failure logs and blind physics checks on simulated vehicles, with the misses and limits published." },
+      { path: "/veyra/evaluation", title: "Veyra evaluation: what works, what doesn't, and the evidence | Silken Reason",
+        description: "We know what works. We know what doesn't. And we can show you the evidence: Veyra's tests on real failure logs and vehicle physics, wins and misses side by side." },
       { path: "/research", title: "Research | Silken Reason" },
       { path: "/conversations", title: "Conversations | Silken Reason" },
       { path: "/about", title: "About | Silken Reason" },

@@ -722,7 +722,7 @@ const Landing = () => {
                 to="/veyra/evaluation"
                 className="mt-6 inline-flex items-center gap-1.5 text-[14px] font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground"
               >
-                Evaluation and methodology <ArrowRight size={14} />
+                What works, what doesn&apos;t, and the evidence <ArrowRight size={14} />
               </Link>
             </motion.div>
 
