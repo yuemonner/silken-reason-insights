@@ -709,14 +709,14 @@ const Landing = () => {
         <div className="container mx-auto max-w-6xl px-6 py-24">
           <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:items-center">
             <motion.div {...enter}>
-              <p className="text-[13px] text-primary">Evidence</p>
+              <p className="text-[13px] text-primary">Real-world field validation</p>
               <h2 className="mt-3 text-[34px] font-semibold leading-[1.05] tracking-[-0.03em] text-foreground md:text-[48px]">
-                Tested blind. Misses published.
+                Two days of engineering investigation. One minute to point to the right root cause.
               </h2>
               <p className="mt-6 text-[16px] leading-relaxed text-muted-foreground">
-                On real failure logs from public issue threads, answer keys were sealed before anything ran. Veyra's
-                physics checks were run once on held-out simulated vehicles, with the pass criteria written down first.
-                The full design, the results it did not win, and the limits are published.
+                We&apos;re working with an autonomous vehicle manufacturer to evaluate Veyra on real field failures. In the
+                first case, Veyra pointed to the correct root-cause direction in under a minute: a failure that had
+                originally required two days of cross-functional engineering investigation.
               </p>
               <Link
                 to="/veyra/evaluation"
@@ -727,40 +727,40 @@ const Landing = () => {
             </motion.div>
 
             <motion.div {...enter} className="rounded-2xl bg-background p-6 shadow-[0_1px_0_rgba(15,23,42,0.06),0_20px_60px_-30px_rgba(15,23,42,0.25)] sm:p-8">
-              <p className="text-[14px] font-medium text-foreground">A next step an engineer can act on right away</p>
-              <p className="mt-1 text-[13px] text-muted-foreground">8 held-out real failure logs, graded blind, out of 16 points</p>
-              <div className="mt-6 space-y-4">
+              <p className="text-[14px] font-medium text-foreground">The first field case</p>
+              <p className="mt-1 text-[13px] text-muted-foreground">A battery shutdown on an autonomous vehicle, from the vehicle&apos;s own logs</p>
+              <div className="mt-6 grid gap-6 sm:grid-cols-3">
                 {[
-                  { label: "Veyra", v: 16, strong: true },
-                  { label: "Same AI model, working alone", v: 8, strong: false },
-                ].map((b) => (
-                  <div key={b.label}>
-                    <div className="flex items-baseline justify-between text-[13px]">
-                      <span className={b.strong ? "font-medium text-foreground" : "text-muted-foreground"}>{b.label}</span>
-                      <span className={`font-mono ${b.strong ? "text-foreground" : "text-muted-foreground"}`}>{b.v}/16</span>
-                    </div>
-                    <div className="mt-1.5 h-3 overflow-hidden rounded-full bg-[#e7ebf1]">
-                      <motion.div
-                        initial={reduce ? false : { width: 0 }}
-                        whileInView={{ width: `${(b.v / 16) * 100}%` }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.9, ease: "easeOut" }}
-                        style={reduce ? { width: `${(b.v / 16) * 100}%` } : undefined}
-                        className={`h-full rounded-full ${b.strong ? "bg-[#0a1424]" : "bg-[#b9c3d1]"}`}
-                      />
-                    </div>
+                  { v: "~2 days", label: "Original customer investigation", strong: false },
+                  { v: "< 1 min", label: "Veyra automated analysis", strong: true },
+                  { v: "40 pp", label: "Unexplained SOC drop identified", strong: true },
+                ].map((m) => (
+                  <div key={m.label}>
+                    <p className={`font-mono text-[28px] font-semibold leading-none tracking-[-0.02em] ${m.strong ? "text-foreground" : "text-muted-foreground"}`}>{m.v}</p>
+                    <p className="mt-2 text-[13px] leading-relaxed text-muted-foreground">{m.label}</p>
                   </div>
                 ))}
               </div>
-              <div className="mt-8 grid gap-6 border-t border-border pt-6 sm:grid-cols-2">
-                <div>
-                  <p className="font-mono text-[22px] font-semibold text-foreground">0 of 120</p>
-                  <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">healthy simulated vehicles wrongly flagged by the physics checks</p>
-                </div>
-                <div>
-                  <p className="text-[14px] font-medium text-foreground">Every claim points to a log line</p>
-                  <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">Quotes and line numbers are checked mechanically. A wrong citation is rejected.</p>
-                </div>
+              <div className="mt-8 space-y-5 border-t border-border pt-6">
+                {[
+                  {
+                    t: "The investigation",
+                    b: "Veyra identified an SOC collapse that measured current could not explain, kept SOC estimation drift among the leading hypotheses, and put the charge history since the last full charge first in line to check. The manufacturer\u2019s subsequent findings confirmed SOC estimation drift associated with prolonged operation without a full charge.",
+                  },
+                  {
+                    t: "Beyond the reported failure",
+                    b: "The investigation also reconstructed repeated high-voltage re-energization attempts and deep-discharge events, exposing additional system behaviour for engineering review.",
+                  },
+                  {
+                    t: "Why it matters",
+                    b: "Veyra connects physical evidence, competing explanations and decisive next checks, and makes clear what the available data cannot prove.",
+                  },
+                ].map((x) => (
+                  <div key={x.t}>
+                    <p className="text-[14px] font-medium text-foreground">{x.t}</p>
+                    <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">{x.b}</p>
+                  </div>
+                ))}
               </div>
             </motion.div>
           </div>
