@@ -496,6 +496,13 @@ const horizons = [
   { when: "Then", state: "Research", title: "Carries verified knowledge between machines", body: "A failure confirmed on one machine, recognised on another with different error codes, so new machines and new models need fewer tries to work." },
 ];
 
+const methodLoop = [
+  { title: "Real field validation", tag: "First case", body: "Veyra investigates a real failure from the customer's own logs, and is then checked against the cause their engineers confirmed." },
+  { title: "Expert method extraction", tag: "From that case", body: "Where experienced engineers reasoned further, their method is written down step by step: trace restarts and control states, ask which signals are truly independent, check whether a load could bypass the sensor." },
+  { title: "Reusable engineering intelligence", tag: "Built into Veyra", body: "Each method becomes a system-level check that runs on every new case, linking physical evidence, control sequences, the customer's own rules and the next engineering decision." },
+  { title: "New-case benchmarking", tag: "Every upgrade", body: "Each upgrade is tested on cases it has not seen, with pass criteria fixed before the run. A method stays only if it never argues against the true cause." },
+];
+
 /* A narrowing fault space: 5 open areas collapse as experiments land. Illustrative of the goal, labelled as such. */
 const Narrowing = () => {
   const cols = [5, 3, 1];
@@ -775,6 +782,42 @@ const Landing = () => {
               <img src="/badges/nvidia-inception-program-badge-rgb-for-screen.svg" alt="NVIDIA Inception Program" className="h-auto w-[130px]" />
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* METHOD */}
+      <section id="method" className="scroll-mt-16 overflow-hidden bg-[#0a1424] text-white">
+        <div className="container mx-auto max-w-6xl px-6 py-24 md:py-28">
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:items-end">
+            <motion.div {...enter}>
+              <p className="text-[13px] text-[#84d7b0]">How Veyra improves</p>
+              <h2 className="mt-3 text-[34px] font-semibold leading-[1.05] tracking-[-0.03em] md:text-[48px]">
+                Engineering expertise, made executable.
+              </h2>
+            </motion.div>
+            <motion.p {...enter} className="text-[16px] leading-relaxed text-white/65">
+              Veyra translates expert investigation methods into reusable system-level checks, connecting physical
+              evidence, control sequences, customer-specific rules and engineering decisions.
+            </motion.p>
+          </div>
+
+          <ol className="relative mt-16 grid gap-10 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
+            <span aria-hidden className="absolute left-0 right-0 top-[7px] hidden h-px bg-gradient-to-r from-[#84d7b0] via-[#84d7b0]/40 to-white/10 lg:block" />
+            {methodLoop.map((m, i) => (
+              <motion.li key={m.title} {...enter} transition={{ duration: 0.5, delay: reduce ? 0 : i * 0.12 }} className="relative">
+                <span className={`relative z-10 block h-[15px] w-[15px] rounded-full border-2 ${i < 3 ? "border-[#84d7b0] bg-[#84d7b0]" : "border-[#84d7b0] bg-[#0a1424]"}`} />
+                <div className="mt-5 flex items-baseline gap-3">
+                  <span className="font-mono text-[13px] text-white/40">{i + 1}</span>
+                  <span className="text-[12px] text-[#84d7b0]">{m.tag}</span>
+                </div>
+                <h3 className="mt-2 text-[20px] font-semibold leading-snug">{m.title}</h3>
+                <p className="mt-2 text-[14px] leading-relaxed text-white/60">{m.body}</p>
+              </motion.li>
+            ))}
+          </ol>
+          <motion.p {...enter} className="mt-12 border-t border-white/[0.07] pt-6 text-[14px] text-white/45">
+            Each new field case starts the loop again, and what it teaches is tested before Veyra keeps it.
+          </motion.p>
         </div>
       </section>
 
