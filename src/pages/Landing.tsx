@@ -478,7 +478,6 @@ export const VeyraFooter = () => (
           {[
             ["/veyra/field-case", "Case study"],
             ["/veyra/technology", "Technology"],
-            ["/about", "Company"],
             ["/contact", "Contact"],
           ].map(([to, l]) => (
             <li key={to}><Link to={to} className="text-[#667085] transition-colors hover:text-[#0b1220]">{l}</Link></li>
