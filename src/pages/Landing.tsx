@@ -554,12 +554,50 @@ const SUB = "text-[#475467]";
 const EYEBROW = "text-[13px] font-medium text-[#3d3ac8]";
 const H2 = "mt-3 text-[32px] font-semibold leading-[1.08] tracking-[-0.03em] text-[#0b1220] md:text-[44px]";
 
-const proof = [
-  { v: "16 s", k: "to surface the decisive SOC inconsistency on a real field failure" },
-  { v: "7 min", k: "for the full AI investigation, with 33 engineering tool calls" },
+const TWO_DAYS = 2 * 86400;
+const proof: { v: string; k: string; muted?: boolean; drop?: number; count?: number }[] = [
+  { v: "16 s", k: "to surface the decisive SOC inconsistency on a real field failure", drop: 16 },
+  { v: "7 min", k: "for the full AI investigation, with 33 engineering tool calls", drop: 7 * 60 },
   { v: "≈ 2 days", k: "the manufacturer's own investigation, including its battery supplier", muted: true },
-  { v: "4 of 4", k: "findings consistent with what the manufacturer later confirmed" },
+  { v: "4 of 4", k: "findings consistent with what the manufacturer later confirmed", count: 4 },
 ];
+
+/* A duration shown falling from the manufacturer's two days to Veyra's time, on a log scale so it passes through
+   days, hours and minutes on the way. Ends on the exact value; reduced motion shows the value at once. */
+const fmtDuration = (sec: number) =>
+  sec >= 1.5 * 86400 ? `${(sec / 86400).toFixed(1).replace(/\.0$/, "")} days` : sec >= 5400 ? `${Math.round(sec / 3600)} h` : sec >= 90 ? `${Math.round(sec / 60)} min` : `${Math.round(sec)} s`;
+
+const useProgress = (delay: number, duration: number) => {
+  const reduce = useReducedMotion();
+  const [p, setP] = useState(reduce ? 1 : 0);
+  useEffect(() => {
+    if (reduce) { setP(1); return; }
+    let raf = 0;
+    const t0 = performance.now() + delay;
+    const tick = (now: number) => {
+      const x = Math.min(1, Math.max(0, (now - t0) / duration));
+      setP(x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+      if (x < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [reduce, delay, duration]);
+  return p;
+};
+
+const ProofValue = ({ m, i }: { m: (typeof proof)[number]; i: number }) => {
+  const p = useProgress(700 + i * 200, 2600);
+  if (m.drop) {
+    const v = Math.exp(Math.log(TWO_DAYS) + (Math.log(m.drop) - Math.log(TWO_DAYS)) * p);
+    return (
+      <span className={p < 1 ? "text-[#98a2b3]" : "text-[#0b1220] transition-colors duration-500"}>
+        {p < 1 ? fmtDuration(v) : m.v}
+      </span>
+    );
+  }
+  if (m.count) return <span>{p < 1 ? `${Math.round(m.count * p)} of ${m.count}` : m.v}</span>;
+  return <span>{m.v}</span>;
+};
 
 const systemLevel = [
   ["Checks the complaint against the record", "Reported: could not drive. Recorded: no drive request at all. The question became why a parked vehicle shut down."],
@@ -657,9 +695,11 @@ const Landing = () => {
               transition={{ delay: 0.1, duration: 0.5 }}
               className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-[#e4e7ec] bg-[#e4e7ec]"
             >
-              {proof.map((m) => (
+              {proof.map((m, i) => (
                 <div key={m.v} className="bg-white p-4">
-                  <dt className={`text-[26px] font-semibold leading-none tracking-[-0.03em] tabular-nums ${m.muted ? "text-[#98a2b3]" : "text-[#0b1220]"}`}>{m.v}</dt>
+                  <dt className={`text-[26px] font-semibold leading-none tracking-[-0.03em] tabular-nums ${m.muted ? "text-[#98a2b3]" : "text-[#0b1220]"}`} aria-label={m.v}>
+                    <ProofValue m={m} i={i} />
+                  </dt>
                   <dd className="mt-2 text-[12.5px] leading-snug text-[#475467]">{m.k}</dd>
                 </div>
               ))}
