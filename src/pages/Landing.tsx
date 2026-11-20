@@ -1,5 +1,5 @@
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion, AnimatePresence, useReducedMotion, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Layout from "@/components/Layout";
@@ -567,11 +567,12 @@ const proof: { v: string; k: string; muted?: boolean; drop?: number; count?: num
 const fmtDuration = (sec: number) =>
   sec >= 1.5 * 86400 ? `${(sec / 86400).toFixed(1).replace(/\.0$/, "")} days` : sec >= 5400 ? `${Math.round(sec / 3600)} h` : sec >= 90 ? `${Math.round(sec / 60)} min` : `${Math.round(sec)} s`;
 
-const useProgress = (delay: number, duration: number) => {
+const useProgress = (delay: number, duration: number, go: boolean) => {
   const reduce = useReducedMotion();
   const [p, setP] = useState(reduce ? 1 : 0);
   useEffect(() => {
     if (reduce) { setP(1); return; }
+    if (!go) return;
     let raf = 0;
     const t0 = performance.now() + delay;
     const tick = (now: number) => {
@@ -581,12 +582,12 @@ const useProgress = (delay: number, duration: number) => {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [reduce, delay, duration]);
+  }, [reduce, delay, duration, go]);
   return p;
 };
 
-const ProofValue = ({ m, i }: { m: (typeof proof)[number]; i: number }) => {
-  const p = useProgress(700 + i * 200, 2600);
+const ProofValue = ({ m, i, go }: { m: (typeof proof)[number]; i: number; go: boolean }) => {
+  const p = useProgress(300 + i * 200, 2600, go);
   if (m.drop) {
     const v = Math.exp(Math.log(TWO_DAYS) + (Math.log(m.drop) - Math.log(TWO_DAYS)) * p);
     return (
@@ -637,6 +638,8 @@ const security = [
 const Landing = () => {
   const reduce = useReducedMotion();
   const enter = enterProps(reduce);
+  const proofRef = useRef<HTMLDListElement | null>(null);
+  const proofInView = useInView(proofRef, { once: true, amount: 0.6 });
   useEffect(() => {
     document.title = "Veyra | The engineering intelligence for physical AI";
   }, []);
@@ -655,23 +658,23 @@ const Landing = () => {
             WebkitMaskImage: "linear-gradient(to bottom, black, transparent 85%)",
           }}
         />
-        <div className="container mx-auto max-w-6xl px-6 pb-14 pt-14 md:pt-20">
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,0.75fr)] lg:items-end">
+        <div className="container mx-auto max-w-6xl px-6 pb-14 pt-10 md:pt-14">
+          <div>
             <motion.div initial={reduce ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
               <p className="inline-flex items-center gap-2 rounded-full border border-[#e4e7ec] bg-white px-3 py-1 text-[12.5px] text-[#475467]">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#12b76a]" /> Working on real field failures with an autonomous-vehicle manufacturer
               </p>
-              <h1 className={`mt-6 text-[42px] font-semibold leading-[1.0] tracking-[-0.045em] md:text-[64px] ${INK}`}>
+              <h1 className={`mt-5 max-w-4xl text-[36px] font-semibold leading-[1.02] tracking-[-0.04em] md:text-[54px] ${INK}`}>
                 The engineering intelligence for physical AI.
               </h1>
-              <p className={`mt-6 text-[21px] font-medium leading-snug tracking-[-0.01em] md:text-[23px] ${INK}`}>
+              <p className={`mt-4 text-[19px] font-medium leading-snug tracking-[-0.01em] md:text-[22px] ${INK}`}>
                 When machines behave unexpectedly, find out why.
               </p>
-              <p className={`mt-3 max-w-2xl text-[16.5px] leading-relaxed ${SUB}`}>
+              <p className={`mt-2 max-w-3xl text-[16px] leading-relaxed ${SUB}`}>
                 Veyra investigates failures across the entire machine by connecting software, controls, electrical systems
                 and physical behavior to reconstruct what happened, test explanations and identify the next decisive check.
               </p>
-              <div className="mt-8 flex flex-wrap items-center gap-3">
+              <div className="mt-6 flex flex-wrap items-center gap-3">
                 <Link
                   to="/contact"
                   className="inline-flex items-center gap-1.5 rounded-lg bg-[#3d3ac8] px-5 py-3 text-[14px] font-semibold text-white shadow-sm transition-colors hover:bg-[#2f2ca6] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3d3ac8]"
@@ -690,15 +693,16 @@ const Landing = () => {
             </motion.div>
 
             <motion.dl
+              ref={proofRef}
               initial={reduce ? false : { opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.5 }}
-              className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-[#e4e7ec] bg-[#e4e7ec]"
+              className="mt-9 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-[#e4e7ec] bg-[#e4e7ec] md:grid-cols-4"
             >
               {proof.map((m, i) => (
-                <div key={m.v} className="bg-white p-4">
-                  <dt className={`text-[26px] font-semibold leading-none tracking-[-0.03em] tabular-nums ${m.muted ? "text-[#98a2b3]" : "text-[#0b1220]"}`} aria-label={m.v}>
-                    <ProofValue m={m} i={i} />
+                <div key={m.v} className="bg-white px-4 py-3.5">
+                  <dt className={`text-[24px] font-semibold leading-none tracking-[-0.03em] tabular-nums ${m.muted ? "text-[#98a2b3]" : "text-[#0b1220]"}`} aria-label={m.v}>
+                    <ProofValue m={m} i={i} go={proofInView} />
                   </dt>
                   <dd className="mt-2 text-[12.5px] leading-snug text-[#475467]">{m.k}</dd>
                 </div>
