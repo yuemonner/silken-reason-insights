@@ -50,6 +50,21 @@ const physics = [
   ["Said what the logs cannot separate", "SOC drift, low usable capacity and a current sensor reading low all remained possible. The agent tested its own predictions, weakened a hidden load and sensing faults, and named the check that would separate the rest."],
 ];
 
+const hypotheses: [string, "open" | "weakened" | "not enough alone", string][] = [
+  ["SOC estimate drifted", "open", "The displayed charge overstated what was available: a 40-point drop while 0.08 Ah flowed. Confirming it needs the charge and calibration history."],
+  ["Usable capacity low", "open", "Would also leave the pack nearly empty while showing charge. Needs an independently metered charge record."],
+  ["Current sensor reads low", "open", "A scale error would hide real discharge from the charge count. Needs an independent current measurement."],
+  ["Load bypassing the current sensor", "weakened", "At 6 of 9 DC/DC transitions the measured current stepped with the matching voltage step: that load passes the sensor."],
+  ["Cell sensing or harness fault", "weakened", "A smooth decline, a pack-wide fall and physical rest recovery point against it. No inspection has excluded it."],
+  ["Contactor, VCU or insulation event first", "weakened", "The recorded order runs from cell under-voltage to contactor opening, not the reverse."],
+  ["Weak cell or imbalance", "not enough alone", "The highest cell was depleted too. The weak cell sets when the protection tripped, not the shortfall."],
+];
+const hypTone = {
+  open: "bg-[#eeedfc] text-[#3d3ac8]",
+  weakened: "bg-[#fef0c7] text-[#93370d]",
+  "not enough alone": "bg-[#f2f4f7] text-[#475467]",
+} as const;
+
 const VeyraFieldCase = () => {
   useEffect(() => {
     document.title = "Case study: a high-voltage loss on an autonomous vehicle | Veyra";
@@ -131,6 +146,26 @@ const VeyraFieldCase = () => {
                 </div>
               ))}
             </div>
+          </Section>
+
+          <Section id="hypotheses" kicker="Competing explanations" title="Seven explanations, held to the record">
+            <P>
+              Veyra kept every explanation that could produce the symptom and weighed what each would physically require.
+              The logs alone could not separate three of them, and Veyra said so, naming the check that would.
+            </P>
+            <ul className="mt-6 divide-y divide-[#eaecf0] overflow-hidden rounded-xl border border-[#e4e7ec]">
+              {hypotheses.map(([t, st, d]) => (
+                <li key={t} className="grid gap-2 p-4 sm:grid-cols-[minmax(0,0.36fr)_8.5rem_minmax(0,1fr)] sm:items-start sm:gap-4">
+                  <p className={`text-[14.5px] font-medium ${INK}`}>{t}</p>
+                  <span className={`w-fit rounded-full px-2.5 py-0.5 text-[12px] font-medium ${hypTone[st]}`}>{st}</span>
+                  <p className="text-[13.5px] leading-relaxed text-[#475467]">{d}</p>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-4 text-[14px] leading-relaxed text-[#475467]">
+              <span className={`font-medium ${INK}`}>Next decisive check, read-only:</span> the BMS calibration history and charger
+              log since the last full charge. This is where the manufacturer found the cause.
+            </p>
           </Section>
 
           <Section id="result" kicker="The result" title="Veyra's findings against what the manufacturer confirmed">

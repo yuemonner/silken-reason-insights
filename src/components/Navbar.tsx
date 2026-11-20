@@ -11,10 +11,11 @@ const labLinks = [
 ];
 
 const productLinks = [
-  { href: "/veyra#today", label: "Product" },
-  { href: "/veyra/field-case", label: "Case study" },
+  { href: "/veyra", label: "Product" },
+  { href: "/veyra/field-case", label: "Case Study" },
+  { href: "/veyra/technology", label: "Technology" },
   { href: "/veyra/evaluation", label: "Evaluation" },
-  { href: "/contact", label: "Contact" },
+  { href: "/about", label: "Company" },
 ];
 
 const Navbar = () => {
@@ -40,7 +41,7 @@ const Navbar = () => {
         </a>
       );
     }
-    const active = location.pathname === href || (href !== "/" && location.pathname.startsWith(href));
+    const active = location.pathname === href || (href !== "/" && href !== "/veyra" && location.pathname.startsWith(href));
     const activeClass = isVeyra ? "text-foreground" : "text-[#053f31]";
     return (
       <Link

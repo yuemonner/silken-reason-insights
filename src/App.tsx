@@ -8,6 +8,7 @@ import LabHome from "./pages/LabHome";
 import Landing from "./pages/Landing";
 import VeyraEvaluation from "./pages/VeyraEvaluation";
 import VeyraFieldCase from "./pages/VeyraFieldCase";
+import VeyraTechnology from "./pages/VeyraTechnology";
 import Research from "./pages/Research";
 import Conversations from "./pages/Conversations";
 import About from "./pages/About";
@@ -40,6 +41,7 @@ const App = () => (
           <Route path="/veyra" element={<Landing />} />
           <Route path="/veyra/evaluation" element={<VeyraEvaluation />} />
           <Route path="/veyra/field-case" element={<VeyraFieldCase />} />
+          <Route path="/veyra/technology" element={<VeyraTechnology />} />
           <Route path="/research" element={<Research />} />
           <Route path="/conversations" element={<Conversations />} />
           <Route path="/about" element={<About />} />
