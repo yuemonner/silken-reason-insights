@@ -10,7 +10,7 @@ const ProductBar = () => {
       <div className="container mx-auto flex max-w-6xl items-center justify-center gap-3 px-6 py-2.5 text-center text-[13px]">
         <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#84d7b0]" />
         <span className="text-white/80">
-          <span className="font-medium text-white">Veyra</span> is live: an AI field engineer for physical AI, tested on real failure logs.
+          <span className="font-medium text-white">Veyra</span> is live: the engineering intelligence for physical AI, tested on real field failures.
         </span>
         <span className="hidden items-center gap-1 text-[#84d7b0] sm:inline-flex">
           See it <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />

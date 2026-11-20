@@ -579,7 +579,7 @@ const Landing = () => {
   const reduce = useReducedMotion();
   const enter = enterProps(reduce);
   useEffect(() => {
-    document.title = "Veyra | The AI field engineer for physical AI";
+    document.title = "Veyra | The engineering intelligence for physical AI";
   }, []);
 
   return (
@@ -609,11 +609,14 @@ const Landing = () => {
             >
               <p className="text-[13px] text-white/50">Veyra, by Silken Reason</p>
               <h1 className="mt-5 text-[42px] font-semibold leading-[0.98] tracking-[-0.04em] md:text-[68px] lg:text-[80px]">
-                The AI field engineer for physical AI.
+                The engineering intelligence for physical AI.
               </h1>
-              <p className="mx-auto mt-7 max-w-2xl text-[17px] leading-relaxed text-white/65 md:text-[18px]">
-                Veyra knows what your machine should have done, finds the moment it stopped doing it, and picks the
-                cheapest check that settles why. When the data cannot tell, it says so.
+              <p className="mx-auto mt-7 max-w-2xl text-[21px] font-medium leading-snug tracking-[-0.01em] text-white md:text-[24px]">
+                When machines behave unexpectedly, find out why.
+              </p>
+              <p className="mx-auto mt-4 max-w-2xl text-[17px] leading-relaxed text-white/65 md:text-[18px]">
+                Veyra investigates failures across the entire machine by connecting software, controls, electrical systems
+                and physical behavior to reconstruct what happened, test explanations and identify the next decisive check.
               </p>
               <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
                 <a
@@ -640,6 +643,24 @@ const Landing = () => {
               className="mt-12 md:mt-14"
             >
               <HeroConsole />
+            </motion.div>
+          </div>
+        </section>
+
+        {/* TECHNICAL DIFFERENTIATION */}
+        <section id="differentiation" className="scroll-mt-16 border-t border-white/[0.07]">
+          <div className="container mx-auto max-w-6xl px-6 py-24 md:py-28">
+            <motion.div {...enter} className="max-w-4xl">
+              <p className="text-[13px] text-[#84d7b0]">Technical differentiation</p>
+              <h2 className="mt-3 text-[34px] font-semibold leading-[1.05] tracking-[-0.03em] md:text-[52px]">
+                System-level investigation.
+                <br />
+                <span className="text-white/60">Physics-grounded reasoning.</span>
+              </h2>
+              <p className="mt-6 max-w-3xl text-[17px] leading-relaxed text-white/65 md:text-[18px]">
+                Not just anomalies in logs. Veyra follows causal sequences across subsystems, checks explanations against
+                physical constraints, and makes uncertainty explicit when evidence cannot distinguish competing causes.
+              </p>
             </motion.div>
           </div>
         </section>

@@ -29,7 +29,7 @@ const VeyraCard = () => (
         <span className="text-[12px] text-white/40">by Silken Reason</span>
       </div>
       <p className="mt-6 text-[52px] font-semibold leading-none tracking-[-0.04em] sm:text-[64px]">Veyra</p>
-      <p className="mt-3 text-[19px] font-medium leading-snug text-white/90">The AI field engineer for physical AI.</p>
+      <p className="mt-3 text-[19px] font-medium leading-snug text-white/90">The engineering intelligence for physical AI.</p>
       <p className="mt-3 max-w-md text-[14px] leading-relaxed text-white/60">
         Helps engineers investigate machine failures from real logs and find the next decisive check.
       </p>
