@@ -821,7 +821,7 @@ const Landing = () => {
             <Loop />
           </motion.div>
           <p className="mt-4 text-[13px] text-[#667085]">
-            Read-only. No control path into your machines. Example: a real field failure on an autonomous vehicle (real data, not public, anonymised).
+            Read-only. No control path into your machines.
           </p>
         </div>
       </section>
