@@ -191,14 +191,11 @@ const VeyraTechnology = () => {
             <div className="flex flex-col gap-6 rounded-2xl bg-[#0b1220] p-8 text-white md:flex-row md:items-center md:justify-between">
               <div>
                 <p className="text-[20px] font-semibold">See it on a real case, or test it on yours.</p>
-                <p className="mt-1 text-[14px] text-white/60">The case study shows every step. The evaluation shows what has been tested, and the misses.</p>
+                <p className="mt-1 text-[14px] text-white/60">The case study shows every step of a real investigation.</p>
               </div>
               <div className="flex flex-wrap gap-3">
                 <Link to="/veyra/field-case" className="inline-flex items-center gap-1.5 rounded-lg bg-white px-4 py-2.5 text-[14px] font-semibold text-[#0b1220] hover:bg-white/90">
                   Case study <ArrowRight size={14} />
-                </Link>
-                <Link to="/veyra/evaluation" className="inline-flex items-center gap-1.5 rounded-lg border border-white/25 px-4 py-2.5 text-[14px] font-medium text-white hover:bg-white/10">
-                  Evaluation
                 </Link>
                 <Link to="/contact" className="inline-flex items-center gap-1.5 rounded-lg bg-[#3d3ac8] px-4 py-2.5 text-[14px] font-semibold text-white hover:bg-[#4f4bdc]">
                   Book a technical briefing

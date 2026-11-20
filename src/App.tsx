@@ -2,11 +2,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import LabHome from "./pages/LabHome";
 import Landing from "./pages/Landing";
-import VeyraEvaluation from "./pages/VeyraEvaluation";
 import VeyraFieldCase from "./pages/VeyraFieldCase";
 import VeyraTechnology from "./pages/VeyraTechnology";
 import Research from "./pages/Research";
@@ -39,7 +38,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<LabHome />} />
           <Route path="/veyra" element={<Landing />} />
-          <Route path="/veyra/evaluation" element={<VeyraEvaluation />} />
+          <Route path="/veyra/evaluation" element={<Navigate to="/veyra" replace />} />
           <Route path="/veyra/field-case" element={<VeyraFieldCase />} />
           <Route path="/veyra/technology" element={<VeyraTechnology />} />
           <Route path="/research" element={<Research />} />

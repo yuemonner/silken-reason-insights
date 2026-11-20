@@ -297,9 +297,9 @@ const Landing = () => {
                 ))}
               </ul>
               <p className="mt-3 text-[12.5px] leading-relaxed text-[#667085]">
-                How far Veyra goes differs by domain.{" "}
-                <Link to="/veyra/evaluation" className="font-medium text-[#3d3ac8] hover:underline">The evaluation</Link> shows
-                where it is strong and where it is not yet.
+                How far Veyra goes differs by domain. We walk through results by domain, including where it is not yet
+                strong, in a{" "}
+                <Link to="/contact" className="font-medium text-[#3d3ac8] hover:underline">technical briefing</Link>.
               </p>
             </motion.div>
           </div>
@@ -365,11 +365,10 @@ const Landing = () => {
             <p className={EYEBROW}>Evidence</p>
             <h2 className={H2}>Choose your depth.</h2>
           </motion.div>
-          <div className="mt-10 grid gap-4 md:grid-cols-3">
+          <div className="mt-10 grid gap-4 md:grid-cols-2">
             {[
               { to: "/veyra/field-case", t: "Case study", d: "A real field failure on an autonomous vehicle: what Veyra found, step by step, against what the manufacturer confirmed." },
               { to: "/veyra/technology", t: "Technology", d: "How the agent, the engine and the system-level and physics methods work together, and how your data is handled." },
-              { to: "/veyra/evaluation", t: "Evaluation", d: "Every capability tested against criteria fixed before the run, with the misses published next to the wins." },
             ].map((c) => (
               <motion.div key={c.t} {...enter}>
                 <Link to={c.to} className="group flex h-full flex-col rounded-xl border border-[#e4e7ec] bg-white p-6 transition-colors hover:border-[#c7c6f5]">
@@ -479,7 +478,6 @@ export const VeyraFooter = () => (
           {[
             ["/veyra/field-case", "Case study"],
             ["/veyra/technology", "Technology"],
-            ["/veyra/evaluation", "Evaluation"],
             ["/about", "Company"],
             ["/contact", "Contact"],
           ].map(([to, l]) => (

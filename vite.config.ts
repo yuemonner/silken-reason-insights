@@ -18,10 +18,12 @@ const staticRoutes = (): Plugin => ({
     const dist = path.resolve(__dirname, "dist");
     const html = fs.readFileSync(path.join(dist, "index.html"), "utf8");
     const routes: { path: string; title: string; description?: string }[] = [
-      { path: "/veyra", title: "Veyra | The AI field engineer for physical AI",
-        description: "Veyra finds where a machine first left its expected behaviour, says what the data cannot show, and picks the cheapest check that settles the cause." },
-      { path: "/veyra/evaluation", title: "Veyra evaluation: what works, what doesn't, and the evidence | Silken Reason",
-        description: "We know what works. We know what doesn't. And we can show you the evidence: Veyra's tests on real failure logs and vehicle physics, wins and misses side by side." },
+      { path: "/veyra", title: "Veyra | The engineering intelligence for physical AI",
+        description: "When machines behave unexpectedly, find out why. Veyra connects software, controls, electrical systems and physical behavior to reconstruct what happened, test explanations and identify the next decisive check." },
+      { path: "/veyra/field-case", title: "Case study: a high-voltage loss on an autonomous vehicle | Veyra",
+        description: "A real field failure, investigated from the vehicle's own logs: 16 seconds to the decisive inconsistency, a full AI investigation in 7 minutes, against about two days for the manufacturer." },
+      { path: "/veyra/technology", title: "Technology | Veyra",
+        description: "How Veyra works: an AI agent that investigates, an engine that does the engineering, verification that holds every claim to the data, and how your data is handled." },
       { path: "/research", title: "Research | Silken Reason" },
       { path: "/conversations", title: "Conversations | Silken Reason" },
       { path: "/about", title: "About | Silken Reason" },
