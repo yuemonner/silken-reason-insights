@@ -12,7 +12,8 @@ const labLinks = [
 
 const productLinks = [
   { href: "/veyra#today", label: "Product" },
-  { href: "/veyra#evidence", label: "Evidence" },
+  { href: "/veyra/field-case", label: "Case study" },
+  { href: "/veyra/evaluation", label: "Evaluation" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -22,7 +23,7 @@ const Navbar = () => {
   const isVeyra = location.pathname.startsWith("/veyra") || location.pathname === "/engineering" || location.pathname === "/contact";
   const navLinks = isVeyra ? productLinks : labLinks;
   const cta = isVeyra
-    ? { href: "/contact", label: "Request Pilot" }
+    ? { href: "/contact", label: "Book a briefing" }
     : { href: "/veyra", label: "Explore Veyra" };
 
   const renderLink = (href: string, label: string, onClick?: () => void) => {
@@ -57,7 +58,7 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-md">
       <div className="container mx-auto flex items-center justify-between h-16 px-6">
         <Link to={isVeyra ? "/veyra" : "/"} className="flex items-center gap-2 group">
-          <span className={`inline-block h-2.5 w-2.5 rounded-sm transition-colors ${isVeyra ? "bg-foreground group-hover:bg-primary" : "bg-[#053f31]"}`} />
+          <span className={`inline-block h-2.5 w-2.5 rounded-sm transition-colors ${isVeyra ? "bg-[#3d3ac8]" : "bg-[#053f31]"}`} />
           <span className={`text-[15px] font-semibold tracking-tight ${isVeyra ? "text-foreground" : "text-[#053f31]"}`}>{isVeyra ? "Veyra" : "Silken Reason"}</span>
           <span className="ml-2 text-[11px] text-muted-foreground hidden sm:inline">{isVeyra ? "by Silken Reason" : "Independent Research Lab"}</span>
         </Link>
@@ -69,7 +70,7 @@ const Navbar = () => {
         <div className="hidden md:flex items-center">
           <Link
             to={cta.href}
-            className="inline-flex items-center gap-1.5 rounded-full bg-foreground text-background px-4 py-2 text-[12px] font-medium hover:bg-foreground/90 transition-colors"
+            className={`inline-flex items-center gap-1.5 px-4 py-2 text-[12px] font-medium transition-colors ${isVeyra ? "rounded-lg bg-[#3d3ac8] text-white hover:bg-[#2f2ca6]" : "rounded-full bg-foreground text-background hover:bg-foreground/90"}`}
           >
             {cta.label}
             <ArrowRight size={13} />

@@ -40,7 +40,7 @@ const round2: { area: string; status: Status }[] = [
 ];
 
 const chip: Record<Status, string> = {
-  leading: "bg-[#84d7b0] text-[#062016]",
+  leading: "bg-[#a5b4fc] text-[#0b1220]",
   open: "text-[#bcdcff] ring-1 ring-inset ring-[#93c5fd]/45",
   weakened: "text-white/50 ring-1 ring-inset ring-white/15",
   "ruled out": "text-white/30 ring-1 ring-inset ring-white/10 line-through",
@@ -48,7 +48,7 @@ const chip: Record<Status, string> = {
 
 const toneStyle: Record<Tone, string> = {
   routine: "text-white/40",
-  cause: "text-[#84d7b0] bg-[#84d7b0]/[0.08]",
+  cause: "text-[#a5b4fc] bg-[#a5b4fc]/[0.08]",
   effect: "text-[#f2c46d]/90",
 };
 
@@ -77,8 +77,8 @@ const Console = () => {
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-white/[0.07] px-4 py-3 sm:px-5">
         <span className="flex items-center gap-2 text-[12px] text-white/70">
           <span className="relative flex h-2 w-2">
-            <span className={`absolute inline-flex h-full w-full rounded-full bg-[#84d7b0] ${stage < 5 && !reduce ? "animate-ping opacity-60" : "opacity-0"}`} />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#84d7b0]" />
+            <span className={`absolute inline-flex h-full w-full rounded-full bg-[#a5b4fc] ${stage < 5 && !reduce ? "animate-ping opacity-60" : "opacity-0"}`} />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#a5b4fc]" />
           </span>
           {stage < 5 ? "Investigating" : "Updated from the engineer's result"}
         </span>
@@ -88,7 +88,7 @@ const Console = () => {
             Public log
           </a>
           {!reduce && (
-            <button onClick={replay} className="text-white/45 hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#84d7b0]">
+            <button onClick={replay} className="text-white/45 hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#a5b4fc]">
               Replay
             </button>
           )}
@@ -118,7 +118,7 @@ const Console = () => {
             animate={stage >= 2 ? { opacity: 1 } : {}}
             className="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-[11.5px]"
           >
-            <span className="text-[#84d7b0]">Earliest abnormal data</span>
+            <span className="text-[#a5b4fc]">Earliest abnormal data</span>
             <span className="text-[#f2c46d]/90">Consequences</span>
             <span className="text-white/40">Routine</span>
           </motion.div>
@@ -179,7 +179,7 @@ const Console = () => {
                   ).map((b) => (
                     <li
                       key={b}
-                      className={`text-[12px] leading-snug ${stage === 4 && b === "Buffer is valid at write, zeros on wire" ? "text-[#84d7b0]" : "text-white/55"}`}
+                      className={`text-[12px] leading-snug ${stage === 4 && b === "Buffer is valid at write, zeros on wire" ? "text-[#a5b4fc]" : "text-white/55"}`}
                     >
                       {b}
                     </li>
@@ -217,7 +217,7 @@ const fieldCauses: { area: string; status: Status }[] = [
 ];
 const laneStyle: Record<Lane, { label: string; c: string }> = {
   system: { label: "System-level", c: "text-[#f2c46d] ring-[#f2c46d]/40" },
-  physics: { label: "Physics", c: "text-[#84d7b0] ring-[#84d7b0]/40" },
+  physics: { label: "Physics", c: "text-[#a5b4fc] ring-[#a5b4fc]/40" },
 };
 
 const FieldConsole = () => {
@@ -237,14 +237,14 @@ const FieldConsole = () => {
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-white/[0.07] px-4 py-3 sm:px-5">
         <span className="flex items-center gap-2 text-[12px] text-white/70">
           <span className="relative flex h-2 w-2">
-            <span className={`absolute inline-flex h-full w-full rounded-full bg-[#84d7b0] ${!done && !reduce ? "animate-ping opacity-60" : "opacity-0"}`} />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#84d7b0]" />
+            <span className={`absolute inline-flex h-full w-full rounded-full bg-[#a5b4fc] ${!done && !reduce ? "animate-ping opacity-60" : "opacity-0"}`} />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#a5b4fc]" />
           </span>
           {done ? "Investigation complete" : "Investigating"}
         </span>
         <span className="text-[12px] text-white/35">Autonomous vehicle · lost high voltage while parked · real field data, not public</span>
         {!reduce && (
-          <button onClick={() => setRound((r) => r + 1)} className="ml-auto text-[12px] text-white/45 hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#84d7b0]">
+          <button onClick={() => setRound((r) => r + 1)} className="ml-auto text-[12px] text-white/45 hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#a5b4fc]">
             Replay
           </button>
         )}
@@ -266,7 +266,7 @@ const FieldConsole = () => {
                   <span className={`rounded-full px-2 py-[1px] text-[10.5px] font-medium ring-1 ring-inset ${laneStyle[b.lane].c}`}>{laneStyle[b.lane].label}</span>
                   <span className="text-[13px] font-medium text-white">{b.title}</span>
                   {b.tag && (
-                    <span className={`rounded-full px-2 py-[1px] text-[10.5px] font-semibold ${b.tag === "safety" ? "bg-[#f87171] text-[#2a0707]" : "bg-[#84d7b0] text-[#062016]"}`}>{b.tag}</span>
+                    <span className={`rounded-full px-2 py-[1px] text-[10.5px] font-semibold ${b.tag === "safety" ? "bg-[#f87171] text-[#2a0707]" : "bg-[#a5b4fc] text-[#0b1220]"}`}>{b.tag}</span>
                   )}
                 </div>
                 <p className="mt-1 text-[12.5px] leading-snug text-white/65">{b.text}</p>
@@ -291,7 +291,7 @@ const FieldConsole = () => {
           <motion.div initial={reduce ? false : { opacity: 0, y: 6 }} animate={done ? { opacity: 1, y: 0 } : { opacity: 0 }} transition={{ duration: 0.4 }} className="mt-5">
             <p className="text-[11.5px] text-white/40">Next decisive check</p>
             <p className="mt-1.5 text-[14px] font-medium leading-snug text-white">Read the BMS calibration history and charger log since the last full charge</p>
-            <p className="mt-2 border-l border-[#84d7b0]/50 pl-3 text-[12px] leading-snug text-white/60">
+            <p className="mt-2 border-l border-[#a5b4fc]/50 pl-3 text-[12px] leading-snug text-white/60">
               Confirmed afterwards by the manufacturer: SOC drift after a long time without a full charge, found exactly there.
             </p>
           </motion.div>
@@ -317,7 +317,7 @@ const HeroConsole = () => {
             role="tab"
             aria-selected={tab === c.id}
             onClick={() => setTab(c.id)}
-            className={`rounded-full px-4 py-1.5 text-[12.5px] transition-colors focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#84d7b0] ${
+            className={`rounded-full px-4 py-1.5 text-[12.5px] transition-colors focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#a5b4fc] ${
               tab === c.id ? "bg-white/[0.1] text-white ring-1 ring-inset ring-white/20" : "text-white/50 hover:text-white"
             }`}
           >
@@ -372,7 +372,7 @@ const StepArtifact = ({ i }: { i: number }) => {
     return (
       <div className="space-y-2.5">
         {[
-          { tag: "Trusted", c: "text-[#84d7b0] ring-[#84d7b0]/40", text: "Lowest and highest cell voltage, pack current, displayed SOC, fault level, contactor states" },
+          { tag: "Trusted", c: "text-[#a5b4fc] ring-[#a5b4fc]/40", text: "Lowest and highest cell voltage, pack current, displayed SOC, fault level, contactor states" },
           { tag: "Copy", c: "text-[#bcdcff] ring-[#93c5fd]/45", text: "The VCU's fault level and pack current repeat the BMS's: used once, not as extra evidence" },
           { tag: "Set aside", c: "text-white/60 ring-white/20", text: "A 'post-contactor voltage' that equals pack voltage even with the contactors open: it does not measure what its name says" },
         ].map((r) => (
@@ -421,8 +421,8 @@ const StepArtifact = ({ i }: { i: number }) => {
             </div>
           ))}
         </div>
-        <div className="rounded-lg border border-[#84d7b0]/30 bg-[#84d7b0]/[0.05] p-3">
-          <p className="text-[11.5px] text-[#84d7b0]">Trigger, kept apart from the cause</p>
+        <div className="rounded-lg border border-[#a5b4fc]/30 bg-[#a5b4fc]/[0.05] p-3">
+          <p className="text-[11.5px] text-[#a5b4fc]">Trigger, kept apart from the cause</p>
           <p className="mt-1 text-[13px] leading-snug text-white/85">The weakest cell's voltage fall sped up from 9 to 112 mV per minute and the spread grew from 58 to 319 mV, at a constant 0.92 Ah charge gap: the end of its discharge curve tripped the protection. Why the pack was nearly empty while showing 47 % is the upstream question.</p>
         </div>
       </div>
@@ -447,7 +447,7 @@ const StepArtifact = ({ i }: { i: number }) => {
       <div className="rounded-lg border border-white/10 p-3">
         <div className="flex flex-wrap items-center gap-2">
           <p className="text-[13px] font-medium text-white">Knowledge record</p>
-          <span className="rounded-full px-2 py-[1px] text-[11px] text-[#84d7b0] ring-1 ring-inset ring-[#84d7b0]/40">verified by the manufacturer</span>
+          <span className="rounded-full px-2 py-[1px] text-[11px] text-[#a5b4fc] ring-1 ring-inset ring-[#a5b4fc]/40">verified by the manufacturer</span>
           <span className="text-[11px] text-white/40">private to the customer</span>
         </div>
         <p className="mt-2 text-[13px] leading-snug text-white/85">SOC estimate drift after long periods without a full charge: mechanism, signature in the logs, where it applies, what is not yet established.</p>
@@ -479,13 +479,13 @@ const Loop = () => {
             aria-selected={i === k}
             onClick={() => setI(k)}
             onMouseEnter={() => setI(k)}
-            className={`group relative block w-full border-b border-white/[0.07] px-5 py-5 text-left transition-colors last:border-b-0 focus-visible:outline focus-visible:outline-1 focus-visible:-outline-offset-1 focus-visible:outline-[#84d7b0] sm:px-6 ${
+            className={`group relative block w-full border-b border-white/[0.07] px-5 py-5 text-left transition-colors last:border-b-0 focus-visible:outline focus-visible:outline-1 focus-visible:-outline-offset-1 focus-visible:outline-[#a5b4fc] sm:px-6 ${
               i === k ? "bg-white/[0.04]" : "hover:bg-white/[0.02]"
             }`}
           >
-            <span className={`absolute left-0 top-0 h-full w-[2px] transition-colors ${i === k ? "bg-[#84d7b0]" : "bg-transparent"}`} />
+            <span className={`absolute left-0 top-0 h-full w-[2px] transition-colors ${i === k ? "bg-[#a5b4fc]" : "bg-transparent"}`} />
             <span className="flex items-baseline gap-3">
-              <span className={`font-mono text-[12px] ${i === k ? "text-[#84d7b0]" : "text-white/35"}`}>{s.verb}</span>
+              <span className={`font-mono text-[12px] ${i === k ? "text-[#a5b4fc]" : "text-white/35"}`}>{s.verb}</span>
               <span className={`text-[16px] font-semibold leading-snug ${i === k ? "text-white" : "text-white/60"}`}>{s.title}</span>
             </span>
             {i === k && <span className="mt-2 block pl-[calc(3ch+12px)] text-[13.5px] leading-relaxed text-white/55">{s.body}</span>}
@@ -547,6 +547,55 @@ const enterProps = (reduce: boolean | null) =>
     ? {}
     : { initial: { opacity: 0, y: 12 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-60px" }, transition: { duration: 0.55 } };
 
+/* Palette for the product page: graphite ink on white, one indigo accent (the product's own), dark only for product
+   surfaces. */
+const INK = "text-[#0b1220]";
+const SUB = "text-[#475467]";
+const EYEBROW = "text-[13px] font-medium text-[#3d3ac8]";
+const H2 = "mt-3 text-[32px] font-semibold leading-[1.08] tracking-[-0.03em] text-[#0b1220] md:text-[44px]";
+
+const proof = [
+  { v: "16 s", k: "to surface the decisive SOC inconsistency on a real field failure" },
+  { v: "7 min", k: "for the full AI investigation, with 33 engineering tool calls" },
+  { v: "≈ 2 days", k: "the manufacturer's own investigation, including its battery supplier", muted: true },
+  { v: "4 of 4", k: "findings consistent with what the manufacturer later confirmed" },
+];
+
+const systemLevel = [
+  ["Checks the complaint against the record", "Reported: could not drive. Recorded: no drive request at all. The question became why a parked vehicle shut down."],
+  ["Rebuilds the sequence across subsystems", "BMS, VCU, DC/DC and contactors in one timeline; protection thresholds inferred from timing when no specification is given."],
+  ["Reasons across state resets", "A cleared fault state is not a safe machine: high voltage allowed again 5 times with the hazard still present became a safety hold."],
+  ["Decides which signals to trust", "Copies are not counted twice; a field that does not measure what its name says is set aside."],
+];
+const physics = [
+  ["Counts the charge", "40 points of displayed charge lost while 0.08 Ah flowed: the battery was not empty, the estimate was wrong."],
+  ["Reads dynamic behaviour", "Voltage rates and cell spread separate what tripped the protection from the upstream cause."],
+  ["Asks what each cause would require", "Each explanation predicts a different trace; the ones the record contradicts are weakened, not hidden."],
+  ["Says what it cannot know", "No chemistry, no datasheet, no cell count: where physics needs them, Veyra names the check that would settle it."],
+];
+
+const outputs = [
+  { img: "/veyra/report.webp", title: "Evidence-backed report", text: "What happened, which explanations can still hold, and what to verify next." },
+  { img: "/veyra/knowledge.webp", title: "Verified engineering knowledge", text: "The mechanism your engineers confirm, and where it applies, kept as a private knowledge record." },
+  { img: "/veyra/checks.webp", title: "Reusable checks", text: "The checks that found it run on every new record of the same kind; how widely they apply is measured as they run." },
+];
+
+const reliability = [
+  { v: "20 of 20", k: "agent runs on the field case finished in under 8 minutes" },
+  { v: "0 of 120", k: "sealed cases where the system-level and physics methods weakened the true cause" },
+  { v: "0 of 120", k: "healthy simulated vehicles wrongly flagged" },
+  { v: "178 of 178", k: "flagged faults where the true cause stayed among the open explanations" },
+  { v: "16 of 16", k: "directly actionable first steps on held-out real public failure logs, against 8 for the same model alone" },
+  { v: "Frozen", k: "pass criteria and code before every evaluation; misses published next to wins" },
+];
+
+const security = [
+  ["Read-only", "Veyra reads exported logs or a read-only connection. There is no control path into your machines."],
+  ["Private by default", "Your data, your investigations and the knowledge built from them stay in your workspace."],
+  ["Nothing published without you", "A case appears outside your company only anonymised, and only with your written agreement."],
+  ["Every claim traceable", "Each finding points to the log rows or the calculation behind it, and uncertainty is stated, not hidden."],
+];
+
 const Landing = () => {
   const reduce = useReducedMotion();
   const enter = enterProps(reduce);
@@ -556,345 +605,438 @@ const Landing = () => {
 
   return (
     <Layout>
-      <div className="bg-[#0a1424] text-white">
-        {/* HERO */}
-        <section className="relative isolate overflow-hidden">
-          <div
-            aria-hidden
-            className="absolute inset-0 -z-10"
-            style={{
-              backgroundImage:
-                "linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)",
-              backgroundSize: "56px 56px",
-              maskImage: "radial-gradient(ellipse 80% 70% at 50% 20%, black, transparent 75%)",
-              WebkitMaskImage: "radial-gradient(ellipse 80% 70% at 50% 20%, black, transparent 75%)",
-            }}
-          />
-          <div aria-hidden className="absolute left-1/2 top-[-20%] -z-10 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-[#84d7b0]/[0.07] blur-[120px]" />
-
-          <div className="container mx-auto max-w-6xl px-6 pb-16 pt-16 md:pt-20">
-            <motion.div
-              initial={reduce ? false : { opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="mx-auto max-w-4xl text-center"
-            >
-              <p className="text-[13px] text-white/50">Veyra, by Silken Reason</p>
-              <h1 className="mt-5 text-[42px] font-semibold leading-[0.98] tracking-[-0.04em] md:text-[68px] lg:text-[80px]">
+      {/* HERO */}
+      <section className="relative isolate overflow-hidden bg-white">
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-10"
+          style={{
+            backgroundImage: "linear-gradient(#eef0f4 1px, transparent 1px), linear-gradient(90deg, #eef0f4 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
+            maskImage: "linear-gradient(to bottom, black, transparent 85%)",
+            WebkitMaskImage: "linear-gradient(to bottom, black, transparent 85%)",
+          }}
+        />
+        <div className="container mx-auto max-w-6xl px-6 pb-14 pt-14 md:pt-20">
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,0.75fr)] lg:items-end">
+            <motion.div initial={reduce ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+              <p className="inline-flex items-center gap-2 rounded-full border border-[#e4e7ec] bg-white px-3 py-1 text-[12.5px] text-[#475467]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#12b76a]" /> Working on real field failures with an autonomous-vehicle manufacturer
+              </p>
+              <h1 className={`mt-6 text-[42px] font-semibold leading-[1.0] tracking-[-0.045em] md:text-[64px] ${INK}`}>
                 The engineering intelligence for physical AI.
               </h1>
-              <p className="mx-auto mt-7 max-w-2xl text-[21px] font-medium leading-snug tracking-[-0.01em] text-white md:text-[24px]">
+              <p className={`mt-6 text-[21px] font-medium leading-snug tracking-[-0.01em] md:text-[23px] ${INK}`}>
                 When machines behave unexpectedly, find out why.
               </p>
-              <p className="mx-auto mt-4 max-w-2xl text-[17px] leading-relaxed text-white/65 md:text-[18px]">
+              <p className={`mt-3 max-w-2xl text-[16.5px] leading-relaxed ${SUB}`}>
                 Veyra investigates failures across the entire machine by connecting software, controls, electrical systems
                 and physical behavior to reconstruct what happened, test explanations and identify the next decisive check.
               </p>
-              <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-[#3d3ac8] px-5 py-3 text-[14px] font-semibold text-white shadow-sm transition-colors hover:bg-[#2f2ca6] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3d3ac8]"
+                >
+                  Book a technical briefing <ArrowRight size={15} />
+                </Link>
                 <a
                   href={DEMO_URL}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full bg-[#84d7b0] px-6 py-3 text-[14px] font-semibold text-[#062016] transition-colors hover:bg-[#a3e4c5] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-[#d0d5dd] bg-white px-5 py-3 text-[14px] font-medium text-[#0b1220] transition-colors hover:bg-[#f9fafb] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3d3ac8]"
                 >
                   Watch a real investigation <ArrowUpRight size={15} />
                 </a>
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center gap-1.5 rounded-full px-6 py-3 text-[14px] font-medium text-white ring-1 ring-inset ring-white/20 transition-colors hover:bg-white/[0.06] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-                >
-                  Request a pilot
-                </Link>
               </div>
             </motion.div>
 
-            <motion.div
-              initial={reduce ? false : { opacity: 0, y: 24 }}
+            <motion.dl
+              initial={reduce ? false : { opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.7 }}
-              className="mt-12 md:mt-14"
+              transition={{ delay: 0.1, duration: 0.5 }}
+              className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-[#e4e7ec] bg-[#e4e7ec]"
             >
-              <HeroConsole />
-            </motion.div>
+              {proof.map((m) => (
+                <div key={m.v} className="bg-white p-4">
+                  <dt className={`text-[26px] font-semibold leading-none tracking-[-0.03em] tabular-nums ${m.muted ? "text-[#98a2b3]" : "text-[#0b1220]"}`}>{m.v}</dt>
+                  <dd className="mt-2 text-[12.5px] leading-snug text-[#475467]">{m.k}</dd>
+                </div>
+              ))}
+            </motion.dl>
           </div>
-        </section>
 
-        {/* TECHNICAL DIFFERENTIATION */}
-        <section id="differentiation" className="scroll-mt-16 border-t border-white/[0.07]">
-          <div className="container mx-auto max-w-6xl px-6 py-24 md:py-28">
-            <motion.div {...enter} className="max-w-4xl">
-              <p className="text-[13px] text-[#84d7b0]">Technical differentiation</p>
-              <h2 className="mt-3 text-[34px] font-semibold leading-[1.05] tracking-[-0.03em] md:text-[52px]">
-                System-level investigation.
-                <br />
-                <span className="text-white/60">Physics-grounded reasoning.</span>
-              </h2>
-              <p className="mt-6 max-w-3xl text-[17px] leading-relaxed text-white/65 md:text-[18px]">
-                Not just anomalies in logs. Veyra follows causal sequences across subsystems, checks explanations against
-                physical constraints, and makes uncertainty explicit when evidence cannot distinguish competing causes.
-              </p>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* TODAY */}
-        <section id="today" className="scroll-mt-16 border-t border-white/[0.07]">
-          <div className="container mx-auto max-w-6xl px-6 py-24">
-            <motion.div {...enter} className="mb-12 flex flex-wrap items-end justify-between gap-6">
-              <div className="max-w-2xl">
-                <p className="text-[13px] text-[#84d7b0]">Working today</p>
-                <h2 className="mt-3 text-[34px] font-semibold leading-[1.05] tracking-[-0.03em] md:text-[48px]">
-                  From the first log line to the check that settles it.
-                </h2>
+          <motion.figure
+            initial={reduce ? false : { opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="mt-14"
+          >
+            <div className="overflow-hidden rounded-xl border border-[#e4e7ec] bg-[#f5f7fa] shadow-[0_1px_2px_rgba(16,24,40,0.05),0_40px_80px_-40px_rgba(16,24,40,0.35)]">
+              <div className="flex items-center gap-1.5 border-b border-[#e4e7ec] bg-white px-4 py-2.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-[#e4e7ec]" />
+                <span className="h-2.5 w-2.5 rounded-full bg-[#e4e7ec]" />
+                <span className="h-2.5 w-2.5 rounded-full bg-[#e4e7ec]" />
+                <span className="ml-3 truncate text-[12px] text-[#98a2b3]">Veyra · investigation workspace</span>
               </div>
-              <a href={DEMO_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[14px] text-white/70 underline decoration-white/20 underline-offset-4 hover:text-white">
-                Step through it in the live demo <ArrowUpRight size={14} />
+              <img
+                src="/veyra/run.webp"
+                width={2000}
+                height={1250}
+                alt="Veyra's investigation workspace: the agent's activity, the signals around the shutdown and the findings as they appear"
+                className="block h-auto w-full"
+              />
+            </div>
+            <figcaption className="mt-3 text-[12.5px] text-[#667085]">
+              The Veyra agent investigating a real field failure on an autonomous vehicle. Real data, not public, anonymised.{" "}
+              <a href={DEMO_URL} target="_blank" rel="noreferrer" className="font-medium text-[#3d3ac8] hover:underline">
+                Open it live
               </a>
-            </motion.div>
-            <motion.div {...enter}>
-              <Loop />
-            </motion.div>
-            <p className="mt-4 text-[13px] text-white/40">
-              Read-only. No control path into your machines. Example: a real field failure on an autonomous vehicle (real data, not public, anonymised).
-            </p>
-          </div>
-        </section>
-      </div>
+            </figcaption>
+          </motion.figure>
+        </div>
+      </section>
 
-      {/* BOTTLENECK */}
-      <section id="bottleneck" className="scroll-mt-16 bg-background">
+      {/* TRUST STRIP */}
+      <section className="border-y border-[#e4e7ec] bg-[#f9fafb]">
+        <div className="container mx-auto flex max-w-6xl flex-col gap-5 px-6 py-6 md:flex-row md:items-center md:justify-between">
+          <p className="text-[13.5px] text-[#475467]">
+            <span className="font-medium text-[#0b1220]">Working with an autonomous-vehicle manufacturer</span> on real field failures ·
+            tested on real logs from ROS 2, Autoware, PX4, micro-ROS and more
+          </p>
+          <div className="flex shrink-0 items-center gap-3">
+            <span className="text-[12.5px] text-[#667085]">Member of</span>
+            <img src="/badges/nvidia-inception-program-badge-rgb-for-screen.svg" alt="NVIDIA Inception Program" className="h-auto w-[120px]" />
+          </div>
+        </div>
+      </section>
+
+      {/* TECHNICAL DIFFERENTIATION */}
+      <section id="differentiation" className="scroll-mt-16 bg-white">
         <div className="container mx-auto max-w-6xl px-6 py-24">
-          <div className="grid gap-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center">
-            <motion.div {...enter}>
-              <p className="text-[13px] text-primary">The operational bottleneck</p>
-              <h2 className="mt-3 text-[34px] font-semibold leading-[1.05] tracking-[-0.03em] text-foreground md:text-[48px]">
-                Finding the cause often costs more than fixing it.
-              </h2>
-              <p className="mt-6 text-[16px] leading-relaxed text-muted-foreground">
-                A single field issue can pull engineers across controls, software, hardware, suppliers and on-site
-                operations. Each team reconstructs the same evidence, checks are repeated, and parts get replaced before
-                anyone understands the cause.
-              </p>
-              <p className="mt-5 text-[17px] font-medium leading-relaxed text-foreground">
-                Veyra is built to cut the work between the first report and a defensible next decision.
-              </p>
-            </motion.div>
-            <motion.div {...enter}>
-              <FanOut />
-              <div className="mt-8 flex items-baseline gap-4 border-t border-border pt-6">
-                <span className="shrink-0 font-mono text-[36px] font-semibold leading-none tracking-[-0.02em] text-foreground">2–3</span>
-                <span className="text-[14px] leading-relaxed text-muted-foreground">
-                  complex cross-team investigations every week, reported by one autonomous-vehicle maker we
-                  interviewed.
-                </span>
-              </div>
-            </motion.div>
+          <motion.div {...enter} className="max-w-3xl">
+            <p className={EYEBROW}>Technical differentiation</p>
+            <h2 className={H2}>System-level investigation. Physics-grounded reasoning.</h2>
+            <p className={`mt-5 text-[16.5px] leading-relaxed ${SUB}`}>
+              Not just anomalies in logs. Veyra follows causal sequences across subsystems, checks explanations against
+              physical constraints, and makes uncertainty explicit when evidence cannot distinguish competing causes.
+            </p>
+          </motion.div>
+          <div className="mt-12 grid gap-5 md:grid-cols-2">
+            {[
+              { title: "System-level investigation", sub: "What the machine actually did", items: systemLevel, dot: "bg-[#f79009]" },
+              { title: "Physics-grounded reasoning", sub: "What physics allows", items: physics, dot: "bg-[#12b76a]" },
+            ].map((c) => (
+              <motion.div key={c.title} {...enter} className="rounded-xl border border-[#e4e7ec] bg-white p-6 shadow-[0_1px_2px_rgba(16,24,40,0.04)]">
+                <div className="flex items-center gap-2">
+                  <span className={`h-2 w-2 rounded-full ${c.dot}`} />
+                  <h3 className={`text-[17px] font-semibold ${INK}`}>{c.title}</h3>
+                </div>
+                <p className="mt-1 text-[13px] text-[#667085]">{c.sub}</p>
+                <ul className="mt-5 divide-y divide-[#f2f4f7]">
+                  {c.items.map(([t, d]) => (
+                    <li key={t} className="py-3.5 first:pt-0 last:pb-0">
+                      <p className={`text-[14.5px] font-medium ${INK}`}>{t}</p>
+                      <p className="mt-1 text-[13.5px] leading-relaxed text-[#475467]">{d}</p>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
+          <p className="mt-4 text-[12.5px] text-[#667085]">Examples from a real field failure on an autonomous vehicle (real data, not public, anonymised).</p>
+        </div>
+      </section>
+
+      {/* LIVE */}
+      <section id="live" className="scroll-mt-16 bg-[#0b1220] text-white">
+        <div className="container mx-auto max-w-6xl px-6 py-24">
+          <motion.div {...enter} className="mb-10 flex flex-wrap items-end justify-between gap-6">
+            <div className="max-w-2xl">
+              <p className="text-[13px] font-medium text-[#a5b4fc]">See it work</p>
+              <h2 className="mt-3 text-[32px] font-semibold leading-[1.08] tracking-[-0.03em] md:text-[44px]">A real investigation, replayed step by step.</h2>
+            </div>
+            <a href={DEMO_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[14px] text-white/70 underline decoration-white/20 underline-offset-4 hover:text-white">
+              Open the full investigation <ArrowUpRight size={14} />
+            </a>
+          </motion.div>
+          <motion.div {...enter}>
+            <HeroConsole />
+          </motion.div>
+        </div>
+      </section>
+
+      {/* WORKING TODAY */}
+      <section id="today" className="scroll-mt-16 bg-[#f9fafb]">
+        <div className="container mx-auto max-w-6xl px-6 py-24">
+          <motion.div {...enter} className="mb-10 max-w-2xl">
+            <p className={EYEBROW}>How it works</p>
+            <h2 className={H2}>From the first log line to the check that settles it.</h2>
+          </motion.div>
+          <motion.div {...enter}>
+            <Loop />
+          </motion.div>
+          <p className="mt-4 text-[13px] text-[#667085]">
+            Read-only. No control path into your machines. Example: a real field failure on an autonomous vehicle (real data, not public, anonymised).
+          </p>
+        </div>
+      </section>
+
+      {/* OUTPUTS */}
+      <section id="outputs" className="scroll-mt-16 bg-white">
+        <div className="container mx-auto max-w-6xl px-6 py-24">
+          <motion.div {...enter} className="max-w-2xl">
+            <p className={EYEBROW}>From one investigation</p>
+            <h2 className={H2}>A failure solved. Engineering knowledge retained.</h2>
+            <p className={`mt-5 text-[16.5px] leading-relaxed ${SUB}`}>
+              Every investigation leaves three things in your workspace, so your team does not walk the whole investigation
+              again when the same failure returns.
+            </p>
+          </motion.div>
+          <div className="mt-12 space-y-5">
+            {outputs.map((o, i) => (
+              <motion.figure
+                key={o.title}
+                {...enter}
+                className="grid overflow-hidden rounded-xl border border-[#e4e7ec] bg-white shadow-[0_1px_2px_rgba(16,24,40,0.04)] lg:grid-cols-[minmax(0,0.38fr)_minmax(0,1fr)]"
+              >
+                <figcaption className="flex flex-col justify-center p-6">
+                  <span className="font-mono text-[12px] text-[#98a2b3]">0{i + 1}</span>
+                  <p className={`mt-2 text-[18px] font-semibold ${INK}`}>{o.title}</p>
+                  <p className="mt-2 text-[14.5px] leading-relaxed text-[#475467]">{o.text}</p>
+                </figcaption>
+                <div className="flex items-center border-t border-[#e4e7ec] bg-[#f5f7fa] p-4 lg:border-l lg:border-t-0">
+                  <img src={o.img} alt={`${o.title}, as Veyra shows it`} loading="lazy" className="block h-auto w-full rounded-md border border-[#e4e7ec] shadow-sm" />
+                </div>
+              </motion.figure>
+            ))}
           </div>
         </div>
       </section>
 
       {/* EVIDENCE */}
-      <section id="evidence" className="scroll-mt-16 bg-[#f4f6f9]">
+      <section id="evidence" className="scroll-mt-16 border-t border-[#e4e7ec] bg-[#f9fafb]">
         <div className="container mx-auto max-w-6xl px-6 py-24">
-          <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:items-center">
+          <div className="grid gap-14 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-start">
             <motion.div {...enter}>
-              <p className="text-[13px] text-primary">Real-world field validation</p>
-              <h2 className="mt-3 text-[34px] font-semibold leading-[1.05] tracking-[-0.03em] text-foreground md:text-[48px]">
-                Two days of engineering investigation. 16 seconds to the decisive inconsistency.
-              </h2>
-              <p className="mt-6 text-[16px] leading-relaxed text-muted-foreground">
-                We&apos;re working with an autonomous vehicle manufacturer to evaluate Veyra on real field failures. In the
-                first case, Veyra surfaced the decisive SOC inconsistency in 16 seconds and completed its full AI
-                investigation in 7 minutes: a failure that had taken two days of cross-functional engineering
-                investigation, including the battery supplier.
+              <p className={EYEBROW}>Real-world field validation</p>
+              <h2 className={H2}>Two days of engineering investigation. 16 seconds to the decisive inconsistency.</h2>
+              <p className={`mt-5 text-[16px] leading-relaxed ${SUB}`}>
+                An autonomous vehicle lost high voltage while parked. The manufacturer&apos;s investigation took about two
+                days across after-sales, on-site operations, engineering and the battery supplier. From the vehicle&apos;s own
+                logs alone, Veyra surfaced the decisive SOC inconsistency in 16 seconds and completed its full AI
+                investigation in 7 minutes.
               </p>
-              <Link
-                to="/veyra/evaluation"
-                className="mt-6 inline-flex items-center gap-1.5 text-[14px] font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground"
-              >
-                What works, what doesn&apos;t, and the evidence <ArrowRight size={14} />
-              </Link>
+              <div className="mt-7 flex flex-wrap gap-x-6 gap-y-3">
+                <Link to="/veyra/field-case" className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-[#3d3ac8] hover:underline">
+                  Read the case study <ArrowRight size={14} />
+                </Link>
+                <Link to="/veyra/evaluation" className="inline-flex items-center gap-1.5 text-[14px] font-medium text-[#475467] hover:text-[#0b1220]">
+                  All evaluations <ArrowRight size={14} />
+                </Link>
+              </div>
             </motion.div>
 
-            <motion.div {...enter} className="rounded-2xl bg-background p-6 shadow-[0_1px_0_rgba(15,23,42,0.06),0_20px_60px_-30px_rgba(15,23,42,0.25)] sm:p-8">
-              <p className="text-[14px] font-medium text-foreground">The first field case</p>
-              <p className="mt-1 text-[13px] text-muted-foreground">A battery shutdown on an autonomous vehicle, from the vehicle&apos;s own logs</p>
-              <div className="mt-6 grid gap-6 sm:grid-cols-3">
-                {[
-                  { v: "~2 days", label: "Original customer investigation", strong: false },
-                  { v: "16 s", label: "To surface the decisive SOC inconsistency", strong: true },
-                  { v: "40 pp", label: "Unexplained SOC drop identified", strong: true },
-                ].map((m) => (
-                  <div key={m.label}>
-                    <p className={`font-mono text-[28px] font-semibold leading-none tracking-[-0.02em] ${m.strong ? "text-foreground" : "text-muted-foreground"}`}>{m.v}</p>
-                    <p className="mt-2 text-[13px] leading-relaxed text-muted-foreground">{m.label}</p>
-                  </div>
-                ))}
+            <motion.div {...enter} className="overflow-hidden rounded-xl border border-[#e4e7ec] bg-white">
+              <div className="grid grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] border-b border-[#e4e7ec] bg-[#f9fafb] px-5 py-3 text-[12px] font-medium text-[#667085]">
+                <span>Veyra found</span>
+                <span>The manufacturer confirmed</span>
               </div>
-              <div className="mt-8 space-y-5 border-t border-border pt-6">
-                {[
-                  {
-                    t: "The investigation",
-                    b: "Veyra identified an SOC collapse that measured current could not explain, kept SOC estimation drift among the leading hypotheses, and put the charge history since the last full charge first in line to check. The manufacturer\u2019s subsequent findings confirmed SOC estimation drift associated with prolonged operation without a full charge.",
-                  },
-                  {
-                    t: "Beyond the reported failure",
-                    b: "The investigation also reconstructed repeated high-voltage re-energization attempts and deep-discharge events, exposing additional system behaviour for engineering review.",
-                  },
-                  {
-                    t: "Why it matters",
-                    b: "Veyra connects physical evidence, competing explanations and decisive next checks, and makes clear what the available data cannot prove.",
-                  },
-                ].map((x) => (
-                  <div key={x.t}>
-                    <p className="text-[14px] font-medium text-foreground">{x.t}</p>
-                    <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">{x.b}</p>
-                  </div>
-                ))}
+              {[
+                ["The SOC fell 40 points while 0.08 Ah flowed (16 s)", "An SOC estimation correction, not a real discharge"],
+                ["First check: the history since the last full charge", "No full charge for a long time"],
+                ["The weakest cell sets the timing, not the size", "Cell balance normal after a full charge"],
+                ["Lost capacity still to be verified", "Not supported as the main cause"],
+              ].map(([a, b]) => (
+                <div key={a} className="grid grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] gap-4 border-b border-[#f2f4f7] px-5 py-4 last:border-b-0">
+                  <p className={`text-[14px] leading-snug ${INK}`}>{a}</p>
+                  <p className="flex gap-2 text-[14px] leading-snug text-[#475467]">
+                    <span className="mt-[3px] inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#ecfdf3] text-[10px] text-[#039855]">✓</span>
+                    {b}
+                  </p>
+                </div>
+              ))}
+              <div className="border-t border-[#e4e7ec] bg-[#fef3f2] px-5 py-4">
+                <p className="text-[13.5px] leading-snug text-[#0b1220]">
+                  <span className="font-semibold text-[#b42318]">Beyond the reported failure:</span> after each reset the system
+                  allowed high voltage again, 5 times, with the hazard still present. Raised as a safety hold.
+                </p>
               </div>
             </motion.div>
           </div>
+        </div>
+      </section>
 
-          <motion.div {...enter} className="mt-16 flex flex-col gap-6 border-t border-border pt-8 md:flex-row md:items-center md:justify-between">
-            <div>
-              <p className="text-[13px] text-muted-foreground">Real logs from public issue threads, in projects including</p>
-              <p className="mt-2 font-mono text-[13px] leading-relaxed text-foreground">{stacks.join("  /  ")}</p>
-            </div>
-            <div className="flex shrink-0 items-center gap-4">
-              <span className="text-[13px] text-muted-foreground">Member of</span>
-              <img src="/badges/nvidia-inception-program-badge-rgb-for-screen.svg" alt="NVIDIA Inception Program" className="h-auto w-[130px]" />
-            </div>
+      {/* BOTTLENECK */}
+      <section id="bottleneck" className="scroll-mt-16 bg-white">
+        <div className="container mx-auto max-w-6xl px-6 py-24">
+          <div className="grid gap-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center">
+            <motion.div {...enter}>
+              <p className={EYEBROW}>The operational bottleneck</p>
+              <h2 className={H2}>Finding the cause often costs more than fixing it.</h2>
+              <p className={`mt-5 text-[16px] leading-relaxed ${SUB}`}>
+                A single field issue can pull engineers across controls, software, hardware, suppliers and on-site
+                operations. Each team reconstructs the same evidence, checks are repeated, and parts get replaced before
+                anyone understands the cause.
+              </p>
+              <p className={`mt-5 text-[16.5px] font-medium leading-relaxed ${INK}`}>
+                Veyra cuts the work between the first report and a defensible next decision.
+              </p>
+            </motion.div>
+            <motion.div {...enter}>
+              <FanOut />
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* RELIABILITY & SECURITY */}
+      <section id="trust" className="scroll-mt-16 border-t border-[#e4e7ec] bg-[#f9fafb]">
+        <div className="container mx-auto max-w-6xl px-6 py-24">
+          <motion.div {...enter} className="max-w-2xl">
+            <p className={EYEBROW}>Reliability and security</p>
+            <h2 className={H2}>Measured before it is trusted.</h2>
+            <p className={`mt-5 text-[16.5px] leading-relaxed ${SUB}`}>
+              Every capability is tested against criteria fixed before the run. What Veyra does not win is published next to
+              what it does.
+            </p>
           </motion.div>
+          <div className="mt-12 grid gap-px overflow-hidden rounded-xl border border-[#e4e7ec] bg-[#e4e7ec] sm:grid-cols-2 lg:grid-cols-3">
+            {reliability.map((r) => (
+              <div key={r.k} className="bg-white p-6">
+                <p className={`text-[28px] font-semibold leading-none tracking-[-0.03em] tabular-nums ${INK}`}>{r.v}</p>
+                <p className="mt-2.5 text-[13.5px] leading-snug text-[#475467]">{r.k}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-5 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+            {security.map(([t, d]) => (
+              <div key={t} className="rounded-xl border border-[#e4e7ec] bg-white p-5">
+                <p className={`text-[15px] font-semibold ${INK}`}>{t}</p>
+                <p className="mt-1.5 text-[13.5px] leading-relaxed text-[#475467]">{d}</p>
+              </div>
+            ))}
+          </div>
+          <Link to="/veyra/evaluation" className="mt-8 inline-flex items-center gap-1.5 text-[14px] font-semibold text-[#3d3ac8] hover:underline">
+            What works, what doesn&apos;t, and the evidence <ArrowRight size={14} />
+          </Link>
         </div>
       </section>
 
       {/* METHOD */}
-      <section id="method" className="scroll-mt-16 overflow-hidden bg-[#0a1424] text-white">
-        <div className="container mx-auto max-w-6xl px-6 py-24 md:py-28">
+      <section id="method" className="scroll-mt-16 bg-white">
+        <div className="container mx-auto max-w-6xl px-6 py-24">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:items-end">
             <motion.div {...enter}>
-              <p className="text-[13px] text-[#84d7b0]">How Veyra improves</p>
-              <h2 className="mt-3 text-[34px] font-semibold leading-[1.05] tracking-[-0.03em] md:text-[48px]">
-                Engineering expertise, made executable.
-              </h2>
+              <p className={EYEBROW}>How Veyra improves</p>
+              <h2 className={H2}>Engineering expertise, made executable.</h2>
             </motion.div>
-            <motion.p {...enter} className="text-[16px] leading-relaxed text-white/65">
+            <motion.p {...enter} className={`text-[16px] leading-relaxed ${SUB}`}>
               Veyra translates expert investigation methods into reusable system-level checks, connecting physical
               evidence, control sequences, customer-specific rules and engineering decisions.
             </motion.p>
           </div>
-
-          <ol className="relative mt-16 grid gap-10 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-            <span aria-hidden className="absolute left-0 right-0 top-[7px] hidden h-px bg-gradient-to-r from-[#84d7b0] via-[#84d7b0]/40 to-white/10 lg:block" />
+          <ol className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
             {methodLoop.map((m, i) => (
-              <motion.li key={m.title} {...enter} transition={{ duration: 0.5, delay: reduce ? 0 : i * 0.12 }} className="relative">
-                <span className={`relative z-10 block h-[15px] w-[15px] rounded-full border-2 ${i < 3 ? "border-[#84d7b0] bg-[#84d7b0]" : "border-[#84d7b0] bg-[#0a1424]"}`} />
-                <div className="mt-5 flex items-baseline gap-3">
-                  <span className="font-mono text-[13px] text-white/40">{i + 1}</span>
-                  <span className="text-[12px] text-[#84d7b0]">{m.tag}</span>
+              <motion.li key={m.title} {...enter} className="rounded-xl border border-[#e4e7ec] bg-white p-5">
+                <div className="flex items-baseline justify-between gap-3">
+                  <span className="font-mono text-[12px] text-[#98a2b3]">0{i + 1}</span>
+                  <span className="rounded-full bg-[#eeedfc] px-2 py-[2px] text-[11.5px] font-medium text-[#3d3ac8]">{m.tag}</span>
                 </div>
-                <h3 className="mt-2 text-[20px] font-semibold leading-snug">{m.title}</h3>
-                <p className="mt-2 text-[14px] leading-relaxed text-white/60">{m.body}</p>
+                <h3 className={`mt-4 text-[17px] font-semibold leading-snug ${INK}`}>{m.title}</h3>
+                <p className="mt-2 text-[13.5px] leading-relaxed text-[#475467]">{m.body}</p>
               </motion.li>
             ))}
           </ol>
-          <motion.p {...enter} className="mt-12 border-t border-white/[0.07] pt-6 text-[14px] text-white/45">
-            Each new field case starts the loop again, and what it teaches is tested before Veyra keeps it.
-          </motion.p>
         </div>
       </section>
 
       {/* WHO */}
-      <section id="who" className="scroll-mt-16 bg-background">
+      <section id="who" className="scroll-mt-16 border-t border-[#e4e7ec] bg-[#f9fafb]">
         <div className="container mx-auto max-w-6xl px-6 py-24">
-          <motion.h2 {...enter} className="max-w-3xl text-[34px] font-semibold leading-[1.05] tracking-[-0.03em] text-foreground md:text-[48px]">
+          <motion.h2 {...enter} className={`max-w-3xl ${H2.replace("mt-3 ", "")}`}>
             Built for the teams who own the moment a machine meets the real world.
           </motion.h2>
-          <ul className="mt-12 border-t border-border">
+          <ul className="mt-12 grid gap-5 md:grid-cols-2">
             {audiences.map((a) => (
-              <motion.li
-                {...enter}
-                key={a.who}
-                className="group grid gap-2 border-b border-border py-7 transition-colors md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-10"
-              >
-                <span className="text-[19px] font-semibold leading-snug text-foreground">{a.who}</span>
-                <span className="text-[16px] leading-relaxed text-muted-foreground transition-colors group-hover:text-foreground">“{a.moment}”</span>
+              <motion.li {...enter} key={a.who} className="rounded-xl border border-[#e4e7ec] bg-white p-6">
+                <p className={`text-[16.5px] font-semibold leading-snug ${INK}`}>{a.who}</p>
+                <p className="mt-2 text-[14.5px] leading-relaxed text-[#475467]">“{a.moment}”</p>
               </motion.li>
             ))}
           </ul>
         </div>
       </section>
 
-      {/* PILOT */}
-      <section id="pilot" className="scroll-mt-16 bg-background">
+      {/* START */}
+      <section id="start" className="scroll-mt-16 bg-white">
         <div className="container mx-auto max-w-6xl px-6 py-24">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-start">
             <motion.div {...enter}>
-              <p className="text-[13px] text-primary">Design partner pilot</p>
-              <h2 className="mt-3 text-[34px] font-semibold leading-[1.05] tracking-[-0.03em] text-foreground md:text-[48px]">
-                Six to eight weeks, starting with failures you have already solved.
-              </h2>
-              <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-muted-foreground">
-                No production access to begin. We earn it in three steps, and measure each one against how your team works today.
+              <p className={EYEBROW}>How teams start</p>
+              <h2 className={H2}>Start with failures you have already solved.</h2>
+              <p className={`mt-5 max-w-xl text-[16px] leading-relaxed ${SUB}`}>
+                No production access to begin. Each step is measured against how your team works today.
               </p>
               <ol className="mt-7 max-w-xl space-y-4">
                 {[
-                  ["Weeks 1–2", "Your closed cases", "Exported logs from five to eight solved incidents, and how your engineers debugged them. Veyra replays each one against the data recorded before each step: what it already showed, which checks it shows were avoidable, and where it cannot say."],
-                  ["Weeks 2–4", "Your rules, reviewed", "Your engineers review and correct the machine expectations Veyra checks against. Nothing it uses is hidden."],
-                  ["Weeks 4–8", "Live, read-only", "New incidents as they happen, on one class of issue your team already chases."],
-                ].map(([when, what, body], k) => (
-                  <li key={when} className="grid grid-cols-[28px_minmax(0,1fr)] gap-3">
-                    <span className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-[#0a1424] font-mono text-[12px] text-white">{k + 1}</span>
+                  ["Your closed cases", "Exported logs from solved incidents. Veyra investigates each one without the answer, and is checked against what your engineers confirmed."],
+                  ["Your rules, reviewed", "Your engineers review and correct the machine expectations Veyra checks against. Nothing it uses is hidden."],
+                  ["Live, read-only", "New incidents as they happen, on one class of issue your team already chases."],
+                ].map(([what, body], k) => (
+                  <li key={what} className="grid grid-cols-[28px_minmax(0,1fr)] gap-3">
+                    <span className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-[#eeedfc] font-mono text-[12px] font-medium text-[#3d3ac8]">{k + 1}</span>
                     <div>
-                      <p className="text-[15px] font-semibold text-foreground">{what} <span className="ml-1 text-[12.5px] font-normal text-muted-foreground">{when}</span></p>
-                      <p className="mt-1 text-[14px] leading-relaxed text-muted-foreground">{body}</p>
+                      <p className={`text-[15px] font-semibold ${INK}`}>{what}</p>
+                      <p className="mt-1 text-[14px] leading-relaxed text-[#475467]">{body}</p>
                     </div>
                   </li>
                 ))}
               </ol>
               <Link
                 to="/contact"
-                className="mt-8 inline-flex items-center gap-1.5 rounded-full bg-[#0a1424] px-6 py-3 text-[14px] font-medium text-white transition-colors hover:bg-[#16243b] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                className="mt-8 inline-flex items-center gap-1.5 rounded-lg bg-[#3d3ac8] px-5 py-3 text-[14px] font-semibold text-white transition-colors hover:bg-[#2f2ca6] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3d3ac8]"
               >
-                Request a pilot <ArrowRight size={15} />
+                Book a technical briefing <ArrowRight size={15} />
               </Link>
             </motion.div>
             <motion.div {...enter}>
-            <p className="mb-3 text-[13px] text-muted-foreground">What the pilot measures</p>
-            <dl className="divide-y divide-border border-y border-border">
-              {[
-                ["Time to cause", "From first report to a supported explanation"],
-                ["Checks run", "How many it took to settle the question"],
-                ["Senior engineer hours", "Time spent per case by the people who know the system"],
-                ["Avoidable work", "Checks that were not the issue, split into verified from the data recorded before them, estimated, and undecidable. Only verified ones count hours and cost."],
-                ["Repeat cases", "How often a past lesson shortened a new one"],
-              ].map(([k, v]) => (
-                <div key={k} className="grid grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] gap-4 py-4">
-                  <dt className="text-[15px] font-semibold text-foreground">{k}</dt>
-                  <dd className="text-[14px] leading-relaxed text-muted-foreground">{v}</dd>
-                </div>
-              ))}
-            </dl>
+              <p className="mb-3 text-[13px] font-medium text-[#667085]">What we measure with you</p>
+              <dl className="divide-y divide-[#e4e7ec] rounded-xl border border-[#e4e7ec] px-5">
+                {[
+                  ["Time to the decisive finding", "From first report to a supported explanation"],
+                  ["Checks run", "How many it took to settle the question"],
+                  ["Senior engineer hours", "Time spent per case by the people who know the system"],
+                  ["Avoidable work", "Checks that were not the issue, counted only when the data recorded before them shows it"],
+                  ["Repeat cases", "How often retained knowledge shortened a new one"],
+                ].map(([k, v]) => (
+                  <div key={k} className="grid grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] gap-4 py-4">
+                    <dt className={`text-[14.5px] font-semibold ${INK}`}>{k}</dt>
+                    <dd className="text-[14px] leading-relaxed text-[#475467]">{v}</dd>
+                  </div>
+                ))}
+              </dl>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer className="border-t border-border bg-[#f4f6f9]">
+      <footer className="border-t border-[#e4e7ec] bg-[#f9fafb]">
         <div className="container mx-auto max-w-6xl px-6 py-12">
           <div className="flex flex-wrap items-center justify-between gap-6">
             <div className="flex items-center gap-2">
-              <span className="inline-block h-2.5 w-2.5 rounded-sm bg-foreground" />
-              <span className="text-[15px] font-semibold tracking-tight text-foreground">Veyra</span>
-              <span className="ml-2 text-[12px] text-muted-foreground">by Silken Reason</span>
+              <span className="inline-block h-2.5 w-2.5 rounded-sm bg-[#3d3ac8]" />
+              <span className={`text-[15px] font-semibold tracking-tight ${INK}`}>Veyra</span>
+              <span className="ml-2 text-[12px] text-[#667085]">by Silken Reason</span>
             </div>
-            <ul className="flex items-center gap-6 text-[13px]">
-              <li><Link to="/veyra/evaluation" className="text-muted-foreground transition-colors hover:text-foreground">Evaluation</Link></li>
-              <li><Link to="/blog" className="text-muted-foreground transition-colors hover:text-foreground">Blog</Link></li>
-              <li><Link to="/contact" className="text-muted-foreground transition-colors hover:text-foreground">Contact</Link></li>
+            <ul className="flex flex-wrap items-center gap-6 text-[13px]">
+              <li><Link to="/veyra/field-case" className="text-[#667085] transition-colors hover:text-[#0b1220]">Case study</Link></li>
+              <li><Link to="/veyra/evaluation" className="text-[#667085] transition-colors hover:text-[#0b1220]">Evaluation</Link></li>
+              <li><Link to="/blog" className="text-[#667085] transition-colors hover:text-[#0b1220]">Blog</Link></li>
+              <li><Link to="/contact" className="text-[#667085] transition-colors hover:text-[#0b1220]">Contact</Link></li>
             </ul>
-            <span className="text-[12px] text-muted-foreground">© 2026 Silken Reason</span>
+            <span className="text-[12px] text-[#667085]">© 2026 Silken Reason</span>
           </div>
         </div>
       </footer>

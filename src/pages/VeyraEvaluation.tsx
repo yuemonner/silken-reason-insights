@@ -21,7 +21,7 @@ const Table = ({ head, rows, emphasis, mono = true }: { head: string[]; rows: (s
       </thead>
       <tbody>
         {rows.map((r, i) => (
-          <tr key={i} className={`border-t border-border ${emphasis === i ? "bg-[#84d7b0]/[0.12]" : ""}`}>
+          <tr key={i} className={`border-t border-border ${emphasis === i ? "bg-[#eeedfc]" : ""}`}>
             {r.map((c, j) => <td key={j} className={`px-4 py-3 align-top ${j === 0 ? "font-medium text-foreground" : mono ? "font-mono text-[13.5px] text-muted-foreground" : "text-[14px] leading-relaxed text-muted-foreground"}`}>{c}</td>)}
           </tr>
         ))}
@@ -48,9 +48,9 @@ const VeyraEvaluation = () => {
   return (
     <Layout>
       <article className="bg-background">
-        <header className="border-b border-border bg-[#0a1424] text-white">
+        <header className="border-b border-[#e4e7ec] bg-[#f9fafb] text-[#0b1220]">
           <div className="container mx-auto max-w-4xl px-6 pb-16 pt-14">
-            <Link to="/veyra" className="inline-flex items-center gap-1.5 text-[13px] text-white/55 hover:text-white">
+            <Link to="/veyra" className="inline-flex items-center gap-1.5 text-[13px] text-[#667085] hover:text-[#0b1220]">
               <ArrowLeft size={14} /> Veyra
             </Link>
             <h1 className="mt-6 text-[38px] font-semibold leading-[1.05] tracking-[-0.035em] md:text-[56px]">
@@ -58,14 +58,14 @@ const VeyraEvaluation = () => {
               <br />
               We know what doesn&apos;t.
               <br />
-              <span className="text-[#84d7b0]">And we can show you the evidence.</span>
+              <span className="text-[#3d3ac8]">And we can show you the evidence.</span>
             </h1>
-            <p className="mt-6 max-w-2xl text-[17px] leading-relaxed text-white/65">
+            <p className="mt-6 max-w-2xl text-[17px] leading-relaxed text-[#475467]">
               Veyra is the engineering intelligence field teams rely on to understand why a machine failed. That only
               works if it can be trusted, so every capability is tested against criteria fixed before the run, on real
               field data where we have it, and the misses ship with the wins.
             </p>
-            <p className="mt-6 text-[12.5px] text-white/40">Updated 20 November 2026</p>
+            <p className="mt-6 text-[12.5px] text-[#667085]">Updated 20 November 2026</p>
           </div>
         </header>
 
@@ -76,7 +76,7 @@ const VeyraEvaluation = () => {
               {[
                 {
                   title: "What works",
-                  tone: "border-[#84d7b0] bg-[#84d7b0]/[0.08]",
+                  tone: "border-[#c7c6f5] bg-[#f4f4fe]",
                   items: [
                     "On a real field failure from an autonomous vehicle: 16 seconds to surface the decisive SOC inconsistency, a full AI investigation in 7 minutes, and the check it put first is where the manufacturer found the cause.",
                     "System-level and physics methods never weakened the true cause: 0 of 120 sealed cases. Their evidence leads were right 12 of 12.",
@@ -309,8 +309,8 @@ const VeyraEvaluation = () => {
 
           <div className="mt-16 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-8">
             <p className="text-[14px] text-muted-foreground">The raw outputs, keys and grades are available to pilot partners on request.</p>
-            <Link to="/contact" className="inline-flex items-center gap-1.5 rounded-full bg-[#0a1424] px-6 py-3 text-[14px] font-medium text-white hover:bg-[#16243b]">
-              Request a pilot <ArrowRight size={15} />
+            <Link to="/contact" className="inline-flex items-center gap-1.5 rounded-lg bg-[#3d3ac8] px-5 py-3 text-[14px] font-semibold text-white hover:bg-[#2f2ca6]">
+              Book a technical briefing <ArrowRight size={15} />
             </Link>
           </div>
         </div>
