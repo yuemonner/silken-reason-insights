@@ -88,13 +88,6 @@ const domains = [
   ["Operating conditions", "Load, temperature, site and environment"],
 ];
 
-const runOn = [
-  ["Autonomous vehicles", "Real field failures, with a manufacturer"],
-  ["Fixed-wing aircraft", "Public flight data with control-surface and engine failures"],
-  ["Multicopters", "PX4 flight logs from public issue reports"],
-  ["Robots and embedded ROS", "Real failure logs from public issue threads"],
-];
-
 const loop = [
   ["Read", "Start from the machine's own logs, read-only."],
   ["Rebuild", "Reconstruct what happened across subsystems."],
@@ -118,8 +111,6 @@ const horizon = [
 
 const security = [
   ["Read-only", "No control path into your machines."],
-  ["Private by default", "Your data and the knowledge built from it stay in your workspace."],
-  ["Nothing published without you", "Only anonymised, and only with your written agreement."],
   ["Every claim traceable", "Each finding points to the data or calculation behind it."],
 ];
 
@@ -201,21 +192,6 @@ const Landing = () => {
             <Link to="/veyra/field-case" className="font-medium text-[#3d3ac8] hover:underline">Read the case study</Link>
           </p>
 
-          <motion.figure initial={reduce ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.6 }} className="mt-12">
-            <div className="overflow-hidden rounded-xl border border-[#e4e7ec] bg-[#f5f7fa] shadow-[0_1px_2px_rgba(16,24,40,0.05),0_40px_80px_-40px_rgba(16,24,40,0.35)]">
-              <div className="flex items-center gap-1.5 border-b border-[#e4e7ec] bg-white px-4 py-2.5">
-                <span className="h-2.5 w-2.5 rounded-full bg-[#e4e7ec]" />
-                <span className="h-2.5 w-2.5 rounded-full bg-[#e4e7ec]" />
-                <span className="h-2.5 w-2.5 rounded-full bg-[#e4e7ec]" />
-                <span className="ml-3 truncate text-[12px] text-[#98a2b3]">Veyra · investigation workspace</span>
-              </div>
-              <img src="/veyra/run-pub.webp" width={2000} height={1250} alt="Veyra's investigation workspace: the agent's activity, the signals and the findings as they appear" className="block h-auto w-full" />
-            </div>
-            <figcaption className="mt-3 text-[12.5px] text-[#667085]">
-              The Veyra agent at work on a real case.{" "}
-              <a href={DEMO_URL} target="_blank" rel="noreferrer" className="font-medium text-[#3d3ac8] hover:underline">Watch it live</a>
-            </figcaption>
-          </motion.figure>
         </div>
       </section>
 
@@ -277,32 +253,14 @@ const Landing = () => {
               Veyra reads what the machine recorded and reasons across every layer that could explain it.
             </p>
           </motion.div>
-          <div className="mt-10 grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
-            <motion.ul {...enter} className="grid gap-px overflow-hidden rounded-xl border border-[#e4e7ec] bg-[#e4e7ec] sm:grid-cols-2">
-              {domains.map(([t, d]) => (
-                <li key={t} className="bg-white p-5">
-                  <p className={`text-[15px] font-semibold ${INK}`}>{t}</p>
-                  <p className="mt-1 text-[13.5px] leading-snug text-[#475467]">{d}</p>
-                </li>
-              ))}
-            </motion.ul>
-            <motion.div {...enter} className="rounded-xl border border-[#e4e7ec] bg-white p-6">
-              <p className={`text-[15px] font-semibold ${INK}`}>Run so far on real data from</p>
-              <ul className="mt-4 divide-y divide-[#eaecf0]">
-                {runOn.map(([t, d]) => (
-                  <li key={t} className="py-3 first:pt-0">
-                    <p className="text-[14.5px] font-medium text-[#0b1220]">{t}</p>
-                    <p className="mt-0.5 text-[13px] text-[#667085]">{d}</p>
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-3 text-[12.5px] leading-relaxed text-[#667085]">
-                How far Veyra goes differs by domain. We walk through results by domain, including where it is not yet
-                strong, in a{" "}
-                <Link to="/contact" className="font-medium text-[#3d3ac8] hover:underline">technical briefing</Link>.
-              </p>
-            </motion.div>
-          </div>
+          <motion.ul {...enter} className="mt-10 grid gap-px overflow-hidden rounded-xl border border-[#e4e7ec] bg-[#e4e7ec] sm:grid-cols-2 lg:grid-cols-3">
+            {domains.map(([t, d]) => (
+              <li key={t} className="bg-white p-5">
+                <p className={`text-[15px] font-semibold ${INK}`}>{t}</p>
+                <p className="mt-1 text-[13.5px] leading-snug text-[#475467]">{d}</p>
+              </li>
+            ))}
+          </motion.ul>
         </div>
       </section>
 
@@ -414,7 +372,7 @@ const Landing = () => {
       {/* SECURITY SUMMARY */}
       <section id="trust" className="scroll-mt-16 bg-white">
         <div className="container mx-auto max-w-6xl px-6 py-16">
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 md:grid-cols-2">
             {security.map(([t, d]) => (
               <div key={t} className="rounded-xl border border-[#e4e7ec] p-5">
                 <p className={`text-[15px] font-semibold ${INK}`}>{t}</p>
