@@ -104,9 +104,9 @@ const loop = [
 ];
 
 const outputs = [
-  { img: "/veyra/report-r.webp", title: "Evidence-backed report", text: "What happened, which explanations can still hold, and what to verify next." },
-  { img: "/veyra/knowledge-r.webp", title: "Verified engineering knowledge", text: "The mechanism your engineers confirm, and where it applies, kept as a private record." },
-  { img: "/veyra/checks-r.webp", title: "Reusable checks", text: "The checks that found it run on every new record of the same kind." },
+  { img: "/veyra/report-pub.webp", title: "Evidence-backed report", text: "What happened, which explanations can still hold, and what to verify next." },
+  { img: "/veyra/knowledge-pub.webp", title: "Verified engineering knowledge", text: "The mechanism your engineers confirm, and where it applies, kept as a private record." },
+  { img: "/veyra/checks-pub.webp", title: "Reusable checks", text: "The checks that found it run on every new record of the same kind." },
 ];
 
 const horizon = [
@@ -209,10 +209,10 @@ const Landing = () => {
                 <span className="h-2.5 w-2.5 rounded-full bg-[#e4e7ec]" />
                 <span className="ml-3 truncate text-[12px] text-[#98a2b3]">Veyra · investigation workspace</span>
               </div>
-              <img src="/veyra/run-r.webp" width={2000} height={1250} alt="Veyra's investigation workspace: the agent's activity, the signals and the findings as they appear" className="block h-auto w-full" />
+              <img src="/veyra/run-pub.webp" width={2000} height={1250} alt="Veyra's investigation workspace: the agent's activity, the signals and the findings as they appear" className="block h-auto w-full" />
             </div>
             <figcaption className="mt-3 text-[12.5px] text-[#667085]">
-              The Veyra agent at work on a real case. Some details are blurred here.{" "}
+              The Veyra agent at work on a real case.{" "}
               <a href={DEMO_URL} target="_blank" rel="noreferrer" className="font-medium text-[#3d3ac8] hover:underline">Watch it live</a>
             </figcaption>
           </motion.figure>
@@ -349,12 +349,12 @@ const Landing = () => {
                   <p className="mt-1.5 text-[14px] leading-relaxed text-[#475467]">{o.text}</p>
                 </figcaption>
                 <div className="flex items-center border-t border-[#e4e7ec] bg-[#f5f7fa] p-4 lg:border-l lg:border-t-0">
-                  <img src={o.img} alt={`${o.title}, as Veyra shows it, with the customer's details blurred`} loading="lazy" className="block h-auto w-full rounded-md border border-[#e4e7ec] shadow-sm" />
+                  <img src={o.img} alt={`${o.title}, as Veyra shows it`} loading="lazy" className="block h-auto w-full rounded-md border border-[#e4e7ec] shadow-sm" />
                 </div>
               </motion.figure>
             ))}
           </div>
-          <p className="mt-4 text-[12.5px] text-[#667085]">From a real case, with the customer&apos;s details blurred. Records and checks stay private to each customer.</p>
+          <p className="mt-4 text-[12.5px] text-[#667085]">From a real case, with the details generalised for publication. Records and checks stay private to each customer.</p>
         </div>
       </section>
 
