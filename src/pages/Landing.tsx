@@ -527,7 +527,7 @@ const FanOut = () => (
   <svg viewBox="0 0 460 256" className="h-auto w-full" role="img" aria-label="One field issue pulls in controls, software, hardware, suppliers and site operations">
     <rect x="1" y="100" width="140" height="50" rx="10" fill="#0a1424" />
     <text x="71" y="122" textAnchor="middle" fill="#fff" fontSize="13" fontWeight="600">One field issue</text>
-    <text x="71" y="139" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="11">emergency stop, code 7</text>
+    <text x="71" y="139" textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="11">high-voltage loss, parked</text>
     {teams.map((t, i) => {
       const y = 14 + i * 50;
       return (
